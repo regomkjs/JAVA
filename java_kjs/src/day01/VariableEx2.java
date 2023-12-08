@@ -9,6 +9,7 @@ public class VariableEx2 {
 		 * 2bit = 4
 		 * 3bit = 8
 		 * ...
+		 * 
 		 * 1byte = 8bit = 256가지 = -128(-2의 7제곱) ~ 127(2의 7제곱 -1)
 		 * 1short = 2byte = 2의 16제곱 = -2의 15제곱 ~ 2의 15제곱 -1
 		 * 1int = 4byte = 2의 32제곱 = -2의 31제곱 ~ 2의 31제곱 -1
@@ -31,7 +32,7 @@ public class VariableEx2 {
 		int num5 = 128;
 		System.out.println(num5);
 		
-		//int num6 = 123456789123; // int의 양수 표현 범위를 넘어서 저장할 수 없다.
+		//int num6 = 123456789123; // int의 양수 표현 범위를 넘어서 저장할 수 없다. long 으로 저장하면 가능.
 		
 		int num7 = 010; // 8진수 10 = 10진수 8
 		System.out.println(num7);
