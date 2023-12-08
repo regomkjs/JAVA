@@ -42,6 +42,9 @@ public class VariableEx1 {
 		System.out.println(ch7);
 		System.out.println("공백확인 2");
 		
+		char ch8 = '\\';
+		System.out.println(ch8);
+				
 		
 		
 		
