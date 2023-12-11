@@ -32,7 +32,7 @@ public class TestEx6 {
 		else if (oper == '-') {
 			System.out.println(l_num + " - " + r_num + " = " + (l_num - r_num));
 		}
-		else if (oper ==  'X') {
+		else if (oper ==  'X' || oper == '*') {
 			System.out.println(l_num + " X " + r_num + " = " + (l_num * r_num));
 		}
 		else if (oper == '/') {
