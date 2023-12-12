@@ -5,7 +5,8 @@ import java.util.Scanner;
 public class SwitchEx4 {
 
 	public static void main(String[] args) {
-		/* 산술연산자와 두 정수를 입력받아
+		/* day02/TestEx5 참고
+		 * 산술연산자와 두 정수를 입력받아
 		 * 산술연산자에 맞는 연산 결과를 출력하는 코드를 작성하세요
 		 * 
 		 * 예 1
@@ -45,7 +46,7 @@ public class SwitchEx4 {
 		default:
 			System.out.println("잘못된 연산자 입니다.");
 		}
-		
+		// 상황에 따라 if문보다 switch문으로 작성할 겅우 가독성이 높아진다.
 		scan.close();
 	}
 
