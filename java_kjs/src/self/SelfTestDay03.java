@@ -95,7 +95,7 @@ public class SelfTestDay03 {
 				count++;
 			}
 			else {
-				System.out.println("시도 : " + count);
+				System.out.println("시도 : " + count + "회");
 				System.out.println("정답 : " + r);
 			}
 		}
