@@ -77,6 +77,7 @@ public class SelfTestDay03 {
 		*/
 		
 		/* 업 다운 복습 */
+		
 		int min = 1;
 		int max = 100;
 		int count = 1;
@@ -99,12 +100,9 @@ public class SelfTestDay03 {
 				System.out.println("정답 : " + r);
 			}
 		}
-		
-		
 		scan.close();
 		
-		
-		
+				
 	}
 
 }

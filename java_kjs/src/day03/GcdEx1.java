@@ -19,7 +19,7 @@ public class GcdEx1 {
 		
 		for(int i = 1 ; i <= num  ; i++) {
 			if (num % i == 0) {
-				System.out.print(i + (i == num ? "\n" : ", ")); // 조건연산자 ( ? : ) 로 깔끔하게 구분할 수 있다.
+				System.out.print(i + (i == num ? "\n" : ", ")); // 조건연산자 ( a ? T : F ) 로 깔끔하게 구분할 수 있다.
 			}
 		}
 				
