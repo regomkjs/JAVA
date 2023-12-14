@@ -97,7 +97,10 @@ public class SelfTestDay04 {
 		int min = 1;
 		int max = 3;
 		
-		int r = (int)Math.random()*(max-min+1) + min;
+		
+		int win = 0 ;
+		int draw = 0 ;
+		int lose = 0 ;
 		
 		
 		int menu;
@@ -113,12 +116,13 @@ public class SelfTestDay04 {
 			switch(menu) {
 			case 1:
 				
+				int random = (int)(Math.random() * (max - min + 1) + min);
 				System.out.print("무엇을 내시겠습니까 (r, s, p): ");
 				user = scan.next().charAt(0);
-				if (r == 1) {
+				if (random == 1) {
 					com = 'r';
 				}
-				else if (r == 2) {
+				else if (random == 2) {
 					com = 's';
 				}
 				else {
@@ -128,22 +132,26 @@ public class SelfTestDay04 {
 				if(user==com) {
 					System.out.println("컴퓨터 : " + com);
 					System.out.println("비겼습니다.");
+					draw++;
 				}
-				else if(user == 'r' && com == 's' || user == 's' && com == 'p' 
-						|| user == 'p' && com == 'r' ) {
+				else if((user == 'r' && com == 's') || (user == 's' && com == 'p') 
+						|| (user == 'p' && com == 'r')) {
 					System.out.println("컴퓨터 : " + com);
 					System.out.println("이겼습니다.");
+					win++;
+					
 				}
 				else {
 					System.out.println("컴퓨터 : " + com);
 					System.out.println("졌습니다.");
+					lose++;
 				}
 				
 				
 				break;
 				
 			case 2:
-				
+				System.out.println("현재 " + win + "승 " + draw + "무 " + lose + "패 입니다.");
 				
 				
 				break;
