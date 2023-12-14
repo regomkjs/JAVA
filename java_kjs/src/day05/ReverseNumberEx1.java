@@ -19,16 +19,18 @@ public class ReverseNumberEx1 {
 		// 몇자리인지 확인할 카운트
 		int count = 0;
 		
-		/* 
+		/* 선생님의 답안
+		
 		tmp = num; 
 		while(tmp != 0) {
 			r_num[count++] = tmp % 10;	// r_num[count] = tmp % 10; 
 			 							// count++;
-		 	tmp /= 10  // tmp = tmp / 10;
-		 	
-		 	
-		 */
+		 	tmp /= 10;  // tmp = tmp / 10;
+		}	
 		
+		*/
+		
+		// 내 답안
 		do {
 			for(int i = 0; i < r_num.length; i++) {
 				tmp = num;
@@ -41,6 +43,7 @@ public class ReverseNumberEx1 {
 			}
 		}
 		while(num!=0);
+		//
 		
 		for(int i = 0; i < count; i++) {
 			if (i == count) {
