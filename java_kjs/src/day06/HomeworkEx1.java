@@ -88,60 +88,55 @@ public class HomeworkEx1 {
 					}
 				} while(s != 3);
 				
-				if(highScore[0] == 0) {
+				if(highScore[5] == 0) {
 					System.out.println("현재 1등입니다. 이름을 기록하세요");
 					System.out.print("이름 : ");
 					playerName = scan.next();
-					highScore[0] = playCount;
-					highScorePlayer[0] = playerName;
+					highScore[5] = playCount;
+					highScorePlayer[5] = playerName;
 				}
-				else if(highScore[0] > playCount ) {	
-					System.out.println("현재 1등입니다. 이름을 기록하세요");
-					System.out.print("이름 : ");
-					playerName = scan.next();
-					for(int i = 0 ; i < 5 ; i++) {
-						if (highScore[i] < playCount) {
-							for(int j = 0 ; j < 5; j++) {
-								int tmp = highScore[j];
-								highScore[j] = playCount;
-								String tmpName = highScorePlayer[j];
-								highScorePlayer[j] = playerName;
-								highScore[j+1] = tmp;
-								highScorePlayer[j+1] = tmpName; 
-									
-							}
+				else {
+					for(int i = 0; i < highScore.length ; i++) {
+						if(highScore[i] > playCount && highScore[i] != 0) {
+							System.out.print("현재 1등입니다. ");
 							break;
 						}
 					}
-				}
-				else {
 					System.out.println("이름을 기록하세요");
 					System.out.print("이름 : ");
 					playerName = scan.next();
-					for(int i = 0 ; i < 5 ; i++) {
-						if (highScore[i] < playCount) {
-							for(int j = 0 ; j < 5; j++) {
+					highScorePlayer[0] = playerName;
+					highScore[0] = playCount;
+					for(int i = 0 ; i < highScore.length - 1 ; i++) {
+						for(int j = 0 ; j < highScore.length - 1; j++) {
+							if (highScore[j] > highScore[j+1]) {
 								int tmp = highScore[j];
-								highScore[j] = playCount;
 								String tmpName = highScorePlayer[j];
-								highScorePlayer[j] = playerName;
+								highScore[j] =highScore[j+1];
+								highScorePlayer[j] = highScorePlayer[j+1];
 								highScore[j+1] = tmp;
-								highScorePlayer[j+1] = tmpName; 
-									
+								highScorePlayer[j+1] = tmpName;
 							}
-							break;
 						}
 					}
 				}
+				for(int i =0 ;i< highScore.length; i++) {
+					System.out.print(highScore[i]+" ");
+				}
 				break;
 			case 2:
-				if(highScore[0] == 0) {
+				if(highScore[0] == 0 && highScore[1] == 0 && highScore[2] == 0 
+				&& highScore[3] == 0 && highScore[4] == 0 && highScore[5] == 0 ) {
 					System.out.println("아직 플레이 하지 않았습니다.");
 				}
 				else {
 					System.out.println("--기록--");
+					int tmpNum = 1;
 					for(int i = 0 ; i < 5; i++) {
-						System.out.println((i+1)+". " + highScorePlayer[i] + " : " + highScore[i] + "회");
+						if (highScorePlayer[i+1] != null) {
+							System.out.println(tmpNum + ". " + highScorePlayer[i+1] + " : " + highScore[i+1] + "회");
+							tmpNum++;
+						}
 					}
 				}
 				break;
