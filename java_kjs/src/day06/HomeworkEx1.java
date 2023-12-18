@@ -56,6 +56,8 @@ public class HomeworkEx1 {
 				System.out.println("곂치지 않는 1 ~ 9 숫자 3개를 맞춰라");
 				
 				do {
+					s = 0;
+					b = 0;
 					System.out.print("정수 입력 :");
 					for(int i = 0 ; i < user.length; i++) {
 						user[i] = scan.nextInt();
@@ -71,19 +73,19 @@ public class HomeworkEx1 {
 							}
 						}
 					}
-					if( s==0 & b==0) {
-						System.out.println("Out");
+					// if만 이용하여 간단하게 작성 github로 전의 것과 반드시 비교
+					if (s != 0) {
+						System.out.print(s + "S ");
 					}
-					else if (s == 3) {
-						System.out.println("3S 유저 승");
-						System.out.println("도전 횟수 : " + playCount);
+					if (b != 0) {
+						System.out.print(b + "B");
 					}
-					else {
-						System.out.println(s+ "S "+ b + "B");
-						s = 0;
-						b = 0;
+					if (s == 0 && b == 0) {
+						System.out.print("Out");
 					}
+					System.out.println();
 				} while(s != 3);
+				System.out.println("정답입니다.");
 				
 				if(highScore[5] == 0) {
 					System.out.println("현재 1등입니다. 이름을 기록하세요");
@@ -166,6 +168,7 @@ public class HomeworkEx1 {
 				System.out.println("게임을 종료합니다.");
 				break;
 			default:
+				System.out.println("잘못된 메뉴입니다.");
 			}
 		} 
 		while(menu != 3);
