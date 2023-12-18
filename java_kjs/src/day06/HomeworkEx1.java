@@ -52,9 +52,6 @@ public class HomeworkEx1 {
 						count++;
 					}
 				}
-				for (int i = 0 ; i< com.length ;i++) {
-					System.out.print(com[i]+" ");
-				}
 				System.out.println("야구 게임");
 				System.out.println("곂치지 않는 1 ~ 9 숫자 3개를 맞춰라");
 				
@@ -138,9 +135,6 @@ public class HomeworkEx1 {
 							}
 						}
 					}
-				}
-				for(int i =0 ;i< highScore.length; i++) {
-					System.out.print(highScore[i]+" ");
 				}
 				break;
 			case 2:
