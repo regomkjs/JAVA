@@ -2,11 +2,12 @@ package self;
 
 import java.util.Scanner;
 
-public class SelfTestDay07 {
+public class SelfTestDay8 {
 
 	public static void main(String[] args) {
 		// 학생 5명 성적 관리 프로그램 (국어 영어 수학)
 		// 국 영 수 평균 60점 이상 pass 미만 fail
+		// 클래스와 메서드를 이용하여 구현
 		Scanner scan = new Scanner(System.in);
 		
 		int menu;
