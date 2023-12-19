@@ -134,6 +134,47 @@ public class StudentProgram {
 		System.out.print("국 영 수 순으로 점수 입력 : ");
 	}
 	
+	/* 선생님 방식으로 구현해본 메서드
+	 * 기능 : 학생들 정보가 주어지고 추가정보를 입력하면 학생 성적을 수정하는 메서드
+	 * 매개변수 : 학생들 정보 => Student[] stds
+	 * 리턴타입 : 없음 => void
+	 * 메서드명 : updateScore
+	 * */
+	public static void updateScore(Student[] stds) {
+		Scanner scan = new Scanner(System.in);
+		System.out.println("과목을 선택하세요");
+		System.out.println("국어 : 1, 영어 : 2, 수학 : 3");
+		System.out.print("입력 : ");
+		int subject = scan.nextInt();
+		System.out.println("학생 번호를 선택하세요");
+		System.out.print("번호 : ");
+		int studentNum = scan.nextInt();
+		int score;
+		switch(subject) {
+		case 1: 
+			System.out.println(studentNum+"번 학생 국어 점수를 입력하세요");
+			System.out.print("점수 : ");
+			score = scan.nextInt();
+			stds[studentNum - 1].kor = score;
+			break;
+		case 2: 
+			System.out.println(studentNum+"번 학생 영어 점수를 입력하세요");
+			System.out.print("점수 : ");
+			score = scan.nextInt();
+			stds[studentNum - 1].eng = score;
+			break;
+		case 3: 
+			System.out.println(studentNum+"번 학생 수학 점수를 입력하세요");
+			System.out.print("점수 : ");
+			score = scan.nextInt();
+			stds[studentNum - 1].math = score;
+			break;
+		default:	
+			System.out.println("잘못된 메뉴 입니다.");
+		}
+		
+	}
+	
 	// 2번 메뉴 출력
 	public static void print2Menu() {
 		Scanner scan = new Scanner(System.in);
@@ -192,45 +233,5 @@ public class StudentProgram {
 		return num;
 	}
 	
-	/* 기능 : 학생들 정보가 주어지고 추가정보를 입력하면 학생 성적을 수정하는 메서드
-	 * 매개변수 : 학생들 정보 => Student[] stds
-	 * 리턴타입 : 없음 => void
-	 * 메서드명 : updateScore
-	 * */
-	// 선생님 방식으로 구현해본 메서드
-	public static void updateScore(Student[] stds) {
-		Scanner scan = new Scanner(System.in);
-		System.out.println("과목을 선택하세요");
-		System.out.println("국어 : 1, 영어 : 2, 수학 : 3");
-		System.out.print("입력 : ");
-		int subject = scan.nextInt();
-		System.out.println("학생 번호를 선택하세요");
-		System.out.print("번호 : ");
-		int studentNum = scan.nextInt();
-		int score;
-		switch(subject) {
-		case 1: 
-			System.out.println(studentNum+"번 학생 국어 점수를 입력하세요");
-			System.out.print("점수 : ");
-			score = scan.nextInt();
-			stds[studentNum - 1].kor = score;
-			break;
-		case 2: 
-			System.out.println(studentNum+"번 학생 영어 점수를 입력하세요");
-			System.out.print("점수 : ");
-			score = scan.nextInt();
-			stds[studentNum - 1].eng = score;
-			break;
-		case 3: 
-			System.out.println(studentNum+"번 학생 수학 점수를 입력하세요");
-			System.out.print("점수 : ");
-			score = scan.nextInt();
-			stds[studentNum - 1].math = score;
-			break;
-		default:	
-			System.out.println("잘못된 메뉴 입니다.");
-		}
-		
-	}
 	
 }
