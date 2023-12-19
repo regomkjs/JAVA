@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class AlphabetCountEx1 {
 
 	public static void main(String[] args) {
-		
 		/* 단어를 입력받아 단어에 각 알파벳이 몇번 나왔는지 출력하는 코드
 		 * 입력 : apple
 		 * a : 1
