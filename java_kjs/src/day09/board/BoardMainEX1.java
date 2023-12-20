@@ -293,7 +293,7 @@ public class BoardMainEX1 {
 		Board board = new Board(boardNum++, title, contents, writer, date);
 		boardList[count] = board;
 		count++;
-		// 배열 크기를 안늘려도 되면 종료
+		// 배열 크기를 안늘려도 되면 종료 
 		if(count < boardList.length) {
 			return;
 		}
