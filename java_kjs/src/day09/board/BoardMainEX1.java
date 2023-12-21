@@ -267,8 +267,7 @@ public class BoardMainEX1 {
 			return;
 		}
 		count--;
-		// 가장 최근에 등록된 게시글을 삭제했다면
-		// == 배열 가장 마지막 게시글을 삭제했다면
+		// 배열 가장 마지막 게시글을 삭제했다면
 		if(index == count) {
 			return;
 		}
