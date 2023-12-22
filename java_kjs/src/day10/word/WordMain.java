@@ -211,8 +211,6 @@ public class WordMain {
 		System.out.println("오답입니다.");
 	}
 	
-	
-	
 }
 
 

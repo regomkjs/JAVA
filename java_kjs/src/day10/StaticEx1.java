@@ -23,8 +23,8 @@ public class StaticEx1 {
 		KiaCar2 c6 = new KiaCar2("K3");
 		// static을 이용하면 멤버변수를 공유하는 매개변수 하나를 바꾸는 것으로 모두 바꿀수 있다
 		// 인스턴스를 통해 접근 가능하지만 클래스 명을 통해 접근해야한다.
-		c4.brand2 = "기아";
 		KiaCar2.brand2 = "기아";
+		// c4.brand2 = "기아";
 		c4.print();
 		c5.print();
 		c6.print();
