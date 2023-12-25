@@ -9,7 +9,7 @@ public class Homework2 {
 	 */
 	static Scanner scan = new Scanner(System.in);
 	public static void main(String[] args) {
-		
+		computing();
 	}
 	
 	public static void computing() {
