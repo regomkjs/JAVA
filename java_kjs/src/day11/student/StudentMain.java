@@ -6,18 +6,21 @@ public class StudentMain {
 	
 	/* 고등학생 성적을 관리하는 프로그램을 작성하세요.
 	 * 메뉴
-	 * 1. 학생관리 - 학생 정보 - 학년, 반, 번호, 이름
+	 * 1. 학생관리 
 	 *  1) 학생 추가 (학년, 반, 번호가 겹치는 학생은 추가 불가능)
 	 *  2) 학생 수정
 	 *  3) 학생 삭제
-	 * 2. 성적관리 - 성적 확인 - 1. 과목별 성적 - 학년과 반별 성적,  2. 학생별 성적 - 과목들의 성적 
+	 * 2. 성적관리 
 	 *  1) 성적 추가
 	 *  2) 성적 수정
 	 *  3) 성적 삭제
 	 * 3. 성적확인
 	 *  1) 1. 과목별 성적 - 과목에 대한 학년과 반별 성적
-	 *  2) 2. 학생별 성적
+	 *  2) 2. 학생별 성적 - 학생 한명의 모든 과목 성적
+	 * 4. 프로그램 종료
+	 * 
 	 * - Student 클래스
+	 *  
 	 *  
 	 * - Subject 클래스
 	 *  - 과목명, 성적(중간/기말/수행/총점)
@@ -39,6 +42,7 @@ public class StudentMain {
 			printMenu();
 			menu = scan.nextInt();
 			// 메뉴 실행
+			runMenu(menu);
 			
 		}
 		while (menu != 4);
@@ -49,9 +53,10 @@ public class StudentMain {
 		System.out.println("====메뉴====");
 		System.out.println("1. 학생관리");
 		System.out.println("2. 성적관리");
-		System.out.println("3. 프로그램 종료");
+		System.out.println("3. 성적확인");
+		System.out.println("4. 프로그램 종료");
 		System.out.println("===========");
-		System.out.print("메뉴 입력 :");
+		System.out.print("메뉴 입력 : ");
 	}
 	
 	// 메뉴 실행
@@ -91,7 +96,7 @@ public class StudentMain {
 		System.out.println("2. 학생 수정");
 		System.out.println("3. 학생 삭제");
 		System.out.println("===========");
-		System.out.print("메뉴 입력 :");
+		System.out.print("메뉴 입력 : ");
 	}
 	
 	// 학생관리 메뉴 실행
@@ -119,7 +124,7 @@ public class StudentMain {
 		System.out.println("학생 정보 입력");
 		System.out.print("학년 : ");
 		grade = scan.nextInt();
-		System.out.print("반 :");
+		System.out.print("반 : ");
 		classCount = scan.nextInt();
 		System.out.print("번호 : ");
 		num = scan.nextInt();
@@ -247,8 +252,9 @@ public class StudentMain {
 		System.out.println("2. 성적 수정");
 		System.out.println("3. 성적 삭제");
 		System.out.println("===========");
-		System.out.print("메뉴 입력 :");
+		System.out.print("메뉴 입력 : ");
 	}
+	
 	// 성적관리 메뉴 실행
 	public static void runSubjectMenu(int submenu) {
 		switch(submenu) {
@@ -447,7 +453,7 @@ public class StudentMain {
 		System.out.println("1. 과목별 성적");
 		System.out.println("2. 학생별 성적");
 		System.out.println("===========");
-		System.out.print("메뉴 입력 :");
+		System.out.print("메뉴 입력 : ");
 	}
 	
 	// 성적확인 메뉴 실행
@@ -477,7 +483,6 @@ public class StudentMain {
 			System.out.println("아직 등록된 과목이 없습니다.");
 			return;
 		}
-		
 		boolean ok = false;
 		String subject;
 		System.out.println("성적 확인할 과목을 입력해 주세요");
@@ -501,8 +506,6 @@ public class StudentMain {
 			System.out.println("등록되지 않은 과목입니다.");
 		}
 	}
-	
-	
 	
 	// 학생별 성적
 	public static void studentScore() {
@@ -528,6 +531,7 @@ public class StudentMain {
 		for(int i = 0 ; i < subjectCount; i++ ) {
 			if(subjects[i].getStudentID() == tmpStudent.getStudentID()) {
 				subjects[i].totalScore();
+				System.out.println("===========");
 				System.out.println(subjects[i].getSubjectName()+" 점수");
 				System.out.println("중간고사 : " +subjects[i].getMidterm() + "점");
 				System.out.println("기말고사 : " +subjects[i].getFinals() + "점");
@@ -540,8 +544,6 @@ public class StudentMain {
 			System.out.println("등록되지 않은 학생이거나 과목입니다.");
 			return;
 		}	
-			
-		
 	}
 	
 }

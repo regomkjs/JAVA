@@ -16,6 +16,7 @@ public class Homework2 {
 		int num1; 
 		char ch; 
 		int num2;
+		double ans;
 		System.out.println("수식을 입력 해주세요(예: 1 + 2 )");
 		System.out.print("입력 : ");
 		num1 = scan.nextInt();
@@ -23,22 +24,28 @@ public class Homework2 {
 		num2 = scan.nextInt();
 		switch (ch) {
 		case '+':
-			System.out.println(num1 +" + "+ num2 + " = " + (num1+num2) );
+			ans = num1+num2;
+			System.out.println(ans);
 			break;
 		case '-':
-			System.out.println(num1 +" - "+ num2 + " = " + (num1-num2) );
+			ans = num1-num2;
+			System.out.println(ans);
 			break;
 		case '*':
-			System.out.println(num1 +" * "+ num2 + " = " + (num1*num2) );
+			ans = num1*num2;
+			System.out.println(ans);
 			break;
 		case 'x':
-			System.out.println(num1 +" x "+ num2 + " = " + (num1*num2) );
+			ans = num1*num2;
+			System.out.println(ans);
 			break;
 		case '%':
-			System.out.println(num1 +" % "+ num2 + " = " + (num1%num2) );
+			ans = num1%num2;
+			System.out.println(ans);
 			break;
 		case '/':
-			System.out.println(num1 +" / "+ num2 + " = " + (num1/(double)num2) );
+			ans = num1/(double)num2;
+			System.out.println(ans);
 			break;
 		default:
 			System.out.println("잘못된 수식입니다.");
