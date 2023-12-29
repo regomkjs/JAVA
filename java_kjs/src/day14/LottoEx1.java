@@ -60,6 +60,9 @@ public class LottoEx1 {
 			if(lotto.contains(arr[i])) {
 				count++;
 			}
+			if(arr[i] == bonus) {
+				bh = true;
+			}
 		}
 		
 		if(count < 3) {
