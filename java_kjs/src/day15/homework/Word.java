@@ -64,9 +64,8 @@ public class Word {
 
 
 
-class Means extends Word{
+class Means{
 	
-	int meanNum = 0;		// 뜻 수
 	String wordClass; 	// 뜻에 따른 품사
 	String mean;	// 뜻 의미
 	
@@ -76,15 +75,28 @@ class Means extends Word{
 	}
 
 	// 생성자
-	public Means(String word, String wordClass, String mean) {
-		super(word);
+	public Means(String wordClass, String mean) {
 		this.wordClass = wordClass;
 		this.mean = mean;
-		meanNum++;
 	}
 
-	
-	
+	@Override
+	public int hashCode() {
+		return Objects.hash(mean);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Means other = (Means) obj;
+		return Objects.equals(mean, other.mean);
+	}
+
 	
 	
 	

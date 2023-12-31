@@ -55,6 +55,9 @@ public class WordProgram implements Program {
 			runMeanMenu(submenu);
 			break;
 		case 3: 
+			printSearchMenu();
+			submenu = scan.nextInt();
+			runSearchMenu(submenu);
 			break;
 		case 4:
 			System.out.println("프로그램 종료");
@@ -63,6 +66,7 @@ public class WordProgram implements Program {
 			throw new InputMismatchException();
 		}
 	}
+
 
 
 	// 단어 메뉴
@@ -107,7 +111,7 @@ public class WordProgram implements Program {
 		String tmpMean = scan.nextLine();
 		System.out.print(word+" 품사 : ");
 		String tmpClass = scan.next(); 
-		Means tmp = new Means(word, tmpClass, tmpMean);
+		Means tmp = new Means(tmpClass, tmpMean);
 		means.add(tmp);
 		Word tmpword = new Word(word);
 		tmpword.setMean(means);
@@ -189,7 +193,7 @@ public class WordProgram implements Program {
 		
 	}
 
-	
+	// 뜻 기능
 	private void insertMean() {
 		int index = -1;
 		System.out.print("뜻 추가할 단어 : ");
@@ -209,20 +213,121 @@ public class WordProgram implements Program {
 		String mean = scan.nextLine();
 		System.out.print("추가할 뜻 품사 : ");
 		String wordClass = scan.next();
-		Means tmpMean = new Means(word, wordClass, mean);
+		Means tmpMean = new Means(wordClass, mean);
 		wordList.get(index).mean.add(tmpMean);
 		wordList.get(index).printWord();
 	}
 
 	private void updateMean() {
-		
+		int index = -1;
+		System.out.print("뜻 수정할 단어 : ");
+		String word = scan.next();
+		Word tmpWord = new Word(word);
+		if(!wordList.contains(tmpWord)) {
+			System.out.println("등록 되지 않은 단어입니다.");
+			return;
+		}
+		else {
+			index = wordList.indexOf(tmpWord);
+		}
+		wordList.get(index).printWord();
+		System.out.print("수정할 뜻 번호 : ");
+		int num = scan.nextInt();
+		scan.nextLine();
+		System.out.print("뜻 수정 : ");
+		String mean = scan.nextLine();
+		System.out.print("수정된 뜻 품사 : ");
+		String wordClass = scan.next();
+		wordList.get(index).mean.remove(num-1);
+		Means tmpMean = new Means(wordClass, mean);
+		wordList.get(index).mean.add(tmpMean);
+		wordList.get(index).printWord();
 	}
 
 	private void deleteMean() {
-		
+		int index = -1;
+		System.out.print("뜻 삭제할 단어 : ");
+		String word = scan.next();
+		Word tmpWord = new Word(word);
+		if(!wordList.contains(tmpWord)) {
+			System.out.println("등록 되지 않은 단어입니다.");
+			return;
+		}
+		else {
+			index = wordList.indexOf(tmpWord);
+		}
+		wordList.get(index).printWord();
+		System.out.print("삭제할 뜻 번호 : ");
+		int num = scan.nextInt();
+		wordList.get(index).mean.remove(num-1);
+		wordList.get(index).printWord();
 	}
 	
 	
+	
+	// 조회 메뉴
+	private void printSearchMenu() {
+		System.out.println("===단어 조회===");
+		System.out.println("1. 전체 단어");
+		System.out.println("2. 단어 검색");
+		System.out.println("3. 뜻 검색");
+		System.out.println("=============");
+		System.out.print("메뉴 입력 : ");
+	}
+
+	private void runSearchMenu(int submenu) {
+		switch(submenu) {
+		case 1:
+			searchAll();
+			break;
+		case 2: 
+			searchWord();
+			break;
+		case 3: 
+			searchMean();
+			break;
+		default:
+			throw new InputMismatchException();
+		}
+	}
+
+	private void searchAll() {
+		System.out.println("===전체 단어===");
+		for(Word tmp : wordList) {
+			tmp.printWord();
+		}
+	}
+
+	private void searchWord() {
+		int index = -1;
+		System.out.println("===단어 검색===");
+		System.out.print("검색할 단어 : "); 
+		String word = scan.next();
+		Word tmpWord = new Word(word);
+		if(!wordList.contains(tmpWord)) {
+			System.out.println("등록 되지 않은 단어입니다.");
+			return;
+		}
+		else {
+			index = wordList.indexOf(tmpWord);
+		}
+		wordList.get(index).printWord();
+	}
+
+	private void searchMean() {
+		System.out.println("====뜻 검색====");
+		scan.nextLine();
+		System.out.print("검색할 뜻 : "); 
+		String mean = scan.nextLine();
+		Means means = new Means("", mean);
+		for(int i = 0 ; i < wordList.size(); i++) {
+			if(wordList.get(i).mean.contains(means)) {
+				wordList.get(i).printWord();
+				return;
+			}
+		}
+		System.out.println("등록 되지 않은 뜻입니다.");
+	}
 	
 	
 	
