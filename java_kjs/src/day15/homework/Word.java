@@ -6,15 +6,12 @@ import java.util.Objects;
 
 import lombok.Data;
 
-
 @Data
+// 단어 클래스
 public class Word {
-	// 내부 클래스 뜻
-	
-	
 	// 단어
 	String word;			
-	// 뜻 리스트
+	// 뜻과 품사를 포함한 리스트
 	List<Means> mean = new ArrayList<Means>();
 	
 	
@@ -39,7 +36,7 @@ public class Word {
 		this.word = word;
 	}
 
-
+	// equals 와 hashCode
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -52,7 +49,6 @@ public class Word {
 		return Objects.equals(word, other.word);
 	}
 
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(word);
@@ -63,11 +59,11 @@ public class Word {
 }
 
 
-
+// 뜻 클래스
 class Means{
 	
-	String wordClass; 	// 뜻에 따른 품사
 	String mean;	// 뜻 의미
+	String wordClass; 	// 뜻에 따른 품사
 	
 	// 뜻 출력
 	public void printMean() {
@@ -80,11 +76,8 @@ class Means{
 		this.mean = mean;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(mean);
-	}
-
+	
+	//  equals 와 hashCode
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -96,6 +89,12 @@ class Means{
 		Means other = (Means) obj;
 		return Objects.equals(mean, other.mean);
 	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(mean);
+	}
+
 
 	
 	

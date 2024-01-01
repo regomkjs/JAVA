@@ -1,6 +1,6 @@
 package day15.homework;
 
-public class HomeworkMain {
+public class WordMain {
 
 	public static void main(String[] args) {
 		WordProgram main = new WordProgram();

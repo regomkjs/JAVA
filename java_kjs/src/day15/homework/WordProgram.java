@@ -50,11 +50,19 @@ public class WordProgram implements Program {
 			runWordMenu(submenu);
 			break;
 		case 2: 
+			if(wordList.size() == 0) {
+				System.out.println("아직 등록된 단어가 없습니다.");
+				return;
+			}
 			printMeanMenu();
 			submenu = scan.nextInt();
 			runMeanMenu(submenu);
 			break;
 		case 3: 
+			if(wordList.size() == 0) {
+				System.out.println("아직 등록된 단어가 없습니다.");
+				return;
+			}
 			printSearchMenu();
 			submenu = scan.nextInt();
 			runSearchMenu(submenu);
