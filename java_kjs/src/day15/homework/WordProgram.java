@@ -8,8 +8,9 @@ import java.util.Scanner;
 
 
 public class WordProgram implements Program {
-	
+	// 스캐너
 	Scanner scan = new Scanner(System.in);
+	// 단어를 저장하는 리스트
 	List<Word> wordList = new ArrayList<Word>();
 	// 메인 실행
 	@Override
@@ -27,7 +28,6 @@ public class WordProgram implements Program {
 		}
 		while (menu != 4);
 	}
-	
 	// 메뉴 츌력
 	@Override
 	public void printMenu() {
@@ -104,7 +104,8 @@ public class WordProgram implements Program {
 		
 	}
 
-	// 단어 기능
+	/* 단어 기능 */ 
+	// 단어 추가
 	private void insertWord() {
 		List<Means> means = new ArrayList<Means>();
 		System.out.print("추가할 단어 : ");
@@ -126,7 +127,7 @@ public class WordProgram implements Program {
 		wordList.add(tmpword);
 		tmpword.printWord();
 	}
-
+	// 단어 수정
 	private void updateWord() {
 		int index = -1;
 		Word tmpWord = new Word(null);
@@ -149,7 +150,7 @@ public class WordProgram implements Program {
 		wordList.get(index).setWord(word);
 		wordList.get(index).printWord();
 	}
-
+	// 단어 삭제
 	private void deleteWord() {
 		int index = -1;
 		Word tmpWord = new Word(null);
@@ -201,7 +202,8 @@ public class WordProgram implements Program {
 		
 	}
 
-	// 뜻 기능
+	/* 뜻 기능 */ 
+	// 뜻 추가
 	private void insertMean() {
 		int index = -1;
 		System.out.print("뜻 추가할 단어 : ");
@@ -225,7 +227,7 @@ public class WordProgram implements Program {
 		wordList.get(index).mean.add(tmpMean);
 		wordList.get(index).printWord();
 	}
-
+	// 뜻 수정
 	private void updateMean() {
 		int index = -1;
 		System.out.print("뜻 수정할 단어 : ");
@@ -251,7 +253,7 @@ public class WordProgram implements Program {
 		wordList.get(index).mean.add(tmpMean);
 		wordList.get(index).printWord();
 	}
-
+	// 뜻 삭제
 	private void deleteMean() {
 		int index = -1;
 		System.out.print("뜻 삭제할 단어 : ");
@@ -298,14 +300,17 @@ public class WordProgram implements Program {
 			throw new InputMismatchException();
 		}
 	}
-
+	
+	
+	/* 조회 기능 */ 
+	// 전체 단어
 	private void searchAll() {
 		System.out.println("===전체 단어===");
 		for(Word tmp : wordList) {
 			tmp.printWord();
 		}
 	}
-
+	// 단어 검색
 	private void searchWord() {
 		int index = -1;
 		System.out.println("===단어 검색===");
@@ -321,7 +326,7 @@ public class WordProgram implements Program {
 		}
 		wordList.get(index).printWord();
 	}
-
+	// 뜻 검색
 	private void searchMean() {
 		System.out.println("====뜻 검색====");
 		scan.nextLine();
