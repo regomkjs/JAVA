@@ -1,5 +1,6 @@
 package day15.homework;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -8,9 +9,11 @@ import lombok.Data;
 
 @Data
 // 단어 클래스
-public class Word {
+public class Word implements Serializable{
+	private static final long serialVersionUID = -2534152854795595317L;
+	
 	// 단어
-	String word;			
+	private String word;			
 	// 뜻과 품사를 포함한 리스트
 	List<Means> mean = new ArrayList<Means>();
 	
@@ -36,7 +39,7 @@ public class Word {
 		this.word = word;
 	}
 
-	// equals 와 hashCode
+	// equals와 hashCode
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -58,12 +61,13 @@ public class Word {
 	
 }
 
-
+@Data
 // 뜻 클래스
-class Means{
+class Means implements Serializable{
+	private static final long serialVersionUID = 2274509388447823350L;
 	
-	String mean;	// 뜻 의미
-	String wordClass; 	// 뜻에 따른 품사
+	private String mean;	// 뜻 의미
+	private String wordClass; 	// 뜻에 따른 품사
 	
 	// 뜻 출력
 	public void printMean() {
@@ -77,7 +81,7 @@ class Means{
 	}
 
 	
-	//  equals 와 hashCode
+	//  equals와 hashCode
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

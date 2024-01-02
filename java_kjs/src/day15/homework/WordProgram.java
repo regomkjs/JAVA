@@ -1,5 +1,10 @@
 package day15.homework;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -10,12 +15,16 @@ import java.util.Scanner;
 public class WordProgram implements Program {
 	// 스캐너
 	Scanner scan = new Scanner(System.in);
-	// 단어를 저장하는 리스트
+	// 단어장 저장 파일
+	String fileName = "src/day15/homework/WordList.txt";
+	// 단어 리스트
 	List<Word> wordList = new ArrayList<Word>();
 	// 메인 실행
 	@Override
 	public void run() {
 		int menu =0;
+		
+		loadList();
 		do {
 			printMenu();
 			try {
@@ -24,9 +33,34 @@ public class WordProgram implements Program {
 			}
 			catch(InputMismatchException e) {
 				System.out.println("잘못된 메뉴입니다.");
+				scan.nextLine();
 			}
 		}
 		while (menu != 4);
+		saveList();
+		
+	}
+	
+	// 단어장 불러오기
+	private void loadList() {
+		try(FileInputStream fis = new FileInputStream(fileName);
+			ObjectInputStream ois = new ObjectInputStream(fis)){
+			wordList = (ArrayList<Word>)ois.readObject();
+		} catch (Exception e) {
+			System.out.println("단어장 파일이 없거나 불러오기에 실패했습니다.");
+		}
+	}
+		
+		
+	// 단어장 저장하기	
+	private void saveList() {
+		try(FileOutputStream fos = new FileOutputStream(fileName);
+			ObjectOutputStream oos = new ObjectOutputStream(fos)){
+			oos.writeObject(wordList);
+			System.out.println("단어장이 저장되었습니다.");
+		} catch (IOException e) {
+			System.out.println("단어장 저장 중 오류가 발생했습니다.");
+		}
 	}
 	// 메뉴 츌력
 	@Override
@@ -281,6 +315,8 @@ public class WordProgram implements Program {
 		System.out.println("1. 전체 단어");
 		System.out.println("2. 단어 검색");
 		System.out.println("3. 뜻 검색");
+		System.out.println("4. 품사 검색");
+		System.out.println("5. 첫 스펠링 검색");
 		System.out.println("=============");
 		System.out.print("메뉴 입력 : ");
 	}
@@ -296,11 +332,20 @@ public class WordProgram implements Program {
 		case 3: 
 			searchMean();
 			break;
+		case 4: 	
+			searchWordClass();
+			break;
+		case 5: 	
+			searchFirstSpell();
+			break;
 		default:
 			throw new InputMismatchException();
 		}
 	}
 	
+	
+	
+
 	
 	/* 조회 기능 */ 
 	// 전체 단어
@@ -342,6 +387,42 @@ public class WordProgram implements Program {
 		System.out.println("등록 되지 않은 뜻입니다.");
 	}
 	
+	// 첫 스펠링 검색
+	private void searchFirstSpell() {
+		System.out.println("=첫 알파벳으로 검색=");
+		System.out.print("검색할 알파벳 : ");
+		char ch = scan.next().charAt(0);
+		boolean ok = false;
+		for(int i = 0 ; i < wordList.size(); i++ ) {
+			if(wordList.get(i).getWord().charAt(0) == ch ) {
+				wordList.get(i).printWord();
+				ok = true;
+			}
+		}
+		if(!ok) {
+			System.out.println(ch+"로 시작하는 단어가 등록되지 않았습니다.");
+		}
+		
+	}
+	
+	// 품사 검색
+	private void searchWordClass() {
+		boolean ok = false;
+		System.out.println("===품사 검색===");
+		System.out.print("검색할 품사 : ");
+		String wordClass = scan.next();
+		for(int i = 0 ; i < wordList.size(); i++) {
+			for(int j = 0 ; j < wordList.get(i).mean.size(); j++)
+			if(wordList.get(i).mean.get(j).getWordClass().equals(wordClass)) {
+				wordList.get(i).printWord();
+				ok = true;
+			}
+		}
+		if(!ok) {
+			System.out.println(wordClass+"로 등록된 단어가 없습니다.");
+		}
+	}
+
 	
 	
 }
