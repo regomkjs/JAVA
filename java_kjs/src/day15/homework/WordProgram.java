@@ -496,6 +496,10 @@ public class WordProgram implements Program {
 		String user="";
 		int min1 =0, max1 = quizList.size()-1;
 		do {
+			if (quizList.size()==0) {
+				return;
+			}
+			System.out.println(quizList);
 			int r1 = (int)(Math.random()*(max1-min1+1)+min1);
 			int r2 = quizList.remove(r1);
 			List<Means> answer= wordList.get(r2).getMean();
@@ -511,9 +515,7 @@ public class WordProgram implements Program {
 				Word tmp = new Word(user,answer);
 				failList.add(tmp);
 			}
-			if (quizList.size()==0) {
-				return;
-			}
+			
 		}while(!user.equals("종료"));
 	}
 
