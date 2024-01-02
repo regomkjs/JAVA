@@ -166,7 +166,7 @@ public class WordProgram implements Program {
 		String tmpClass = scan.next(); 
 		Means tmp = new Means(tmpClass, tmpMean);
 		means.add(tmp);
-		Word tmpword = new Word(word);
+		Word tmpword = new Word(word); // tmpword << 표기 오타 (tmpWord)
 		tmpword.setMean(means);
 		wordList.add(tmpword);
 		tmpword.printWord();
