@@ -13,12 +13,14 @@ import java.util.Scanner;
 
 
 public class WordProgram implements Program {
+	private List<Integer> quizList = new ArrayList<Integer>();
 	// 스캐너
 	Scanner scan = new Scanner(System.in);
 	// 단어장 저장 파일
 	String fileName = "src/day15/homework/WordList.txt";
 	// 단어 리스트
 	List<Word> wordList = new ArrayList<Word>();
+	List<Word> failList = new ArrayList<Word>();
 	// 메인 실행
 	@Override
 	public void run() {
@@ -36,7 +38,7 @@ public class WordProgram implements Program {
 				scan.nextLine();
 			}
 		}
-		while (menu != 4);
+		while (menu != 5);
 		saveList();
 		
 	}
@@ -69,7 +71,8 @@ public class WordProgram implements Program {
 		System.out.println("1. 영단어 관리");
 		System.out.println("2. 영단어 뜻 관리");
 		System.out.println("3. 영단어 조회");
-		System.out.println("4. 종료");
+		System.out.println("4. 영단어 퀴즈");
+		System.out.println("5. 종료");
 		System.out.println("=============");
 		System.out.print("메뉴 입력 : ");
 	}
@@ -102,6 +105,11 @@ public class WordProgram implements Program {
 			runSearchMenu(submenu);
 			break;
 		case 4:
+			printWordQuiz();
+			submenu = scan.nextInt();
+			runWordQuiz(submenu);
+			break;
+		case 5:
 			System.out.println("프로그램 종료");
 			break;
 		default:
@@ -110,6 +118,8 @@ public class WordProgram implements Program {
 	}
 
 
+
+	
 
 	// 단어 메뉴
 	private void printWordMenu() {
@@ -422,7 +432,89 @@ public class WordProgram implements Program {
 			System.out.println(wordClass+"로 등록된 단어가 없습니다.");
 		}
 	}
+	
+	
+	// 퀴즈 메뉴 출력
+	private void printWordQuiz() {
+		System.out.println("===단어 퀴즈===");
+		System.out.println("1. 뜻 맞추기");
+		System.out.println("2. 단어 맞추기");
+		System.out.println("============");
+		System.out.print("메뉴 입력 : ");
+		
+	}
+	// 퀴즈 메뉴 실행
+	private void runWordQuiz(int submenu) {
+		
+		switch(submenu) {
+		case 1: meanQuiz(); break;
+		case 2: wordQuiz(); break;
+		default:
+			throw new InputMismatchException();
+		}
+	}
 
-	
-	
+	private void meanQuiz() {
+		if(wordList.size() == 0) {
+			System.out.println("아직 등록된 단어가 없습니다.");
+			return;
+		}
+		System.out.println("===뜻 맞추기===");
+		int min = 1 , max = wordList.size();
+		int r = (int)(Math.random()*(max+min-1)+ min);
+		max = wordList.get(r-1).mean.size();
+		int s = (int)(Math.random()*(max+min-1)+ min);
+		wordList.get(r-1).mean.get(s-1).printMean();
+		System.out.print(" : ");
+		String word = scan.next();
+		Word tmpWord = new Word(word);
+		if(!wordList.get(r-1).equals(tmpWord)) {
+			System.out.println("오답입니다.");
+			if(failList.size() == 0) {
+				failList.add(wordList.get(r-1));
+			}
+			else {
+				for(int i = 0 ; i < failList.size(); i++) {
+					if(failList.get(i).equals(wordList.get(r-1))) {
+						failList.add(wordList.get(r-1));
+					}
+				}
+			}
+			return;
+		}
+		System.out.println("정답입니다.");
+	}
+
+	public void wordQuiz() {
+		if(wordList.size() == 0) {
+			System.out.println("아직 등록된 단어가 없습니다.");
+			return;
+		}
+		for (int i=0; i<wordList.size();i++) {
+			quizList.add(i);
+		}
+		String user="";
+		int min1 =0, max1 = quizList.size()-1;
+		do {
+			int r1 = (int)(Math.random()*(max1-min1+1)+min1);
+			int r2 = quizList.remove(r1);
+			List<Means> answer= wordList.get(r2).getMean();
+			String quiz = wordList.get(r2).getWord();
+			System.out.println("문제 : "+quiz);
+			System.out.print("뜻을 입력하세요 : ");
+			user = scan.next();
+			Means tmpMean = new Means("", user);
+			if (answer.contains(tmpMean)) {
+				System.out.println("정답입니다.");
+			}else {
+				System.out.println("틀렸습니다.");
+				Word tmp = new Word(user,answer);
+				failList.add(tmp);
+			}
+			if (quizList.size()==0) {
+				return;
+			}
+		}while(!user.equals("종료"));
+	}
+
 }
