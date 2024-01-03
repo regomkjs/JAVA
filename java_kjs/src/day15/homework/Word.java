@@ -25,7 +25,22 @@ public class Word implements Serializable{
 		System.out.print(word + " : ");
 		for(int i = 0 ; i < mean.size(); i++ ) {
 			System.out.print((i+1) + ". ");
-			mean.get(i).printMean();
+			System.out.print(mean.get(i).toString()); 			
+			if((i+ 1) != mean.size()) {
+				System.out.print(" / ");
+			}
+			else {
+				System.out.println();
+			}
+		}
+	}
+	
+	
+	// 뜻리스트 출력
+	public void printMean() {
+		for(int i = 0 ; i < mean.size(); i++ ) {
+			System.out.print((i+1) + ". ");
+			mean.get(i).toString();			
 			if((i+ 1) != mean.size()) {
 				System.out.print(" / ");
 			}
@@ -40,6 +55,14 @@ public class Word implements Serializable{
 	public Word(String word) {
 		this.word = word;
 	}
+	
+	
+	// toString
+	@Override
+	public String toString() {
+		return word + mean.toString() ;
+	}
+	
 
 	// equals와 hashCode
 	@Override
@@ -58,8 +81,8 @@ public class Word implements Serializable{
 	public int hashCode() {
 		return Objects.hash(word);
 	}
-	
-	
+
+
 	
 }
 
@@ -71,10 +94,6 @@ class Means implements Serializable{
 	private String mean;	// 뜻 의미
 	private String wordClass; 	// 뜻에 따른 품사
 	
-	// 뜻 출력
-	public void printMean() {
-		System.out.print("("+wordClass + ") " + mean); 
-	}
 
 	// 생성자
 	public Means(String wordClass, String mean) {
@@ -82,6 +101,14 @@ class Means implements Serializable{
 		this.mean = mean;
 	}
 
+	// toString (람다식 대비)
+	@Override
+	public String toString() {
+		return "("+ wordClass + ") " + mean;
+	}
+	
+	
+	
 	
 	//  equals와 hashCode
 	@Override
@@ -101,8 +128,5 @@ class Means implements Serializable{
 		return Objects.hash(mean);
 	}
 
-
-	
-	
 	
 }

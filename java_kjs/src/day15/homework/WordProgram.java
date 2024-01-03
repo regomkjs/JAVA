@@ -10,6 +10,10 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+/* 1월 4일 목 스터디 
+ * 퀴즈 정리와 오답노트 파일 연동(오답노트 정리) 
+ * 조회와 출력에 람다와 투스트링을 활용 (객체지향적 수정)
+ * */
 
 
 public class WordProgram implements Program {
@@ -20,6 +24,7 @@ public class WordProgram implements Program {
 	String fileName = "src/day15/homework/WordList.txt";
 	// 단어 리스트
 	List<Word> wordList = new ArrayList<Word>();
+	// 오답 리스트
 	List<Word> failList = new ArrayList<Word>();
 	// 메인 실행
 	@Override
@@ -168,8 +173,8 @@ public class WordProgram implements Program {
 		means.add(tmp);
 		// Word tmpword = new Word(word); // tmpword << 표기 오타 (tmpWord)
 		tmpWord.setMean(means); // tmpWord 로 수정
-		wordList.add(tmpWord); //
-		tmpWord.printWord(); //
+		wordList.add(tmpWord); // tmpWord 로 수정
+		tmpWord.printWord(); // tmpWord 로 수정
 	}
 	// 단어 수정
 	private void updateWord() {
@@ -465,7 +470,7 @@ public class WordProgram implements Program {
 		int r = (int)(Math.random()*(max+min-1)+ min);
 		max = wordList.get(r-1).mean.size();
 		int s = (int)(Math.random()*(max+min-1)+ min);
-		wordList.get(r-1).mean.get(s-1).printMean();
+		wordList.get(r-1).mean.get(s-1).toString();
 		System.out.print(" : ");
 		String word = scan.next();
 		Word tmpWord = new Word(word);
@@ -501,7 +506,7 @@ public class WordProgram implements Program {
 			if (quizList.size()==0) {
 				return;
 			}
-			int min1 =0, max1 = quizList.size()-1;
+			int min1 =0, max1 = quizList.size()-1;	// 최대값을 do while문 안으로 넣어 변경되게 수정
 			System.out.println(quizList);
 			int r1 = (int)(Math.random()*(max1-min1+1)+min1);
 			int r2 = quizList.remove(r1);
