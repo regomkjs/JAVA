@@ -166,10 +166,10 @@ public class WordProgram implements Program {
 		String tmpClass = scan.next(); 
 		Means tmp = new Means(tmpClass, tmpMean);
 		means.add(tmp);
-		Word tmpword = new Word(word); // tmpword << 표기 오타 (tmpWord)
-		tmpword.setMean(means);
-		wordList.add(tmpword);
-		tmpword.printWord();
+		// Word tmpword = new Word(word); // tmpword << 표기 오타 (tmpWord)
+		tmpWord.setMean(means); // tmpWord 로 수정
+		wordList.add(tmpWord); //
+		tmpWord.printWord(); //
 	}
 	// 단어 수정
 	private void updateWord() {
@@ -453,13 +453,14 @@ public class WordProgram implements Program {
 			throw new InputMismatchException();
 		}
 	}
-
+	
+	// 뜻 퀴즈 (반복, 안겹치게 수정 예정)
 	private void meanQuiz() {
 		if(wordList.size() == 0) {
 			System.out.println("아직 등록된 단어가 없습니다.");
 			return;
 		}
-		System.out.println("===뜻 맞추기===");
+		System.out.println("===뜻 퀴즈===");
 		int min = 1 , max = wordList.size();
 		int r = (int)(Math.random()*(max+min-1)+ min);
 		max = wordList.get(r-1).mean.size();
@@ -484,21 +485,23 @@ public class WordProgram implements Program {
 		}
 		System.out.println("정답입니다.");
 	}
-
+	
+	// 단어 반복 퀴즈
 	public void wordQuiz() {
 		if(wordList.size() == 0) {
 			System.out.println("아직 등록된 단어가 없습니다.");
 			return;
 		}
+		System.out.println("===단어 퀴즈===");
 		for (int i=0; i<wordList.size();i++) {
 			quizList.add(i);
 		}
 		String user="";
-		int min1 =0, max1 = quizList.size()-1;
 		do {
 			if (quizList.size()==0) {
 				return;
 			}
+			int min1 =0, max1 = quizList.size()-1;
 			System.out.println(quizList);
 			int r1 = (int)(Math.random()*(max1-min1+1)+min1);
 			int r2 = quizList.remove(r1);
