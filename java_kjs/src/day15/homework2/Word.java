@@ -1,4 +1,4 @@
-package day15.homework;
+package day15.homework2;
 
 import java.io.Serializable;
 import java.util.ArrayList;

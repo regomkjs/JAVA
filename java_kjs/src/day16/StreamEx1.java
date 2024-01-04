@@ -23,7 +23,7 @@ public class StreamEx1 {
 		stream.filter(s->s.getGrade() == 1).forEach(s->System.out.println(s));
 		
 		stream = list.stream();
-		// 학생 정보에서 국어 성정을 추출 후 점수를 출력
+		// 학생 정보에서 국어 성적을 추출 후 점수를 출력
 		stream.map(s->s.getKor()).forEach(k->System.out.println("국어 : " + k));
 		
 		stream = list.stream();

@@ -1,4 +1,4 @@
-package day15.homework;
+package day15.homework2;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -255,7 +255,6 @@ public class WordProgram implements Program {
 		String wordClass = scan.next();
 		Means tmpMean = new Means(wordClass, mean);
 		wm.wordList.get(index).mean.add(tmpMean);
-		wm.sortMean();
 		System.out.println(wm.wordList.get(index).toString());
 	}
 	// 뜻 수정
