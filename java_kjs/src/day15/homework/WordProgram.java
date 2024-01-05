@@ -398,9 +398,10 @@ public class WordProgram implements Program {
 		System.out.println("===품사 검색===");
 		System.out.print("검색할 품사 : ");
 		String wordClass = scan.next();
+		
 		wm.getWordList().forEach(s-> s.getMean().forEach(m -> {
 			if(m.getWordClass().contains(wordClass)) {
-				s.printW();
+				m.toString();
 			}
 		}));
 	}
