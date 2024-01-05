@@ -11,13 +11,16 @@ public class WordManager implements Serializable{
 	private static final long serialVersionUID = -4046937641465220290L;
 	List<Word> wordList = new ArrayList<Word>();
 	List<Word> failList = new ArrayList<Word>();
+	
+	
+	
 	// 사전식 정렬 메서드
-	public void sort() {
+	public void sortWordList() {
 		wordList.sort((w1,w2) -> {
 			return w1.getWord().compareTo(w2.getWord());
 		});
 	}
-	
+	// 단어별 품사 정렬 메서드
 	public void sortMean() {
 		wordList.stream().forEach(w->{
 			w.getMean().sort((m1,m2) -> {
@@ -25,12 +28,15 @@ public class WordManager implements Serializable{
 			});
 		});
 	}
-	
-	public void sortFail() {
+	// 오답노트 정렬 메서드
+	public void sortFailList() {
 		failList.sort((w1,w2) -> {
 			return w1.getWord().compareTo(w2.getWord());
 		});
 	}
+	
+	
+	
 	
 	// 단어 추가 메서드 
 	public boolean insert(String word,String mean, String wordClass) {
@@ -41,11 +47,11 @@ public class WordManager implements Serializable{
 		Means tmpMean = new Means(wordClass, mean);
 		tmpWord.mean.add(tmpMean);
 		wordList.add(tmpWord);
-		sort();
+		sortWordList();
 		return true;
 	}
 	
-	// 단어 수정 메서드 // 바꿀 단어를 다시 입력받아야 해서 만들면 손해 같음
+	// 단어 수정 메서드 // 바꿀 단어를 다시 입력받아야 해서 비효율적
 	/*
 	public boolean update(String word) {
 		Word tmpWord = new Word(word);
@@ -61,7 +67,6 @@ public class WordManager implements Serializable{
 		Word tmpWord = new Word(word);
 		if(wordList.contains(tmpWord)) {
 			wordList.remove(tmpWord);
-			sort();
 			return true;
 		}
 		return false;

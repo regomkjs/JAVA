@@ -24,7 +24,8 @@ public class WordProgram implements Program {
 	String fileName = "src/day15/homework/wm.wordList.txt";
 	// 단어,오답 리스트
 	WordManager wm = new WordManager();
-	// 오답 리스트
+	// EXIT
+	final int EXIT = 5;
 	// 메인 실행
 	@Override
 	public void run() {
@@ -42,7 +43,7 @@ public class WordProgram implements Program {
 				scan.nextLine();
 			}
 		}
-		while (menu != 5);
+		while (menu != EXIT);
 		saveList();
 	}
 	
@@ -246,7 +247,7 @@ public class WordProgram implements Program {
 		else {
 			index = wm.wordList.indexOf(tmpWord);
 		}
-		System.out.println(wm.wordList.get(index).toString());
+		wm.wordList.get(index).printW();
 		
 		scan.nextLine();
 		System.out.print("추가할 뜻 : ");
@@ -271,7 +272,7 @@ public class WordProgram implements Program {
 		else {
 			index = wm.wordList.indexOf(tmpWord);
 		}
-		wm.wordList.get(index).printWord();
+		wm.wordList.get(index).printWordNum();
 		System.out.print("수정할 뜻 번호 : ");
 		int num = scan.nextInt();
 		scan.nextLine();
@@ -297,7 +298,7 @@ public class WordProgram implements Program {
 		else {
 			index = wm.wordList.indexOf(tmpWord);
 		}
-		wm.wordList.get(index).printWord();
+		wm.wordList.get(index).printWordNum();
 		System.out.print("삭제할 뜻 번호 : ");
 		int num = scan.nextInt();
 		wm.wordList.get(index).mean.remove(num-1);
@@ -353,7 +354,7 @@ public class WordProgram implements Program {
 	// 전체 단어
 	private void searchAll() {
 		System.out.println("===전체 단어===");
-		wm.wordList.stream().forEach(w-> System.out.println(w.toString()));
+		wm.wordList.stream().forEach(w-> w.printW());
 	}
 	// 단어 검색
 	private void searchWord() {
@@ -362,7 +363,7 @@ public class WordProgram implements Program {
 		String word = scan.next();
 		wm.getWordList().forEach(w->{
 			if(w.getWord().contains(word)) {
-				System.out.println(w.toString());
+				w.printW();
 			}
 		});
 	}
@@ -375,7 +376,7 @@ public class WordProgram implements Program {
 		Means means = new Means("", mean);
 		wm.getWordList().forEach(w -> {
 			if(w.mean.contains(means)) {
-				System.out.println(w.toString());
+				w.printW();
 			}
 		});
 	}
@@ -387,7 +388,7 @@ public class WordProgram implements Program {
 		char ch = scan.next().charAt(0);
 		wm.getWordList().forEach(s-> {
 			if(s.getWord().charAt(0) == ch ) {
-				System.out.println(s.toString());
+				s.printW();
 			}
 		});
 	}
@@ -399,7 +400,7 @@ public class WordProgram implements Program {
 		String wordClass = scan.next();
 		wm.getWordList().forEach(s-> s.getMean().forEach(m -> {
 			if(m.getWordClass().contains(wordClass)) {
-				System.out.println(s.toString());
+				s.printW();
 			}
 		}));
 	}
@@ -407,9 +408,9 @@ public class WordProgram implements Program {
 	// 오답노트 조회
 	private void searchFailList() {
 		if(wm.failList.size() != 0) {
-			wm.sortFail();
+			wm.sortFailList();
 			System.out.println("===오답 노트===");
-			wm.failList.stream().forEach(w->System.out.println(w.toString()));
+			wm.failList.stream().forEach(w->w.printW());
 			return;
 		}
 		System.out.println("오답노트가 비어있습니다.");
@@ -420,36 +421,41 @@ public class WordProgram implements Program {
 	
 	// 단어 반복 퀴즈
 	public void wordQuiz() {
+		scan.nextLine();
+		String user;
+		System.out.println("단어 퀴즈(나가기 입력시 메뉴로)");
 		if(wm.wordList.size() == 0) {
 			System.out.println("아직 등록된 단어가 없습니다.");
 			return;
 		}
-		System.out.println("===단어 퀴즈===");
 		for (int i=0; i<wm.wordList.size();i++) {
 			quizList.add(i);
 		}
-		String user="";
 		do {
 			if (quizList.size()==0) {
 				return;
 			}
 			int min1 =0, max1 = quizList.size()-1;	// 최대값을 do while문 안으로 넣어 변경되게 수정
-			System.out.println(quizList);
+			// System.out.println(quizList); // 퀴즈 확인용 
 			int r1 = (int)(Math.random()*(max1-min1+1)+min1);
 			int r2 = quizList.remove(r1);
 			List<Means> answer= wm.wordList.get(r2).getMean();
 			String quiz = wm.wordList.get(r2).getWord();
 			System.out.println("문제 : "+quiz);
 			System.out.print("뜻을 입력하세요 : ");
-			user = scan.next();
+			user = scan.nextLine();
 			Means tmpMean = new Means("", user);
 			if (answer.contains(tmpMean)) {
 				System.out.println("정답입니다.");
-			}else {
+			}
+			else if(user.equals("나가기")) {
+				break;
+			}
+			else {
 				System.out.println("틀렸습니다.");
 				if(!wm.failList.contains(wm.wordList.get(r2))) {
 					wm.failList.add(wm.wordList.get(r2));
-					wm.sortFail();
+					wm.sortFailList();
 				}
 			}
 			

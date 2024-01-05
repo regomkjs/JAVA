@@ -20,8 +20,8 @@ public class Word implements Serializable{
 	List<Means> mean = new ArrayList<Means>();
 	
 	
-	// 단어 출력
-	public void printWord() {
+	// 뜻 수정, 삭제시 뜻마다 번호를 함께 출력
+	public void printWordNum() {
 		System.out.print(word + " : ");
 		for(int i = 0 ; i < mean.size(); i++ ) {
 			System.out.print((i+1) + ". ");
@@ -35,6 +35,29 @@ public class Word implements Serializable{
 		}
 	}
 	
+	// 단어 출력
+	public void printW() {
+		System.out.print(word + " : ");
+		for(int i = 0 ; i < mean.size(); i++ ) {
+				
+			if(i!=0 && mean.get(i).getWordClass().equals(mean.get(i-1).getWordClass())) {
+				System.out.print(", "+mean.get(i).getMean());
+				
+			}
+			else if(i!=0 && !mean.get(i).getWordClass().equals(mean.get(i-1).getWordClass())) {
+				System.out.print("/ "+"("+ mean.get(i).getWordClass() +") " +mean.get(i).getMean());
+			}
+			else {
+				System.out.print(mean.get(i).toString()); 
+			}
+			if((i+ 1) == mean.size()) {
+				System.out.println();
+			}
+		}
+	}
+	
+	
+	
 	
 	// 생성자
 	public Word(String word) {
@@ -45,7 +68,7 @@ public class Word implements Serializable{
 	// toString
 	@Override
 	public String toString() {
-		return word + mean.toString() ;
+		return word +" " +mean.toString() ;
 	}
 	
 
