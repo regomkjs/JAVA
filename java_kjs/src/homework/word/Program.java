@@ -1,4 +1,4 @@
-package homework;
+package homework.word;
 
 public interface Program {
 	void run();

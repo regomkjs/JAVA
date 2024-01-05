@@ -1,4 +1,4 @@
-package homework;
+package homework.word;
 
 import java.util.ArrayList;
 import java.util.List;

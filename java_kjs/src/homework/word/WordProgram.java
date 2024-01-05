@@ -1,4 +1,4 @@
-package homework;
+package homework.word;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -250,7 +250,7 @@ public class WordProgram implements Program{
 			}
 		}
 		if (index2 == -1) {
-			System.out.println(word+"에 "+ wordClass +" 품사를 추가합니다.");
+			System.out.println(wordC+"에 "+ wordClass +" 품사를 추가합니다.");
 //			System.out.print("등록할 품사 : ");		// 중복 코드
 //			String newWordClass = wordClass;	// 
 			System.out.println("추가할 뜻 : ");
