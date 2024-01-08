@@ -280,6 +280,7 @@ public class WordProgram implements Program {
 		String mean = scan.nextLine();
 		System.out.print("수정된 뜻 품사 : ");
 		String wordClass = scan.next();
+		// remove 말고 set으로 하면 더 줄일수 있다.
 		wm.wordList.get(index).mean.remove(num-1);
 		Means tmpMean = new Means(wordClass, mean);
 		wm.wordList.get(index).mean.add(tmpMean);
