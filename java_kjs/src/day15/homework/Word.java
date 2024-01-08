@@ -39,10 +39,8 @@ public class Word implements Serializable{
 	public void printW() {
 		System.out.print(word + " : ");
 		for(int i = 0 ; i < mean.size(); i++ ) {
-				
 			if(i!=0 && mean.get(i).getWordClass().equals(mean.get(i-1).getWordClass())) {
 				System.out.print(", "+mean.get(i).getMean());
-				
 			}
 			else if(i!=0 && !mean.get(i).getWordClass().equals(mean.get(i-1).getWordClass())) {
 				System.out.print("/ "+"("+ mean.get(i).getWordClass() +") " +mean.get(i).getMean());
