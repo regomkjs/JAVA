@@ -8,7 +8,7 @@ public class ListEx1 {
 	public static void main(String[] args) {
 		// List는 인터페이스이기 때문에 인스턴스를 직접 생성할 수 없다
 		// List<Integer> list = new List<Integer>(); // 에러 발생
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		List<Integer> list = new ArrayList<Integer>();
 		for(int i = 0 ; i< 100; i++) {
 			list.add(i+1);
 		}
