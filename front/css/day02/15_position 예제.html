@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>position 예제</title>
+    <style>
+    /* 
+    body태그의 높이를 1500px로 지정한 후
+    브라우저의 우측 하단에 위로가기 버튼을 추가하고
+    버튼을 클릭하면 위로 가도록 작성
+    */
+    body{height: 1500px;}
+    .round{
+        background-color: darkgray;
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        box-sizing: border-box;
+        border: 1px solid black;
+    }
+    .a{
+        line-height: 50px;
+        color: black;
+        text-align: center;
+        text-decoration: none;
+    }
+    </style>
+</head>
+<body>
+    <div id="top"></div>
+    <button class="round">
+        <a href="#top">
+            위로
+        </a>
+    </button>
+    
+</body>
+</html>
