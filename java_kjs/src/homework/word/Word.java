@@ -84,8 +84,8 @@ import lombok.NoArgsConstructor;
 		private String wordClass;
 		private List<String> meanList = new ArrayList<String>();
 		
-		  public void addMean(String newMean) {
-		        meanList.add(newMean);
+		public void addMean(String newMean) {
+	        meanList.add(newMean);
 		        
 		    }
 	
