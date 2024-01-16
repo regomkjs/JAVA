@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>시멘틱 예제</title>
+    <style>
+        .header{
+            height: 80px;
+            background-color: gray;
+        }
+        .aside{
+            float: left;
+            background-color: yellow;
+            width: 30%;  
+            height: 600px;
+        }
+        .section{
+            float: right;
+            width: 70%;  
+            height: 600px;
+            background-color: red;
+        }
+        .main::after{
+            clear: both; 
+            contain: ''; 
+            display: block;
+        }
+        .footer{
+            height: 200px; 
+            background-color: aliceblue;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">헤더</header>
+    <main class="main">
+        <aside class="aside">어사이드</aside>
+        <section class="section">섹션</section>
+    </main>
+    <footer class="footer">푸터</footer>
+</body>
+</html>

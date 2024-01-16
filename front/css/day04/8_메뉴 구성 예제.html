@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메뉴 구성 예제</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        .news{
+            height: 20px;
+            width: 170px;
+            position: relative;
+        }
+        .news-home{
+            border: none;
+            float: left;
+            background-color: white;
+        }
+        .news-line{
+            position: absolute;
+            height: 100%;
+            width: 0;
+            right: 100px;
+            float: left;
+            border: 1px solid black;
+        }
+        .news-stand{
+            border: none;
+            float: right;
+            background-color: white;
+        }
+        .news::after{
+            clear: both; content: ''; display: block;
+        }
+        .enter{
+            height: 20px;
+            width: 120px;
+            position: relative;
+        }
+        .enter-enter{
+            position: absolute;
+            border: none;
+            float: left;
+            background-color: white;
+        }
+        .enter-line{
+            position: absolute;
+            height: 100%;
+            width: 0;
+            left: 50px;
+            border: 1px solid black;
+            transform: rotateZ(30deg);
+        }
+        .enter-sports{
+            border: none;
+            float: right;
+            background-color: white;
+        }
+        .enter::after{
+            clear: both; content: ''; display: block;
+        }
+        .site{
+            height: 20px;
+            width: 120px;
+            position: relative;
+        }
+        .site-cupang{
+            position: absolute;
+            border: none;
+            float: left;
+            background-color: white;
+        }
+        .site-line{
+            position: absolute;
+            height: 1px;
+            width: 1px;
+            top: 5px;
+            left: 50px;
+            border: 3px solid black;
+            border-radius: 50%;
+        }
+        .site-11st{
+            position: absolute;
+            border: none;
+            float: right;
+            right: 0;
+            background-color: white;
+        }
+        .site::after{
+            clear: both; content: ''; display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="news">
+        <div class="news-home">뉴스홈</div>
+        <div class="news-line"></div>
+        <div class="news-stand">뉴스 스탠드</div>
+    </div>
+    <div class="enter">
+        <div class="enter-enter">엔터</div>
+        <div class="enter-line"></div>
+        <div class="enter-sports">스포츠</div>
+    </div>    
+    <div class="site">
+        <div class="site-cupang">쿠팡</div>
+        <div class="site-line"></div>
+        <div class="site-11st">11번가</div>
+    </div>
+</body>
+</html>
