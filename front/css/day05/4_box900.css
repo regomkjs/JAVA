@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+.container div{
+    width: calc(33.33% - 10px);
+    height: calc(50% - 10px);
+}
