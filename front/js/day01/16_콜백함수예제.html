@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>콜백함수 예제</title>
+</head>
+<body>
+    <script>
+        /* 
+        정수를 입력받아 입력받은 정수가 양수이면 0부터 입력받은 정수까지 더하고
+        음수이면 0부터 입력받은 정수까지 빼서 브라우저에 출력하는 예제
+        */ 
+
+        var num = +prompt('정수를 입력해 주세요') ?? 0;
+
+        function checkNum(num, callbackA, callbackB){
+            if(num>=0){
+                callbackA(num);
+            }
+            else{
+                callbackB(num);
+            }
+        }
+        checkNum(num, 
+        (num)=>{
+            var sum = 0; 
+            for(let i = 0 ; i<=num; i++){
+                sum += i;
+            }
+            document.write(`0부터 ${num}까지 절대값을 모두 더한 값 ${sum}`)
+        }, 
+        (num)=>{
+            var sum = 0; 
+            for(let i = 0 ; i>=num; i--){
+                sum -= i;
+            }
+            document.write(`0부터 ${num}까지 절대값을 모두 더한 값 ${sum}`)
+        });
+    </script>
+</body>
+</html>

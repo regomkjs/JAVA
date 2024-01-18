@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>변수선언</title>
+</head>
+<body>
+    <script>
+        /*
+        변수 선언 방법
+        1. var
+            - 중복선언 가능
+            - 호이스팅이 일어난다
+        2. let
+            - 중복선언 불가
+            - 호이스팅이 일어나지 않는다
+        3. const(상수)
+            - 변수 선언 후 변수에 다양한 자료형 값들을 저장
+        */
+       var num;
+       console.log(num);
+       num = 1;
+       console.log(num);
+       num = "abc";
+       console.log(num);
+       let str;
+       console.log(str);
+       str = "안녕";
+       console.log(str);
+       const PI = 3.14;
+       console.log(PI); 
+       // PI = 3.141592; // 에러 발생, 상수는 재할당(수정)이 불가능
+       var num = 3;
+       console.log(num);
+       // let str = '1'; // 에러 발생, 중복 선언
+    </script>
+</body>
+</html>
