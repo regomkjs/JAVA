@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>예제3</title>
+	<style>
+		.box{
+			width: 200px;
+			height: 200px;
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<button onclick="toggle();">숨기기</button>
+	<div class="box"></div>
+
+
+	<script>
+		/* 
+		박스와 버튼을 만들고
+		버튼을 클릭하면 박스가 사라지고 
+		다시 클릭하면 박스가 보여지도록 코드를 작성
+		*/ 
+		
+		function toggle(){
+			let display = box.style.display;
+			let box = document.getElementsByClassName('box')[0];
+			let button = document.getElementsByTagName('button')[0];
+			if(display == 'none'){
+				box.style.display = 'block';
+				button.innerText = '숨기기';
+			}
+			else{
+				box.style.display = 'none';
+				button.innerText = '보이기';
+		}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>예제2</title>
+	<style>
+		#box{
+			width: 150px;
+			height: 150px;
+			border: 1px solid black;
+			margin-bottom: 10px;
+		}
+	
+	</style>
+</head>
+<body>
+	<div id="box"></div>
+	<button onclick="changeBack();">버튼</button>
+	
+	<script>
+		/*  
+		박스와 버튼을 만들고, 버튼을 한번 클릭하면 노란색, 다시 클릭하면 흰색 ... 이 되도록 수정
+		*/ 
+		let count = 0;
+		function changeBack(){
+			count++;
+			let box = document.getElementById('box');
+			if(count%2==0){box.style.backgroundColor = 'white';}
+			else{box.style.backgroundColor = 'yellow';}
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>요소 선택</title>
+</head>
+<body>
+	<nav id="nav">
+		<ul class="menu-list">
+			<li class="menu-item">
+				<a href="#" class="menu-link">메뉴1</a>
+			</li>
+			<li class="menu-item">
+				<a href="#" class="menu-link">메뉴2</a>
+			</li>
+			<li class="menu-item">
+				<a href="#" class="menu-link">메뉴3</a>
+			</li>
+		</ul>
+	</nav>
+
+	<script>
+		// id로 찾는경우 0 또는 1이기 때문에 없으면 null 있으면 요소
+		let nav = document.getElementById('nav');
+		console.log(nav);
+		// 없는경우
+		let nav1 = document.getElementById('nav1');
+		console.log(nav1);
+		// className, tagName으로 찾는 경우는 복수가 가능하기 때문에 배열에 요소를 넣어 출력해준다
+		let items = document.getElementsByClassName('menu-item');
+		console.log(items);
+		// 없는경우
+		let h1 = document.getElementsByClassName('h1');
+		console.log(h1);
+
+		let aTags = document.getElementsByTagName('a');
+		console.log(aTags);
+		// 없는경우
+		let pTags = document.getElementsByTagName('p');
+		console.log(pTags);
+		// 
+		let link = document.querySelectorAll('.menu-link');
+		console.log(link);
+		// 없는경우
+		let link2 = document.querySelectorAll('.menu-link2');
+		console.log(link2);
+	</script>
+
+	
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>오늘의 할일</title>
+</head>
+<body>
+	<div class="container">
+		<h1>오늘의 할일</h1>
+		<input type="text" id="add" placeholder="할일 입력" onchange="add();">
+		<button onclick="add();" onchange="add();">추가</button>
+		<ol id="list"></ol>
+	</div>
+
+	<script>
+		/* input태그를 이용하여 오늘의 할일을 입력받고 
+		추가 버튼을 클릭하면 오늘의 할일 화면에 추가되도록 코드를 작성하세요.*/ 
+		function add(){
+			let input = document.getElementById('add');
+			let list = document.getElementById('list');
+			list.innerHTML += `<li>${input.value}</li>`;
+			input.value = ``;
+
+			//입력창 포커싱 : 선생님 코드
+			input.focus();
+		}
+	</script>
+</body>
+</html>

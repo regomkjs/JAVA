@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>표준속성 예제2</title>
+</head>
+<body>
+	<button onclick="minus();">-</button>
+	<input type="number" value="0" readonly>
+	<button onclick="plus();">+</button>
+	<script>
+		/* 
+		+ 버튼 클릭시 1씩 증가
+		- 버튼 클릭시 1씩 감소
+		*/ 
+		function plus(){
+			let input = document.getElementsByTagName('input');
+			input[0].value = (+input[0].value) + 1; 
+		}
+		function minus(){
+			let input = document.getElementsByTagName('input');
+			input[0].value = (+input[0].value) - 1; 
+		}
+	</script>
+</body>
+</html>

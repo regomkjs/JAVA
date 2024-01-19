@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>표준속성 예제</title>
+</head>
+<body>
+	<input type="text">
+	<button onclick="showText();">클릭</button>
+
+	<script>
+		/* 
+		input태그에 글자를 입력한 후, 클릭 버튼을 클릭하면 입력한 글자를 alert으로 출력
+		*/ 
+		function showText(){
+			let input = document.getElementsByTagName('input');
+			alert(`${input[0].value}`)
+		}
+
+	</script>
+</body>
+</html>
