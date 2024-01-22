@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마우스 이벤트 예제</title>
+    <style>
+        body{
+            margin: 0; min-height: 100vh;
+        }
+        .box{ position: fixed; bottom: 50px; right: 50px;}
+    </style>
+</head>
+<body>
+    <div class="box"> 1</div>
+
+    <script>
+        /*
+        마우스가 움직이면 브라우저 우측 하단에 마우스의 위치를 브라우저 기준으로 출력하는 코드
+        */ 
+        let body =document.body;
+        body.onmousemove = function(event){
+            let x = event.clientX;
+            let y = event.clientY;
+            let box = document.getElementsByClassName('box')[0];
+            box.innerText = `X : ${x}px, Y : ${y}px `;
+            box.style.top = `${y + 10}px`;
+            box.style.left = `${x + 10}px`;
+        }
+        
+        
+        
+    </script>
+</body>
+</html>

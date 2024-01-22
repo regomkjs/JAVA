@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클릭 이벤트 예제</title>
+    <style>
+        .container{
+            display: flex;
+            width: 400px;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            box-sizing: border-box;
+            padding: 5px;
+            border: 1px solid black;
+        }
+        .container button{
+            width: 30%;
+            height: 30px;
+        }
+        .container .box{
+            margin-top: 5px;
+            height: 385px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid black;
+            display: none;
+        }
+        #box1{
+            display: block;
+            background-color: red;
+        }
+        #box2{
+            background-color: yellow;
+        }
+        #box3{
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <button id="btn1">버튼 1</button>
+        <button id="btn2">버튼 2</button>
+        <button id="btn3">버튼 3</button>
+        <div class="box" id="box1"></div>
+        <div class="box" id="box2"></div>
+        <div class="box" id="box3"></div>
+    </div>
+
+
+    <script>
+        /* 
+        버튼, 박스 3개를 만든 후 다음 기능이 동작되도록 구현
+        */ 
+        btn1.onclick = ()=>{
+            boxDispalyNone();
+            box1.style.display='block'
+        }
+        btn2.onclick = ()=>{
+            boxDispalyNone();
+            box2.style.display='block'
+        }
+        btn3.onclick = ()=>{
+            boxDispalyNone();
+            box3.style.display='block'
+        }
+        function boxDispalyNone(){
+            let boxes = document.getElementsByClassName('box');
+            for(item of boxes){
+                item.style.display='none'
+            }
+
+        }
+        
+    </script>
+</body>
+</html>

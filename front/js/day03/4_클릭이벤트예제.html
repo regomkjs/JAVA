@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클릭 이벤트 예제</title>
+    <style>
+       
+        #box{
+            border: 1px solid black;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="btn">접기</button>
+        <div id="box"></div>
+    </div>
+    <script>
+        /*
+        접기 버튼과 박스를 만들고, 접기 버튼을 클릭하면 박스가 감춰지고 더보기 버튼으로 바뀜
+        */ 
+        btn.onclick = () => {
+            if(btn.innerText=='접기'){
+                box.style.display='none'
+                btn.innerText = '더보기'
+            }
+            else{
+                box.style.display='block'
+                btn.innerText = '접기'
+            }
+        }
+    </script>
+</body>
+</html>

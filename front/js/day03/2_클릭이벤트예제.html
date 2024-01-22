@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클릭 이벤트 예제</title>
+</head>
+<body>
+
+    <input type="text" id="input">
+    <button id="btn">입력</button>
+    <script>
+        /*
+        input태그와 버튼을 만들고, 버튼을 클릭하면 input태그에 있는 문자열을 alert으로 출력하는 코드를 작성
+        */ 
+        let input = document.getElementById('input');
+        let btn = document.getElementById('btn');
+        btn.onclick = ()=>{
+            alert(input.value);
+            input.value = "";
+        }
+    </script>
+</body>
+</html>
