@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>메뉴 예제</title>
+	<style>
+		body{
+			margin: 0;
+			padding: 0;
+		}
+		.container{
+			margin: 10px;
+			display: flex;
+			border: 1px solid black;
+			box-sizing: border-box;
+			text-align: center;
+		}
+		.container .menu-box{
+			margin: 0;
+			width: 33.33%;
+			border: 1px solid black;
+			box-sizing: border-box;
+			cursor: pointer;
+		}
+		.menu{
+			padding-left: 0;
+		}
+		.bgy{
+			background-color: yellow;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="menu-box">
+			<ul class="menu">
+				메뉴1
+
+			</ul>
+		</div>
+		<div class="menu-box">
+			<ul class="menu">
+				메뉴2
+			</ul>
+		</div>
+		<div class="menu-box">
+			<ul class="menu">
+				메뉴3
+		
+			</ul>
+		</div>
+	</div>
+
+	<script>
+		let menu = document.querySelectorAll('.menu-box');
+		menu.forEach((event)=>{
+			event.onclick = function(){
+				menu.forEach(i=>i.classList.remove('bgy'));
+				event.classList.toggle('bgy');
+			}
+		});
+	</script>
+</body>
+</html>

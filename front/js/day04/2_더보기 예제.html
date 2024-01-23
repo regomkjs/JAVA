@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>더보기 예제</title>
+	<style>
+		.box{
+			border: 1px solid black;
+			width: 400px;
+			height: 400px;
+		}
+		.box.click{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<button id="btn1" class="btn">접기</button>
+	<div class="box"></div>
+
+	<script>
+		/*
+		접기 버튼과 박스를 만든 후 클릭하면 박스가 사라지고 접기 글자가 더보기로 변경되도록 구현 
+		*/ 
+		let box = document.getElementsByClassName('box')[0];
+		btn1.onclick = function(){
+			if(btn1.classList.contains('click')){
+				btn1.innerText= '접기'
+			}
+			else{
+				btn1.innerText= '더보기'
+			}
+			btn1.classList.toggle('click');
+			box.classList.toggle('click');
+		}
+		
+	</script>
+</body>
+</html>

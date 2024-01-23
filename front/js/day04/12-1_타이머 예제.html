@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>타이머 예제</title>
+	<style>
+		.container{
+			width: 300px; border: 1px solid black;
+			text-align: center; height: 72px; padding: 20px;
+			box-sizing: border-box; margin: 0 auto;
+			line-height: 35px;
+		}
+		.btn-group{
+			width: 300px; margin: 0 auto; display: flex; 
+			justify-content: space-between; margin-top: 10px;
+		}
+		.btn-group button{
+			width: 30%;
+			height: 30px;
+			background-color: #fff;
+			border-width: 1px;
+		}
+		.btn-group button:hover{
+			background-color: aqua;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">00 : 00 : 00</div>
+	<div class="btn-group">
+		<button id="btn">시작</button>
+		<button id="stop">중지</button>
+		<button id="reset">초기화</button>
+	</div>
+	<script>
+		/*
+		시작 버튼을 누르면 시간이 흐르는 타이머를 구현하세요
+		시 : 분 : 초 로 화면 표시
+		00 : 00 : 00 
+		*/
+		let btn = document.getElementById('btn');
+		let stop = document.getElementById('stop');
+		let reset = document.getElementById('reset');
+		let count = 0;
+		let id;
+		btn.onclick = function(){
+			id = setInterval(function(){
+			count++;
+			let hour = parseInt(count/3600);
+			let minute = parseInt(count/60) % 60;
+			let second = count % 60;
+			let result = 
+			`${String(hour).padStart(2,"0")} : ${String(minute).padStart(2,"0")} : ${String(second).padStart(2,"0")}`
+			let container = document.getElementsByClassName('container')[0];
+			container.innerText = result;
+			}, 1000);	
+		}
+		stop.onclick = function(){
+			clearInterval(id);
+		}
+		reset.onclick = function(){
+			count = 0;
+		}
+	
+	</script>
+</body>
+</html>

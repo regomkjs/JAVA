@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>요소 재배치 예제</title>
+</head>
+<body>
+	<button id="btn">뒤로 보내기</button>
+	<ul class="menu-list">
+		<li class="menu-item">
+			<a href="#" class="menu-link">메뉴1</a>
+		</li>
+		<li class="menu-item">
+			<a href="#" class="menu-link">메뉴2</a>
+		</li>
+		<li class="menu-item">
+			<a href="#" class="menu-link">메뉴3</a>
+		</li>
+	</ul>
+
+	<script>
+		let btn = document.getElementById('btn');
+		let list = document.getElementsByClassName('menu-list')[0];
+		btn.onclick = ()=>{
+			// 첫번째 li요소를 가져옴
+			let li = list.getElementsByClassName("menu-item")[0];
+			// 가져온 요소를 append/appendChild를 이용하여 부모요소 안 마지막에 배치
+			list.append(li);
+			// 이미 배치된 요소를 append, prepend, appendChild, after, before를 이용해 배치하면 위치가 이동
+		}
+
+	</script>
+</body>
+</html>

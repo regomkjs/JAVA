@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>요소 추가 예제</title>
+</head>
+<body>
+	<button id="btn">이미지 추가</button>
+	<div id="box"></div>
+
+	<script>
+		function createElement(tagName, text, attributes){
+			let element = document.createElement(tagName);
+			if(text){
+				let textNode = document.createTextNode(text);
+				element.append(textNode);
+			}
+			if(!attributes){
+				return element;
+			}
+			for(key in attributes){
+				let attr = document.createAttribute(key);
+				attr.value = attributes[key];
+				element.setAttributeNode(attr);
+			}
+			return element;
+		}
+		let btn = document.getElementById('btn');
+		btn.onclick = function(){
+			let box = document.getElementById('box');
+			let img = createElement('img', null, {
+				src : "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202306/25/488f9638-800c-4bac-ad65-82877fbff79b.jpg",
+				alt : "고양이",
+				width : 100
+			});
+			box.append(img);
+		}
+	</script>
+</body>
+</html>

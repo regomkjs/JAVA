@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>클래스 리스트</title>
+	<style>
+		.box{
+			height: 400px; border: 1px solid black;
+		}
+		.select{
+			background-color: yellow;
+		}
+	</style>
+</head>
+<body>
+	<div class="box"></div>
+
+	<script>
+		/*
+		classList.add
+			- 클래스 추가
+		classList.remove
+			- 클래스 제거
+		classList.toggle
+			- 있는 클래스면 제거, 없는 클래스면 추가
+		classList.contains
+			- 있는 클래스면 true, 없는 클래스면 false
+		*/
+		let box = document.getElementsByClassName('box')[0];
+		box.classList.add('select'); 
+		box.classList.remove('select');
+		box.classList.toggle('select');
+		box.classList.toggle('select');
+		console.log(box.classList.contains('select'));
+	</script>
+</body>
+</html>

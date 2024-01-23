@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>박스 애니메이션 예제</title>
+	<style>
+		.container{
+			border: 2px solid black;
+			height: 302px;
+			width: 300px;
+			box-sizing: border-box;	
+			/* overflow: hidden; */
+		}
+		.box{
+			height: 298px;
+			width: 600px;
+			box-sizing: border-box;
+			display: flex;
+			justify-content: space-between;
+			
+		}
+		.box div{
+			box-sizing: border-box;
+			width: 296px;
+			height: 100%;
+		}
+		.left-box{
+			border: 2px solid white;
+			background-color: red;
+		}
+		.right-box{
+			border: 2px solid white;
+			background-color: green;
+		}
+	
+		.moveRight{
+			animation-name: moveRightSmooth;
+			animation-duration: 1s;
+			animation-fill-mode: forwards;
+		}
+		@keyframes moveRightSmooth {
+			from {
+				transform: translateX(0);
+			}
+			to{
+				transform: translateX(-304px);
+			}
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="box">
+			<div class="left-box inner-box"></div>
+			<div class="right-box inner-box"></div>
+		</div>
+	</div>
+	<script>
+		let intervalTime = 3000;
+		let box = document.getElementsByClassName('box')[0];
+		let firstBox;
+		
+		box.onmouseenter = function(){
+			clearInterval(id);
+		}
+
+		box.onmouseleave = function(){
+			id = animationRun();
+		}
+
+		let id = animationRun();
+
+		function animationRun(){
+			setInterval(function(){
+				box.classList.add("moveRight");
+				box.addEventListener("animationend", animationEnd);
+			}, intervalTime);
+		}
+
+
+		function animationEnd(){
+			firstBox = document.querySelector('.inner-box:first-of-type');
+			box.classList.remove("moveRight");
+			box.append(firstBox);
+		}
+		function isAnimationRunning(element){
+			let style = window.getComputedStyle(element);
+			return style.animationPlayState == "running";
+		}
+
+		
+	</script>
+</body>
+</html>

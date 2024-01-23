@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>박스 애니메이션 예제</title>
+	<style>
+		.container{
+			border: 2px solid black;
+			height: 302px;
+			width: 300px;
+			position: relative;
+			box-sizing: border-box;
+			overflow: hidden;
+		}
+		.box{
+			height: 298px;
+			width: 600px;
+			box-sizing: border-box;
+			display: flex;
+			justify-content: space-between;
+		}
+		.box div{
+			box-sizing: border-box;
+			width: 296px;
+			height: 100%;
+		}
+		.left-box{
+			border: 2px solid gray;
+			background-color: red;
+		}
+		.right-box{
+			border: 2px solid gray;
+			background-color: green;
+		}
+		#left{
+			margin: 0 auto;
+			
+		}
+		#right{
+			margin: 0 auto;
+		}
+		.moveLeft{
+			animation-name: moveLeftSmooth;
+			animation-duration: 1s;
+			animation-fill-mode: forwards;
+		}
+		@keyframes moveLeftSmooth {
+			from {
+				transform: translateX(-304px);
+			}
+			to{
+				transform: translateX(0);
+			}
+		}
+		.moveRight{
+			animation-name: moveRightSmooth;
+			animation-duration: 1s;
+			animation-fill-mode: forwards;
+		}
+		@keyframes moveRightSmooth {
+			from {
+				transform: translateX(0);
+			}
+			to{
+				transform: translateX(-304px);
+			}
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="box">
+			<div class="left-box"></div>
+			<div class="right-box"></div>
+		</div>
+	</div>
+	<button id="left"><</button>
+	<button id="right">></button>
+	<script>
+		let left = document.getElementById('left');
+		let right = document.getElementById('right');
+		left.onclick = function(){
+			let box = document.getElementsByClassName('box')[0];
+			box.classList.remove('moveRight');
+			box.classList.add('moveLeft');
+		}
+		right.onclick = function(){
+			let box = document.getElementsByClassName('box')[0];
+			box.classList.remove('moveLeft');
+			box.classList.add('moveRight');
+			
+		}
+		// 요소가 애니메이션 중인지 아닌지 확인하는 메서드
+		function isAnimationRunning(element){
+			let style = window.getComputedStyle(element);
+			return style.animationPlayState == "running"
+		}
+	</script>
+</body>
+</html>

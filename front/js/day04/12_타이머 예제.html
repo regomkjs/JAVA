@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>타이머 예제</title>
+	<style>
+		.container{
+			display: flex;
+			
+		}
+		.container div{
+			margin: 0 3px;
+			font-size: xx-large;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div id="hour">00</div>
+		<div>:</div>
+		<div id="min">00</div>
+		<div>:</div>
+		<div id="sec">00</div>
+	</div>
+	<button id="btn">시작</button>
+	<script>
+		/*
+		시작 버튼을 누르면 시간이 흐르는 타이머를 구현하세요
+		시 : 분 : 초 로 화면 표시
+		00 : 00 : 00 
+		*/
+		let btn = document.getElementById('btn');
+		let sec = document.getElementById('sec');
+		let min = document.getElementById('min');
+		let hour = document.getElementById('hour');
+		let count = 0
+		btn.onclick = function(){
+			let id = setInterval(()=>{
+				count++;
+				if(count%60 < 10){
+					sec.innerText = `0${count%60}`
+				}
+				else{sec.innerText = `${count%60}`}
+				if(parseInt(count/60)%60 < 10){
+					min.innerText = `0${parseInt(count/60)%60}`
+				}
+				else{
+					min.innerText = `${parseInt(count/60)%60}`
+				}
+				if(parseInt(count/3600)%60 < 10 && parseInt(count/3600) < 10){
+					hour.innerText = `0${parseInt(count/3600)}`
+				}
+				else{
+					hour.innerText = `${parseInt(count/3600)}`
+				}
+			}, 1000)	
+		}
+	</script>
+</body>
+</html>
