@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>요소 탐색 예제</title>
+
+</head>
+<body>
+	<ul id="list">
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+		<li>4</li>
+		<li>5</li>
+	</ul>
+
+
+
+	<script>
+		/*
+		li태그에 마우스를 hover하면 해당 li태그는 배경색을 노란색으로 하고
+		앞, 뒤에 있는 li태그는 회색으로 변하게 작업
+		*/ 
+		// let liList = document.querySelectorAll("li");
+		// for(let i = 0 ; i<liList.length; i++){
+		// 	let li = liList[i];
+		// 	let nextLi = li.nextElementSibling;
+		// 	let prevLi = li.previousElementSibling;
+		// 	li.onmouseenter = function(){
+		// 		this.style.backgroundColor = "yellow";
+		// 		if(prevLi){
+		// 			prevLi.style.backgroundColor = "gray";
+		// 		}
+		// 		if(nextLi){
+		// 			nextLi.style.backgroundColor = "gray";
+		// 		}
+		// 	}
+		// 	li.onmouseleave = function(){
+		// 		this.style.backgroundColor = "white";
+		// 		if(prevLi){
+		// 			prevLi.style.backgroundColor = "white";
+		// 		}
+		// 		if(nextLi){
+		// 			nextLi.style.backgroundColor = "white";
+		// 		}
+		// 	}
+		// }
+		let liList = document.querySelectorAll("li");
+		liList.forEach(function(li){
+			li.onmouseenter = ()=>{
+				/*
+				let nextLi = li.nextElementSibling;
+				let prevLi = li.previousElementSibling;
+				backgroundColorChange(li, "yellow");
+				backgroundColorChange(nextLi, "gray");
+				backgroundColorChange(prevLi, "gray");	
+				*/	
+				hoverEvent(li, "yellow", "gray");
+			}
+			li.onmouseleave = ()=>{
+				/*
+				let nextLi = li.nextElementSibling;
+				let prevLi = li.previousElementSibling;
+				backgroundColorChange(li, "white");
+				backgroundColorChange(nextLi, "white");
+				backgroundColorChange(prevLi, "white");
+				*/ 
+				hoverEvent(li);
+			}
+		});
+
+		function backgroundColorChange(element, color){
+			if(element){
+				element.style.backgroundColor= color
+			}
+		}
+
+		function hoverEvent(element, color="white", siblingColor="white"){
+			let nextElement = element.nextElementSibling;
+			let prevElement = element.previousElementSibling;
+			backgroundColorChange(element, color);
+			backgroundColorChange(nextElement, siblingColor);
+			backgroundColorChange(prevElement, siblingColor);		
+		}
+	</script>
+</body>
+</html>

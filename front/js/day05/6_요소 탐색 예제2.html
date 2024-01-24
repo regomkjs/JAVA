@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>요소 탐색 예제2</title>
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성일</th>
+				<th>기능</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>2</th>
+				<td>가입인사</td>
+				<td>2024-01-02</td>
+				<td>
+					<button class="btn-del">삭제</button>
+				</td>
+			</tr>
+			<tr>
+				<th>1</th>
+				<td>공지사항</td>
+				<td>2024-01-01</td>
+				<td>
+					<button class="btn-del">삭제</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<script>
+		let btnDelList = document.querySelectorAll(".btn-del");
+		btnDelList.forEach(i=>{
+			i.onclick = ()=>{
+				// closest("선택자") : 조상요소 중 일치하는 가장 가까운 조상요소를 선택
+				let boardNum = i.closest("tr").firstElementChild;
+				let boardMain = i.closest("tr");
+				alert(`${boardNum.innerText}번 게시글이 삭제되었습니다`)
+				boardMain.remove();
+				let tbody = document.querySelector("tbody");
+				let trList = document.querySelectorAll("tbody>tr");
+				// if(trList.length){
+				// 	return;
+				// }
+				// let lastTh = createElement("th","등록된 게시글이 없습니다", {colspan:4});
+				// let lastTr = createElement("tr", null, null);
+				// lastTr.append(lastTh);
+				// tbody.append(lastTr);
+				
+				// 마지막 요소를 삭제하면 등록된 게시글이 없습니다 라고 테이블에 출력
+				if(trList.length){
+					return;
+				}
+				let tr = document.createElement("tr");
+				let th = document.createElement("th");
+				let colspan = document.createAttribute("colspan");
+				colspan.value = "4";
+				let thText = document.createTextNode('등록된 게시글이 없습니다.')
+				th.setAttributeNode(colspan);
+				th.append(thText);
+				tr.append(th);
+				tbody.append(tr);
+			}
+		});
+
+
+		function createElement(tagName, text, attr){
+			let element = document.createElement(tagName);
+			if(text){
+				let textNode = document.createTextNode(text);
+				element.append(textNode);
+			}
+			if(!attr){
+				return element;
+			}
+			for(key in attr){
+				let attrNode = document.createAttribute(key);
+				attrNode.value = attr[key];
+				element.setAttributeNode(attrNode);
+			}
+			return element
+		}
+	</script>
+</body>
+</html>
