@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jquery 예제1</title>
+	<script src="../../static/jquery.js"></script>
+	<style>
+		.box{
+			display: none;
+			width: 400px;
+			height: 400px;
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+	<button class="btn">열기</button>
+	<div class="box"></div>
+	<script>
+		/*
+		버튼 1개와 박스를 만들어 버튼을 클릭하면 박스가 나타나도록 코드를 작성
+		*/ 
+		
+		$(".btn").click(()=>{
+			$(".box").show();
+			$(".btn").hide();
+			$(".box").append(`<button class="btn-close">닫기</button>`)			
+		});
+		$(".btn-close").click(()=>{
+			$(".box").hide();
+			$(".btn").show();
+			$(".box").children().remove()
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jquery 예제1</title>
+	<script src="../../static/jquery.js"></script>
+	<style>
+		*{
+			margin: 0;
+		}
+		.btn{
+			margin-top: 10px;
+			margin-left: 10px;
+		}
+		.box{
+			margin-left: -350px;
+			display: none;
+			width: 350px;
+			height: 100lvh;
+			background-color: red;
+		}
+		.btn-close{
+			float: right;
+			margin-right: 10px;
+			margin-top: 10px;
+		}
+	</style>
+</head>
+<body>
+	<button class="btn">메뉴</button>
+	<div class="box">
+		<button class="btn-close">X</button>
+	</div>
+	<script>
+		/*
+		버튼 1개와 박스를 만들어 버튼을 클릭하면 박스가 왼쪽에서 오른쪽으로
+		나타나도록 코드를 작성
+		*/ 
+		$(".btn").click(function(){
+			$(this).hide()
+			$(".box").show();
+			$(".box").animate({
+				"margin-left" : "0"
+			},1000)
+		})
+		$(".btn-close").click(function(){
+			$(".box").hide();
+			$(".box").animate({
+				"margin-left" : "-350px"
+			})
+			$(".btn").show();
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>박스 교체 예제</title>
+	<script src="../../static/jquery.js"></script>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		button{
+			height: 40px;
+			width: 40px;
+			border-radius: 50%;
+			background-color: white;
+			font-size: 20px;
+		}
+		button:hover{
+			background-color: aliceblue;
+			font-weight: bold;
+			cursor: pointer;
+		}
+		.container{
+			margin: 0 auto;
+			height: 500px;
+			width: 600px;
+			border: 1px solid black;
+		}
+		.show-container{
+			margin: 5px;
+			box-sizing: border-box;
+			height: 400px;
+		}
+		.show-box{
+			box-sizing: border-box;
+			height: 100%; width: 100%;
+			display: none;
+		}
+		.btn-container{
+			margin: 25px;
+			display: flex;
+			justify-content: space-evenly;
+		}
+		.count-box{
+			margin: 5px;
+			font-size: 20px;
+		}
+		#box1{
+			background-color: red;
+		}
+		#box2{
+			background-color: green;
+		}
+		#box3{
+			background-color: blue;
+		}
+		.select{
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="show-container">
+			<div class="show-box select" id="box1"></div>
+			<div class="show-box" id="box2"></div>
+			<div class="show-box" id="box3"></div>
+		</div>
+		<div class="btn-container">
+			<button id="prev"><</button>
+			<div class="count-box">
+				<span class="count">1</span>
+				<span>/</span>
+				<span>3</span>
+			</div>
+			<button id="next">></button>
+		</div>
+	</div>
+
+	<script>
+		$("#next").click(function(){
+			if($(".select").next().length){
+				$(".select").next().addClass("select")
+				$(".select").first().removeClass("select")
+			}
+			else{
+				$(".select").removeClass("select")
+				$(".show-box").first().addClass("select")
+			}
+			$(".count").text(drawPage());
+		})
+		$("#prev").click(function(){
+			if($(".select").prev().length){
+				$(".select").prev().addClass("select")
+				$(".select").last().removeClass("select")
+			}
+			else{
+				$(".select").removeClass("select")
+				$(".show-box").last().addClass("select")
+			}
+			$(".count").text(drawPage());
+		})
+
+		function drawPage(){
+			let index = $(".select").index();
+			return index+1;
+		}
+	</script>
+</body>
+</html>

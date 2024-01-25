@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>jquery 에제3</title>
+	<script src="../../static/jquery.js"></script>
+	<style>
+		.container{
+			margin: 0 auto;
+			height: 500px;
+			width: 600px;
+			box-sizing: border-box;
+		}
+		.menu-bar{
+			background-color: black;
+			width: 100%;
+			height: 40px;
+			box-sizing: border-box;
+			margin: 10px;
+			margin-top: 20px;
+			border: 1px solid black;
+			display: flex;
+			justify-content: space-between;
+			padding: 0;
+		}
+		.menu-container{
+			margin: 10px;
+			width: 100%;
+			height: 380px;
+			border: 1px solid black;
+		}
+		.menu{
+			height: 100%;
+			width: 33.2%;
+			margin: 0;
+			border-radius: 0;
+			box-sizing: border-box;
+			border: 0;
+			background-color: white;
+		}
+		.menu:hover{
+			cursor: pointer;
+			background-color:aliceblue;
+			font-weight: bold;
+		}
+		.menu:active{
+			background-color: rgb(183, 244, 247);
+			font-weight: bold;
+		}
+		.box{
+			height: 100%;
+			width: 100%;
+			box-sizing: border-box;
+			display: none;
+		}
+		#box1{
+			display: block;
+			background-color: red;
+		}
+		#box2{
+			background-color: green;
+		}
+		#box3{
+			background-color: blue;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="menu-bar">
+			<button class="menu" id="menu1">메뉴1</button>
+			<button class="menu" id="menu2">메뉴2</button>
+			<button class="menu" id="menu3">메뉴3</button>
+		</div>
+		<div class="menu-container">
+			<div class="box" id="box1"></div>
+			<div class="box" id="box2"></div>
+			<div class="box" id="box3"></div>
+		</div>
+	</div>
+
+	<script>
+		$("#menu1").click(function(){
+			$("#box1").show();
+			$("#box2").hide();
+			$("#box3").hide();
+		})
+		$("#menu2").click(function(){
+			$("#box1").hide();
+			$("#box2").show();
+			$("#box3").hide();
+		})
+		$("#menu3").click(function(){
+			$("#box1").hide();
+			$("#box2").hide();
+			$("#box3").show();
+		})
+	</script>
+
+</body>
+</html>

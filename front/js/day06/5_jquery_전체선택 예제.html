@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>전체선택 예제</title>
+	<script src="../../static/jquery.js"></script>
+</head>
+<body>
+	<input type="checkbox" id="all">전체선택 <br>
+	<input type="checkbox" class="checkbox"> 1 <br>
+	<input type="checkbox" class="checkbox"> 2 <br>
+	<input type="checkbox" class="checkbox"> 3 <br>
+	<input type="checkbox" class="checkbox"> 4 <br>
+	<input type="checkbox" class="checkbox"> 5 <br>
+	<script>
+		$("#all").change(function(){
+			$(".checkbox").prop("checked", $("#all").prop("checked"))
+		})
+		$(".checkbox").change(function(){
+			let checked = $(this).prop("checked")
+			let allChecked = $("#all").prop("checked");
+			if(checked){
+				//선택된 체크박스 개수
+				let checkedCount = $(".checkbox:checked").length;
+				//전체 체크박스 개수
+				let count = $(".checkbox").length
+				if(count == checkedCount){
+					$("#all").prop("checked", true);
+				}
+				return
+			}
+			$("#all").prop("checked", false);
+		})
+	</script>
+</body>
+</html>
