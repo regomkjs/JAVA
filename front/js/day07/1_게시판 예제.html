@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>게시판 예제</title>
+	<script src="../../static/jquery.js"></script>
+	<style>
+		.container{
+			margin: 0 auto;
+			max-width: 800px;
+		}
+		.container *{
+			width: 100%;
+			box-sizing: border-box;
+		}
+		h1{
+			font-weight: normal;
+			margin: 0;
+		}
+		input{
+			padding-left: 10px;
+			margin-top: 10px;
+			height: 30px;
+			border: 1px solid black;
+			border-radius: 5px;
+		}
+		.text-box .text{
+			border: 1px solid black;
+			border-radius: 5px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			height: 200px;
+			padding-left: 10px;
+			padding-right: 10px;
+			padding-top: 5px;
+			font-size: 13px;
+		}
+		.btn{
+			border: 1px solid rgb(50, 205, 50);
+			color: rgb(50, 205, 50);
+			background-color: white;
+			height: 30px;
+			border-radius: 5px;
+		}
+		button:hover{
+			background-color: rgb(50, 205, 50);
+			color: white;
+			cursor: pointer;
+		}
+		.list-container{
+			max-width: 800px;
+			margin: 0 auto;
+			box-sizing: border-box;
+		}
+		.list{
+			width: 100%; border-collapse: collapse;
+		}
+		thead *{
+			width: 100%;
+			box-sizing: border-box;
+		}
+		tbody *{
+			width: 100%;
+			box-sizing: border-box;
+		}
+		.list tr{
+			border: 1px solid black; border-width: 1px 0;
+			height: 30px;
+			display: flex;
+			justify-content: space-evenly;
+			width: 100%;
+		}
+		.list.list-hover>.list-body tr:hover{
+			background-color: aquamarine;
+		}
+		th{
+			text-align: left;
+		}
+		tbody th{
+			text-align: center;
+		}
+		td{
+			text-align: left;
+		}
+		.content-container{
+			padding: 10px;
+			max-width: 700px;
+			margin: 0 auto;
+			margin-top: 50px;
+			box-sizing: border-box;
+			position: relative;
+			background-color: white;
+			height: 500px;
+			display: block;
+		}
+		.content{
+			background-color: white;
+			width: 100%;
+			display: none;
+		}
+		.btn-close{
+			position: absolute;
+			top: 5px;
+			right: 5px;
+		}
+		.modal{
+			position: fixed; top: 0; bottom: 0; left: 0; right: 0;
+			background-color: rgba(0, 0, 0, 0.3);
+			display: none;
+		}
+		.title-content{
+			font-weight: normal;
+		}
+		.writer-content{
+			margin-bottom: 10px;
+			font-size: 13px;
+			text-align: right;
+		}
+	</style>
+</head>
+<body>
+	<form action="" class="container">
+		<h1>게시글 등록</h1>
+		<div class="title-box">
+			<label for="title">제목:</label>
+			<input type="text" name="title" id="title" placeholder="제목을 입력하세요.">
+		</div>
+		<div class="writer-box">
+			<label for="writer">작성자:</label>
+			<input type="text" name="writer" id="writer" placeholder="작성자를 입력하세요.">
+		</div>
+		<div class="text-box">
+			<label for="content">내용:</label>
+			<textarea name="content" id="content" cols="30" rows="10" class="text" placeholder="내용을 입력하세요."></textarea>
+		</div>
+		<button class="btn">등록</button>
+	</form>
+	<hr>
+	<div class="list-container">
+		<h1>게시글 리스트</h1>
+		<table class="list list-hover">
+			<thead class="list-head">
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
+			<tbody class="list-body">
+				<tr>
+					<th colspan="4">아직 등록된 글이 없습니다</th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="modal">
+		<div class="content-container">
+			<button class="btn-close">X</button>
+		</div>
+	</div>
+	<script src="board.js"></script>
+	<script>
+		// let index = $(this).find(".num")[0].innerText;
+		// $(".content")[index].toggle();
+		let count = 0;
+		
+		
+		
+	</script>
+</body>
+</html>
