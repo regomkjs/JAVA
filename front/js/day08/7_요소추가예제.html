@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>요소추가 예제</title>
+	<script src="../../static/jquery.js"></script>
+	<style>
+		.container button{
+			display: block;
+		}
+		.box-group .box{
+			display: inline-block;
+			margin: 10px;
+			border: 1px solid black;
+			width: 100px;
+			height: 100px;
+			box-sizing: border-box;
+			text-align: center;
+			line-height: 98px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="container">
+		<button class="btn">박스 추가</button>
+		<div class="box-group"></div>
+	</div>
+	<script>
+		$(".btn").click(()=>{
+			let count = $(".box").length;
+			let box = `<div class="box">${count+1}</div>`
+			$(".box-group").prepend(box)
+		})
+		$(document).on("click",".box",function(){
+			alert(`${$(this).text()}번 박스`)
+		})
+		
+	</script>
+</body>
+</html>

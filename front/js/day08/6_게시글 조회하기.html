@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>게시글 조회하기</title>
+	<script src="../../static/jquery.js"></script>
+	<style>
+		.modal{
+			background-color: rgba(0, 0, 0, 0.3);
+			position: fixed;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			display: none;
+		}
+		.modal .content-container{
+			margin: 0 auto;
+			background-color: white;
+			padding: 10px;
+			margin-top: 10px;
+			width: 500px;
+			height: 500px;
+			position: relative;
+		}
+		.content-container .close-btn{
+			position: absolute;
+			top: 5px;
+			right: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+	</div>
+	<div class="modal">
+		<div class="content-container">
+			<div class="content"></div>
+			<button class="close-btn">X</button>
+		</div>
+		
+	</div>
+
+	<script>
+		/*
+		json : Javscript Object notation
+			- 자바스크립트에서 네트워크를 목적으로 사영하는 데이터 포맷
+			- 자바스크립트의 객체와 유사
+				- 차이점
+					- js에서는 속성명에 "",'' 또는 생략이 가능
+					- json에서는 속성명에 반드시 ""를 붙여야함
+				- 공통점
+					- 값으로 문자열, 정수, 배열, 객체등이 올 수 있다
+			{
+				"name" : "홍길동",
+			}
+				- JSON.stringify(객체) : 객체를 JSON형태의 문자열로 변환
+				- JSON.parse(문자열) : JSON형태의 문자열을 객체로 변환
+		*/ 
+		let obj = {
+			name : "홍길동",
+			"adress" : "서울시",
+			'age' : 21,
+			score : [
+				{
+					title : "국어",
+					point : 100
+				},
+				{
+					title : "영어",
+					point : 80
+				},
+				{
+					title : "수학",
+					point : 90
+				}
+			]
+		};
+		console.log(obj);
+		let jsonObj = JSON.stringify(obj);
+		console.log(jsonObj);
+		let count = 1;
+		function getPromise(){
+			return new Promise(callback);
+		}
+
+		function callback(resolve, reject){
+			// 구현
+			if(count < 3){
+				console.log(`count : ${count++}`);
+				resolve();
+			}
+			else{
+				reject();
+			}
+		}		
+		let promise = 
+			getPromise()
+			.then(()=>getPromise())
+			.then(function(){
+				return getPromise();
+			})
+			.catch(function(){
+				console.log(`count가 3보다 크거나 같습니다.`)
+			});
+		/*
+		promise
+			- 비동기로 작업할 때 사용
+			- new Promise(콜백함수)를 이용하여 객체를 생성
+				- 콜백함수는 매개변수가 2개 필요
+				- 첫번째 매개변수는 성공시 실행할 함수 : resolve
+				- 두번째 매개변수는 실패시 실행할 함수 : reject
+			- then : 성공시 실행. 매개변수로 실행할 함수
+			- catch : 실패시 실행. 매개변수로 실행할 함수
+			- finally : 성공, 실패 상관없이 실행. 매개변수로 실행할 함수
+		*/ 
+		fetch("https://my-json-server.typicode.com/st8324/repo/board")
+		.then(res=>res.text())
+		/*
+		.then((res)=>{
+			return res.text()
+		}) 
+		*/ 
+		.then(data=>JSON.parse(data))
+		.then(data=>printBoard(data))
+		let data
+		function printBoard(list){
+			// list에 있는 데이터를 이용하여 화면에 게시글 리스트를 출력하는 코드를 작성
+			console.log(list)
+			data = list
+			for(let i =0 ; i < list.length; i++){
+				let tr = 
+				`<tr>
+					<td>${list[i].num}</td>
+					<td>
+						<a href="#">${list[i].title}</a>
+					</td>
+					<td>${list[i].writer}</td>
+					<td>${list[i].view}</td>
+				</tr>`
+				$("tbody").append(tr)
+			}
+		}
+		$(document).on("click","a", function(){
+			for(let i = 0 ; i< data.length; i++){
+				if($(this).text() == data[i].title){	
+					$(".content").text(data[i].content)			
+					$(".modal").show();
+				}
+			}
+		})
+		$(document).on("click",".close-btn", function(){
+			$(".content").text("")			
+			$(".modal").hide();
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>게시판 예제</title>
+	<script src="../../static/jquery.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
+	<style>
+		.container{
+			margin: 0 auto;
+			max-width: 500px;
+		}
+		.container *{
+			width: 100%;
+			box-sizing: border-box;
+		}
+		.board label{
+			display: block;
+		}
+		.board .box{
+			margin-bottom: 10px;
+		}
+		.box *{
+			margin: 3px 0;
+		}
+		.board input{
+			border-radius: 5px; border: 1px solid black; padding-left: 10px;
+			height: 30px;
+		}
+		.box textarea{
+			padding: 0 10px;
+			padding-top: 10px;
+			height: 300px; border-radius: 5px; border: 1px solid black;
+			font-size: 14px;
+		}
+		.btn{
+			border-radius: 5px;
+			background-color: white; border: 1px solid yellowgreen;
+			color: yellowgreen;
+			height: 30px;
+		}
+		.btn:hover{
+			color: white;
+			background-color: yellowgreen;
+			cursor: pointer;
+		}
+		.error{
+			color: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1>게시글 등록</h1>
+		<form action="" class="board">
+			<div class="title-box box">
+				<label for="title">제목:</label>
+				<input name="title" type="text" class="title" id="title" placeholder="제목을 입력하세요">
+				<label class="error-title error"></label>
+			</div>
+			<div class="writer-box box">
+				<label for="writer">작성자:</label>
+				<input name="writer" class="writer" id="writer" placeholder="작성자를 입력하세요">
+				<label class="error-writer error"></label>
+			</div>
+			<div class="content-box box">
+				<label for="content" placeholder="내용을 입력하세요">내용:</label>
+				<textarea name="content" id="content" rows="15" placeholder="내용을 입력하세요"></textarea>
+				<label class="error-content error"></label>
+			</div>
+
+			<button type="submit" class="btn">등록</button>
+		</form>
+	</div>
+
+	<script>
+		/*
+		?title=&wrirt=&content=
+		- name이 title인 요소의 값을 서버로 전송
+		- name이 writer인 요소의 값을 서버로 전송
+		- name이 content인 요소의 값을 서버로 전송
+		*/ 
+		$("form").validate({
+			// 유효성 검사
+			rules :{
+				/*
+				name을 입력
+				name : {
+					옵션 : 값,
+					옵션 : 값
+				- 옵션
+					- required : 필수항목 여부
+					- maxlength : 최대 글자수
+					- minlength : 최소 글자수
+					- equalTo : 다른 요소 값과 같은지 확인 (보통 비밀번호 확인에 사용)
+						- rules에 equalTo : 비교할 요소의 아이디값을 가져옴
+					- digits : 숫자만 있는지 체크
+					- email : 이메일 형식 체크
+					- url : url 형식인지 체크
+				}
+				*/
+				// name이 title인 요소에 유효성 검사를 적용
+				title : {
+					required : true, // 필수 항목으로 설정
+					regex : /^[a-zA-Z0-9ㄱ-힣?!,\.]+$/,
+					maxlength : 50
+				},
+				writer : {
+					required : true,
+					regex : /^[a-zA-Z0-9]+$/,
+					maxlength : 15,
+					minlength : 3
+				},
+				content : {
+					required : true
+				}
+			}, 
+			// 유효성 검사 실패 시 출력할 문구
+			messages :{
+				title : {
+					required : "필수 항목 입니다.",
+					regex : "제목은 영문, 한글, 숫자, 특수기호(!?,.)만 입력 가능합니다.",
+					maxlength : "최대 50자 까지 입력 가능합니다."
+				},
+				writer : {
+					required : "필수 항목 입니다.",
+					regex : "작성자는 영문,숫자만 입력 가능합니다",
+					maxlength : "작성자는 최대 15자 까지 입력 가능합니다",
+					minlength : "작성자는 최소 3글자를 입력해야 합니다"
+				},
+				content : {
+					required : "필수 항목 입니다."
+				}
+			}
+		});
+		$.validator.addMethod(
+			"regex",
+			function(value, element, regex){
+				var re = new RegExp(regex);
+				return this.optional(element) || re.test(value);
+			},
+			"정규표현식을 확인하세요"
+		);
+	</script>
+</body>
+</html>
