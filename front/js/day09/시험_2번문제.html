@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>회원가입</title>
+	<script src="//code.jquery.com/jquery-3.7.1.js"></script>
+	<style>
+
+		.container{
+			padding: 20px;
+			padding-bottom: 130px;
+			padding-top: 80px;
+			background-color: rgba(128, 128, 128, 0.336);
+			margin: 0 auto;
+			max-width: 500px;
+			position: relative;
+		}
+		label{
+			width: 130px;
+			font-weight: bold;
+			font-size: larger;
+			box-sizing: border-box;
+		}
+		label.error{
+			margin-left: 130px;
+			margin-top: 10px;
+			width: 100%;
+			font-weight: normal;
+			font-size: small;
+		}
+		.id-box input, .pw-box input, .pw2-box input{
+			width: calc(100% - 130px);
+		}
+		.email-box input{
+			width: calc(50% - 73px);
+		}
+		input{
+			box-sizing: border-box;
+			background: none;
+			border: 0;
+			border-bottom: 2px dashed black;
+		}
+		.container div{
+			width: 100%;
+			display: flex;
+			margin-bottom: 20px;
+			flex-wrap: wrap;
+		}
+		.btn-box{
+			position: absolute;
+			bottom: 0;
+		}
+		.btn-box .btn{
+			letter-spacing: 10px;
+			height: 60px;
+			width: calc(100% - 40px);
+			background-color: rgba(102, 255, 0, 0.384);
+			border: 0;
+			font-size: 20px;
+			color: rgb(0, 128, 0);
+		}
+		.adress-box label{
+			line-height: 35px;
+		}
+		.adress-box::after{
+			display: block; content: ""; margin: 0;
+		}
+		.adress-box input{
+			height: 25px;
+			margin-bottom: 10px;
+			width: 100%;
+		}
+		.adress-box div{
+			flex-wrap: wrap;
+			width: calc(100% - 130px);
+		}
+		.btn:hover{
+			color: white;
+			background-color: rgb(0, 128, 0);
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<form action="" class="container">
+		<div class="id-box">
+			<label for="id">아이디</label>
+			<input type="text" name="id" id="id">
+			<label class="error id-error"></label>
+		</div>
+		<div class="pw-box">
+			<label for="pw">패스워드</label>
+			<input type="password" name="pw" id="pw">
+			<label class="error pw-error"></label>
+		</div>
+		<div class="pw2-box">
+			<label for="pw2">패스워드 확인</label>
+			<input type="password" name="pw2" id="pw2">
+			<label class="error pw2-error"></label>
+		</div>
+		<div class="email-box">
+			<label for="email">이메일</label>
+			<input type="text" name="email" id="email">
+			@
+			<input type="text" name="email2" id="email2">
+		</div>
+		<div class="adress-box">
+			<label for="adress">주소</label>
+			<div>
+				<input type="text" name="adress" id="adress">
+				<input type="text" name="adress2" id="adress2">
+			</div>
+		</div>
+		<div class="btn-box">
+			<button class="btn">가입</button>
+		</div>
+	</form>
+
+	<script>
+		$(document).on("focusin","#pw", function(){
+			$(".pw-error").text("영문자 대/소문자 특수문자, 숫자 포함 8~32자")
+			$(".pw-error").css({"color": "gray"})
+		})
+
+
+		$(document).on("focusout","#pw", function(){
+			if(!$("#pw").val()){
+				$(".pw-error").text("필수 입력 항목입니다.")
+				$(".pw-error").css({"color": "red"})
+				return
+			}
+			$(".pw-error").text("")
+		})
+		$(document).on("focusout","#id", function(){
+			if(!$("#id").val()){
+				$(".id-error").text("필수 입력 항목입니다.")
+				$(".id-error").css({"color": "red"})
+				return
+			}
+			$(".id-error").text("")
+		})
+		$(document).on("focusout","#pw2", function(){
+			if(!$("#pw2").val()){
+				$(".pw2-error").text("필수 입력 항목입니다.")
+				$(".pw2-error").css({"color": "red"})
+				return
+			}
+			$(".pw2-error").text("")
+		})
+		
+	</script>
+</body>
+</html>

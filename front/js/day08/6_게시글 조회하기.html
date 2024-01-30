@@ -145,20 +145,21 @@
 			for(let i =0 ; i < list.length; i++){
 				let tr = 
 				`<tr>
-					<td>${list[i].num}</td>
+					<td class="num">${list[i].num}</td>
 					<td>
 						<a href="#">${list[i].title}</a>
 					</td>
 					<td>${list[i].writer}</td>
-					<td>${list[i].view}</td>
+					<td class="view">${list[i].view}</td>
 				</tr>`
 				$("tbody").append(tr)
 			}
 		}
 		$(document).on("click","a", function(){
 			for(let i = 0 ; i< data.length; i++){
-				if($(this).text() == data[i].title){	
-					$(".content").text(data[i].content)			
+				if($(this).parent().siblings(".num").text() == data[i].num){	
+					$(".content").text(data[i].content)	
+					$(this).parent().siblings(".view").text(parseInt($(this).parent().siblings(".view").text()) + 1)		
 					$(".modal").show();
 				}
 			}
