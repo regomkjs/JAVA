@@ -41,10 +41,10 @@ where
 
 # 아이디가 abc인 회원의 정보를 삭제하는 쿼리
 delete
-from
-	`member`
-where
-	ID = "abc";
+	from
+		`member`
+	where
+		ID = "abc";
     
     
 # member 테이블을 조회
