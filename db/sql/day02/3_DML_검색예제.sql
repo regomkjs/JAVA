@@ -99,4 +99,72 @@ where
 	od_stat not in ("환불","반품") or od_stat is null 
 group by 
 	pd_code;    
+
+
+# 2024-02-06 수업 내용
+# 모든 제품을 조회하는 쿼리
+select * from product;
+
+# 모든 카테고리를 조회하는 쿼리
+select * from categori;
+
+# 제품별 카테고리를 조회하는 쿼리. 
+select 
+	ct_title as "분류" , pd_title as "제품명" 
+from 
+	product 
+		join 
+	categori on ct_num = pd_ct_num;
+
+# 기타 카테고리에 포함된 모든 제품을 조회
+select 
+	ct_title 카테고리 , pd_title 제품명, pd_content 내용, pd_price 가격 
+from 
+	product 
+		join 
+	categori on ct_num = pd_ct_num 
+where 
+	ct_title in ("기타");
+
+# abc123회원이 주문한 제품 목록을 조회
+SELECT 
+    user_ID 회원, pd_title 제품명, od_stat 상태
+FROM
+    `order`
+        JOIN
+    `user` ON od_user_ID = user_ID
+        JOIN
+    product ON od_pd_code = pd_code
+WHERE
+    user_ID = 'abc123';
+
+# 제품별 판매수량을 조회하는 쿼리
+select 
+	pd_title 제품명, ifnull(sum(od_count),0) 판매수량 
+from 
+	product 
+		left join 
+	`order` on od_pd_code = pd_code 
+where od_stat not in("환불","반품") or od_stat is null
+group by 
+	pd_code;
     
+# 인기 제품 조회. 인기 제품은 누적 판매량을 기준으로 상위 5개 제품
+select 
+	pd_title as '제품명', ifnull(sum(od_count),0) as '판매수량' 
+from 
+	product 
+		left join 
+	`order` on od_pd_code = pd_code 
+where od_stat not in("환불","반품") or od_stat is null
+
+group by 
+	pd_code
+order by 판매수량 desc, pd_price asc
+limit 0,5;
+
+
+# 가격이 제일 비싼 제품을 조회
+select * from product order by pd_price desc limit 0,1;
+
+select pd_title, ifnull(sum(od_count), 0) from `order` right join product on od_pd_code = pd_code group by pd_code having ifnull(sum(od_count), 0) >= 1;
