@@ -80,7 +80,7 @@ DROP TABLE IF EXISTS `theater`;
 
 CREATE TABLE `theater` (
 	`th_num`	int	primary key auto_increment,
-	`th_name`	varchar(10) not null,
+	`th_name`	varchar(10) not null unique,
 	`th_addr`	varchar(100) not null,
 	`th_seat`	int not null default 0,
 	`th_screen`	int	not null default 0,
@@ -130,8 +130,8 @@ CREATE TABLE `schedule` (
 	`sh_date` date not NULL,
 	`sh_time` time not NULL,
 	`sh_morning` int not NULL default 0,
-	`sc_num` int NOT NULL,
-	`mo_num` int NOT NULL
+	`sh_sc_num` int NOT NULL,
+	`sh_mo_num` int NOT NULL
 );
 
 DROP TABLE IF EXISTS `ticketing_seat`;
@@ -155,6 +155,14 @@ CREATE TABLE `movie_file` (
 	`mf_filename` varchar(50) not NULL,
 	`mf_type` varchar(10) not NULL,
 	`mf_mo_num` int NOT NULL
+);
+
+DROP TABLE IF EXISTS `price`;
+
+CREATE TABLE `price` (
+	`pr_num`	int	primary key auto_increment,
+	`pr_type` varchar(5) not NULL,
+	`pr_price` int not NULL
 );
 
 
@@ -257,14 +265,14 @@ REFERENCES `schedule` (
 );
 
 ALTER TABLE `schedule` ADD CONSTRAINT `FK_screen_TO_schedule_1` FOREIGN KEY (
-	`sc_num`
+	`sh_sc_num`
 )
 REFERENCES `screen` (
 	`sc_num`
 );
 
 ALTER TABLE `schedule` ADD CONSTRAINT `FK_movie_TO_schedule_1` FOREIGN KEY (
-	`mo_num`
+	`sh_mo_num`
 )
 REFERENCES `movie` (
 	`mo_num`
