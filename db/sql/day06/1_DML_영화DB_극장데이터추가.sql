@@ -112,7 +112,7 @@ where
 # 3관
 # 웡카 - 2월 9일 12:20, 14:30, 17:30, 19:50
 
-insert into `schedule` (sh_date, sh_time, sh_morning, sc_num, mo_num) 
+insert into `schedule` (sh_date, sh_time, sh_morning, sh_sc_num, sh_mo_num) 
 values
 ("2024-02-09","10:30",1,1,1),("2024-02-09","13:00",0,1,1),
 ("2024-02-09","15:30",0,1,1),("2024-02-09","18:10",0,1,1),
