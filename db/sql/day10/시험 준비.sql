@@ -11,6 +11,7 @@ grant create user on *.* to 'kim'@'localhost';
 
 
 # 각 DB별 사용자 계정 권한을 조회하는 쿼리
+# 모든 DB 권한을 갖는다면 조회되지 않는다.
 select * from mysql.db;
 
 # MySQL에서는 AND 연산자가 OR 연산자보다 우선 순위가 높다
