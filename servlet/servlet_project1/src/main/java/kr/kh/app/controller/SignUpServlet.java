@@ -1,16 +1,21 @@
 package kr.kh.app.controller;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kr.kh.app.model.vo.MemberVO;
+import kr.kh.app.service.MemberService;
+import kr.kh.app.service.MemberServiceImp;
+
 @WebServlet("/signup")
 public class SignUpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+    private MemberService memberService = new MemberServiceImp();
     public SignUpServlet() {
         
     }
@@ -24,16 +29,16 @@ public class SignUpServlet extends HttpServlet {
 		String pw = request.getParameter("pw");
 		String pw2 = request.getParameter("pw2");
 		String email = request.getParameter("email");
-		if(pw.equals(pw2)) {
-			System.out.println("ID : "+id);
-			System.out.println("PW : "+pw);
-			System.out.println("E-MAIL : "+email);
-			System.out.println("회원가입 완료");
+		
+		if(memberService.signup(new MemberVO(id,pw,email))) {
+			System.out.println("회원가입 성공");
+			// 회원가입에 성공하면 메인페이지로 이동
+			response.sendRedirect(request.getContextPath()+"/");
+		}else {
+			// 실패하면 회원가입 페이지 유지
+			System.out.println("회원가입 실패");
+			doGet(request, response);
 		}
-		else {
-			System.out.println("재입력한 비밀번호가 다릅니다.");
-		}
-		doGet(request, response);
 	}
 
 }
