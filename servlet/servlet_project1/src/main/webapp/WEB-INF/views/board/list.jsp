@@ -37,6 +37,36 @@
 
 <div class="container">
 	<h1>게시글 리스트</h1>
+	<table class="table table-hover">
+	    <thead>
+			<tr>
+				<th>번호</th>
+				<th>게시판</th>
+			 	<th>제목</th>
+			  	<th>작성자</th>
+			  	<th>조회수</th>
+			</tr>
+	    </thead>
+	    <tbody>
+	    	<c:forEach items="${list}" var="board">
+	    		<tr>
+	    			<td>${board.bo_num}</td>
+	    			<td>${board.community.co_name}</td>
+				  	<td>
+				  		<a href="<c:url value="/board/${board.bo_num}"/>">
+				  			${board.bo_title}
+				  		</a>
+				 	 </td>
+				  	<td>
+				  		<a href="<c:url value="/user/${board.bo_me_id}"/>">
+				  			${board.bo_me_id}
+			  			</a>
+				  	</td>
+				  	<td>${board.bo_view}</td>
+				</tr>
+	    	</c:forEach>
+	    </tbody>
+	</table>
 	<a href="<c:url value="/board/insert"/>" class="btn btn-outline-primary">게시글등록</a>	
 </div>
 </body>
