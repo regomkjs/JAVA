@@ -14,17 +14,22 @@
 <body>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="<%=request.getContextPath()%>/">로고</a>
+    <a class="navbar-brand" href="<c:url value="/"/>">로고</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="<%=request.getContextPath()%>/signup">회원가입</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<%=request.getContextPath()%>/login">로그인</a>
+      	<c:if test="${user == null}">
+	        <li class="nav-item">
+	          <a class="nav-link" href='<c:url value="/signup"/>'>회원가입</a>
+	        </li>
+	        <li class="nav-item">
+	          <a class="nav-link" href='<c:url value="/login"/>'>로그인</a>
+	        </li>
+        </c:if>
+       	<li class="nav-item">
+        	<a class="nav-link" href='<c:url value="/board/list"/>'>게시글</a>
         </li>
       </ul>
     </div>
@@ -36,9 +41,28 @@
 	<c:forEach begin="1" end="4" var="i">
 		${i },
 	</c:forEach>
+
+	<c:set var="name" value="홍길동" />
+	${name}
+	<c:if test='${name eq "홍길동"}'>홍길동입니다.1</c:if>
+	<c:if test='${name ne "홍길동"}'>홍길동입니다.2</c:if>
+	<c:if test='${name == "홍길동"}'>홍길동입니다.3</c:if>
+	
+	<c:choose>
+		<c:when test='${name == "홍길동"}'>홍길동입니다.</c:when>
+		<c:otherwise>홍길동이 아닙니다.</c:otherwise>
+	</c:choose>
+	<!-- 서버에서 보낸 아이디가 "abc"로 되어 있으면 -->
+	<input type="text" value="${id}">
+	<br>
+	<c:forTokens items="a/b/c/d/" delims="/" var="ch">${ch}<br> </c:forTokens>
+	<br>
+	<c:url value="/">
+		<c:param name="name" value="홍길동"/>
+		<c:param name="age" value="30"/>
+	</c:url>
+	${url}
 </div>
-
-
 	
 </body>
 </html>
