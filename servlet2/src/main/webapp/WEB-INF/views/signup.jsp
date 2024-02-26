@@ -18,7 +18,7 @@
    		<div class="mb-3 mt-3">
      			<label for="id">아이디:</label>
      			<input type="text" class="form-control" id="id" placeholder="아이디 입력" name="id">
-  			 </div>
+		</div>
    		<div class="mb-3">
      			<label for="pw">비밀번호:</label>
      			<input type="password" class="form-control" id="pw" placeholder="비밀번호 입력" name="pw">
@@ -32,7 +32,7 @@
      			<input type="text" class="form-control" id="email" placeholder="이메일 입력" name="email">
    		</div>
    		<button type="submit" class="btn btn-outline-success col-12">회원가입</button>
- 			</form>
+	</form>
 </div>
 </body>
 </html>
