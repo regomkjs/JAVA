@@ -13,9 +13,9 @@ import kr.kh.app.model.dto.LoginDTO;
 import kr.kh.app.model.vo.MemberVO;
 
 public class MemberServiceImp implements MemberService {
-	MemberDAO memberDao;
-	InputStream inputStream;
-	SqlSession session;
+	private MemberDAO memberDao;
+	private InputStream inputStream;
+	private SqlSession session;
 	
 	public MemberServiceImp() {
 		String resource = "kr/kh/app/config/mybatis-config.xml";
