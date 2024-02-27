@@ -17,6 +17,7 @@
 	<table class="table table-hover">
  		<thead>
 			<tr>
+				<th>번호</th>
 				<th>게시판</th>
 				<th>제목</th>
 				<th>작성자</th>
@@ -26,14 +27,20 @@
 		<tbody>
 			<c:forEach items="${list}" var="board">
 				<tr>
+					<td>${board.bo_num}</td>
 					<td>${board.community.co_name}</td>
-					<td>${board.bo_title}</td>
-					<td>${board.bo_me_id}</td>
+					<td>
+						<a href="<c:url value=""/>">${board.bo_title}</a>
+					</td>
+					<td>
+						<a href="<c:url value=""/>">${board.bo_me_id}</a>
+					</td>
 					<td>${board.bo_view}</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	<a href="<c:url value="write"/>"><button class="btn btn-primary">게시글 등록</button></a>
 </div>
 
 

@@ -11,6 +11,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import kr.kh.app.dao.BoardDAO;
 import kr.kh.app.model.vo.BoardVO;
+import kr.kh.app.model.vo.CommunityVO;
 
 public class BoardServiceImp implements BoardService {
 	private BoardDAO boardDao;
@@ -36,5 +37,29 @@ public class BoardServiceImp implements BoardService {
 			return null;
 		}
 		return list;
+	}
+
+	@Override
+	public ArrayList<CommunityVO> getCommunityList() {
+		ArrayList<CommunityVO> list = boardDao.selectCommunityList();
+		return list;
+	}
+
+	@Override
+	public boolean insertBoard(BoardVO board) {
+		if(board == null || 
+				!checkString(board.getBo_content()) || 
+				!checkString(board.getBo_title()) ) {
+			return false;
+		}
+		boardDao.insertBoard(board);
+		return true;
+	}
+	
+	public boolean checkString(String str) {
+		if(str == null || str.length() == 0) {
+			return false;
+		}
+		return true;
 	}
 }
