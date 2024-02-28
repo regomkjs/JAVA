@@ -110,4 +110,20 @@ public class BoardServiceImp implements BoardService {
 		}
 		return false;
 	}
+
+
+	@Override
+	public boolean updateBoard(BoardVO board, int num) {
+		if(board == null ||
+				!checkString(board.getBo_me_id()) ||
+				!checkString(board.getBo_title())||
+				!checkString(board.getBo_content())) {
+			return false;
+		}
+		BoardVO tmp = boardDao.selectBoard(num);
+		if(tmp == null || !tmp.getBo_me_id().equals(board.getBo_me_id())) {
+			return false;
+		}
+		return boardDao.updateBoard(board, num);
+	}
 }

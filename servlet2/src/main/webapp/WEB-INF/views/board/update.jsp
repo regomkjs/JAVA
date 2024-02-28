@@ -12,6 +12,30 @@
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
-
+	<div class="container">
+		<form action='<c:url value="/board/update"/>' method="post">
+			<h1>게시글 수정</h1>
+			<input type="text" hidden="hidden" value="${board.bo_num}" name="num">
+			<div class="mb-3 mt-3">
+				<label for="community">게시판:</label>
+				<select id="community" name="community" class="form-control">
+					<c:forEach items="${communityList}" var="community">
+						<option value="${community.co_num}" <c:if test='${board.bo_co_num == community.co_num}'>selected</c:if> <c:if test='${community.co_name == "공지" && user.me_authority != "admin"}'>hidden="hidden"</c:if>>${community.co_name}</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div class="mb-3 mt-3">
+				<label for="title">제목:</label>
+		  		<input type="text" class="form-control" id="title" placeholder="제목 입력" name="title" value="${board.bo_title}">
+			</div>
+			<div class="mb-3">
+		  		<label for="content">내용:</label>
+		  		<div class="mb-3">
+		  			<textarea rows="10" name="content" id="content" class="form-control">${board.bo_content}</textarea>
+		  		</div>
+			</div>
+			<button type="submit" class="btn btn-primary col-12">수정</button>
+		</form>
+	</div>
 </body>
 </html>
