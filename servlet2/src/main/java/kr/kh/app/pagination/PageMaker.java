@@ -27,9 +27,9 @@ public class PageMaker {
 			endPage = tmpEndPage;
 		}
  		//첫번째 페이지네이션이면 false 아니면 true
- 		prev = startPage == 1 ? false: true;
+ 		prev = startPage == 1 ? false : true;
  		//마지막 페이지네이션이면 false 아니면 true
- 		next = endPage == tmpEndPage ? false: true;
+ 		next = endPage == tmpEndPage ? false : true;
  	
 	}
 	
