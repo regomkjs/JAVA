@@ -41,7 +41,10 @@
 					<td>${board.bo_num}</td>
 					<td>${board.community.co_name}</td>
 					<td>
-						<a href="<c:url value=""/>">${board.bo_title}</a>
+						<c:url var="url" value="/board/detail">
+							<c:param name="num" value="${board.bo_num}"/>
+						</c:url>
+						<a href="${url}">${board.bo_title}</a>
 					</td>
 					<td>
 						<c:url var="page" value="/board/list">

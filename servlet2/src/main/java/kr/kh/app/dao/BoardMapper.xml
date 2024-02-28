@@ -14,6 +14,7 @@
 		<collection property="community" ofType="kr.kh.app.model.vo.CommunityVO" column="bo_co_num"
 			select="selectCommunity"/>
 	</resultMap>
+	
 	<select id="selectCommunity" resultType="kr.kh.app.model.vo.CommunityVO">
 		select * from community	where co_num = #{bo_co_num}
 	</select>
@@ -56,4 +57,12 @@
 			where bo_me_id = #{cri.search}
 		</if>
 	</select>
+	
+	<select id="selectBoard" resultMap="boardMap">
+		select * from board where bo_num = #{num}
+	</select>
+	
+	<update id="updateView">
+		update board set bo_view = bo_view + 1 where bo_num = #{num}
+	</update>
 </mapper>
