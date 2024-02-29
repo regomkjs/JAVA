@@ -41,7 +41,7 @@
 				<h1>없는 게시글이거나 삭제된 게시글 입니다.</h1>
 			</c:otherwise>
 		</c:choose>
-		<a href="" class="btn btn-outline-dark">목록으로</a>
+		<a href="<c:url value="/board/list"/>" class="btn btn-outline-dark">목록으로</a>
 		<a href="" class="btn btn-outline-primary" <c:if test="${user.me_id != board.bo_me_id || user == null}">hidden ="hidden"</c:if>>수정</a>
 		<c:url value="/board/delete" var="deleteUrl">
 			<c:param name="num" value="${board.bo_num}"/>
