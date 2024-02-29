@@ -21,17 +21,6 @@ public class BoardInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	BoardService boardService = new BoardServiceImp();
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//게시글은 회원만 작성 가능하기 때문에 아래 작업을 수행
-		//로그인한 회원 정보를 가져옴 => 세션에서 user 정보를 가져옴
-		HttpSession session = request.getSession();
-		MemberVO user = (MemberVO)session.getAttribute("user");
-		//MemberVO user = (MemberVO)request.getSession().getAttribute("user");
-		//회원정보가 없으면 게시글 리스트로
-		if(user == null) {
-			response.sendRedirect(request.getContextPath()+"/board/list");
-			return;
-		}
-		
 		//게시판 전체를 가져옴 
 		ArrayList<CommunityVO> list = boardService.getCommunityList();
 		if(list == null || list.size() == 0) {
@@ -46,10 +35,6 @@ public class BoardInsertServlet extends HttpServlet {
 		//게시글 작성중 세션이 만료됐을 때를 대비
 		HttpSession session = request.getSession();
 		MemberVO user = (MemberVO)session.getAttribute("user");
-		if(user == null) {
-			response.sendRedirect(request.getContextPath()+"/board/list");
-			return;
-		}
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String writer = user.getMe_id();

@@ -54,8 +54,24 @@ public class BoardServiceImp implements BoardService {
 	public ArrayList<BoardVO> getBoardList(Criteria cri) {
 		return boardDAO.selectBoardList(cri);
 	}
+	
 	@Override
-	public int totalCount() {
-		return boardDAO.totalCount();
+	public int getTotalCount(Criteria cri) {
+		if(cri == null) {
+			cri = new Criteria();
+		}
+		return boardDAO.totalCount(cri);
+	}
+	@Override
+	public BoardVO getBoard(int num) {
+		return boardDAO.selectBoard(num);
+	}
+	@Override
+	public boolean updateView(int num) {
+		boolean res = boardDAO.updateView(num);
+		if(res) {
+			return true;
+		}
+		return false;
 	}
 }
