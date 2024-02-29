@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import kr.kh.app.model.vo.BoardVO;
+import kr.kh.app.model.vo.MemberVO;
 import kr.kh.app.service.BoardService;
 import kr.kh.app.service.BoardServiceImp;
 
@@ -23,15 +24,16 @@ public class BoardDeleteServlet extends HttpServlet {
 		catch (Exception e) {
 			num = 0;
 		}
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
 		BoardVO board = boardService.getBoard(num);
-		if(boardService.deleteBoard(board)) {
+		if(boardService.deleteBoard(board,user)) {
 			request.setAttribute("msg", "게시글 삭제에 성공했습니다");
 			request.setAttribute("url", "board/list");
-			request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
-			return;
 		}
-		request.setAttribute("msg", "게시글 삭제에 실패했습니다");
-		request.setAttribute("url", "board/detail?num="+num);
+		else {
+			request.setAttribute("msg", "게시글 삭제에 실패했습니다");
+			request.setAttribute("url", "board/detail?num="+num);
+		}
 		request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
 	}
 
