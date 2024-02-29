@@ -13,36 +13,43 @@
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 	<div class="container">
-		<h1>게시글 상세</h1>
-		<div>
-			<div class="mb-3 mt-3">
-				<label for="community">게시판:</label>
-		  		<input type="text" class="form-control" id="community" name="community" readonly value="${board.community.co_name}">
-			</div>
-			<div class="mb-3 mt-3">
-				<label for="title">제목:</label>
-		  		<input type="text" class="form-control" id="title" name="title" readonly value="${board.bo_title}">
-			</div>
-			<div class="mb-3 mt-3">
-				<label for="writer">작성자:</label>
-		  		<input type="text" class="form-control" id="writer" name="title" readonly value="${board.bo_me_id}">
-			</div>
-			<div class="mb-3 mt-3">
-				<label for="view">조회수:</label>
-		  		<input type="text" class="form-control" id="view" name="view" readonly value="${board.bo_view}">
-			</div>
-			<div class="mb-3 mt-3">
-		  		<label for="content">내용:</label>
-	  			<textarea rows="10" name="content" id="content" class="form-control" readonly>${board.bo_content}</textarea>
-			</div>
-			<a href="<c:url value="/board/list"/>" class="btn btn-outline-dark">목록으로</a>
-			<c:if test="${board.bo_me_id == user.me_id}">
-				<a href="<c:url value="/board/update?num=${board.bo_num}"/>" class="btn btn-outline-primary">수정</a>
-			</c:if>
-			<c:if test="${user.me_authority == 'admin' || board.bo_me_id == user.me_id}">
-				<a href="<c:url value="/board/delete?num=${board.bo_num}"/>" class="btn btn-outline-danger">삭제</a>
-			</c:if>
-		</div>
+		<c:choose>
+			<c:when test="${board != null}">
+				<h1>게시글 상세</h1>
+				<div>
+					<div class="mb-3 mt-3">
+						<label for="community">게시판:</label>
+				  		<input type="text" class="form-control" id="community" name="community" readonly value="${board.community.co_name}">
+					</div>
+					<div class="mb-3 mt-3">
+						<label for="title">제목:</label>
+				  		<input type="text" class="form-control" id="title" name="title" readonly value="${board.bo_title}">
+					</div>
+					<div class="mb-3 mt-3">
+						<label for="writer">작성자:</label>
+				  		<input type="text" class="form-control" id="writer" name="title" readonly value="${board.bo_me_id}">
+					</div>
+					<div class="mb-3 mt-3">
+						<label for="view">조회수:</label>
+				  		<input type="text" class="form-control" id="view" name="view" readonly value="${board.bo_view}">
+					</div>
+					<div class="mb-3 mt-3">
+				  		<label for="content">내용:</label>
+			  			<textarea rows="10" name="content" id="content" class="form-control" readonly>${board.bo_content}</textarea>
+					</div>
+					<a href="<c:url value="/board/list"/>" class="btn btn-outline-dark">목록으로</a>
+					<c:if test="${board.bo_me_id == user.me_id}">
+						<a href="<c:url value="/board/update?num=${board.bo_num}"/>" class="btn btn-outline-primary">수정</a>
+					</c:if>
+					<c:if test="${user.me_authority == 'admin' || board.bo_me_id == user.me_id}">
+						<a href="<c:url value="/board/delete?num=${board.bo_num}"/>" class="btn btn-outline-danger">삭제</a>
+					</c:if>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<h1>등록되지 않거나 삭제된 게시글 입니다.</h1>
+			</c:otherwise>
+		</c:choose>
 	</div>
 </body>
 </html>
