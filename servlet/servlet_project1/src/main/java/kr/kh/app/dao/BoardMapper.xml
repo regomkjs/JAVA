@@ -28,10 +28,27 @@
 	</select>
 	
 	<select id="selectBoardList" resultMap="BoardMap">
-		select board.* from board order by bo_num desc
+		select board.* 
+		from board
+		<choose>
+			<!-- 전체 검색 -->
+			<when test='cri.type == "all"'>
+				where 
+					bo_title like concat('%',#{cri.search},'%') or 
+					bo_me_id like concat('%',#{cri.search},'%')
+			</when>
+			<!-- 제목 또는 작성자 검색 -->
+			<otherwise>
+				where
+					${cri.type} like concat('%',#{cri.search},'%')
+			</otherwise>
+		</choose> 
+		order by bo_num desc
 	</select>
 	<select id="selectCommunity" resultType="kr.kh.app.model.vo.CommunityVO">
 		select * from community where co_num = #{bo_co_num}
 	</select>
-	
+	<select id="totalCount" resultType="int">
+		select count(*) from board where 
+	</select>
 </mapper>

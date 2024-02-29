@@ -37,6 +37,18 @@
 
 <div class="container">
 	<h1>게시글 리스트</h1>
+	<!-- from태그를 이용하여 검색창 추가 -->
+	<form action="<c:url value="/board/list"/>">
+		<div class="input-group">
+			<select name="type">
+				<option value="all">전체</option>
+				<option value="bo_title">제목</option>
+				<option value="bo_me_id">작성자</option>
+			</select>
+			<input type="text" name="search">
+			<button class="btn btn-outline-primary">검색</button>
+		</div>
+	</form>
 	<table class="table table-hover">
 	    <thead>
 			<tr>
