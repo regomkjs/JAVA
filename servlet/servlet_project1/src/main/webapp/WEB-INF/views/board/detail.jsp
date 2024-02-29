@@ -42,8 +42,11 @@
 			</c:otherwise>
 		</c:choose>
 		<a href="" class="btn btn-outline-dark">목록으로</a>
-		<a href="" class="btn btn-outline-primary" <c:if test="${user.me_id != board.bo_me_id}">hidden ="hidden"</c:if>>수정</a>
-		<a href="" class="btn btn-outline-danger" <c:if test="${user.me_id != board.bo_me_id && user.me_authority != 'admin'}">hidden ="hidden"</c:if>>삭제</a>
+		<a href="" class="btn btn-outline-primary" <c:if test="${user.me_id != board.bo_me_id || user == null}">hidden ="hidden"</c:if>>수정</a>
+		<c:url value="/board/delete" var="deleteUrl">
+			<c:param name="num" value="${board.bo_num}"/>
+		</c:url>		
+		<a href="${deleteUrl}" class="btn btn-outline-danger" <c:if test="${ (user.me_id != board.bo_me_id && user.me_authority != 'admin') || user == null}">hidden ="hidden"</c:if>>삭제</a>
 	</div>
 </body>
 </html>

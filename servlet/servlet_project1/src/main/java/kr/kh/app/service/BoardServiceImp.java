@@ -74,4 +74,8 @@ public class BoardServiceImp implements BoardService {
 		}
 		return false;
 	}
+	@Override
+	public boolean deleteBoard(BoardVO board) {
+		return boardDAO.deleteBoard(board);
+	}
 }

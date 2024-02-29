@@ -20,4 +20,6 @@ public interface BoardService {
 
 	boolean updateView(int num);
 
+	boolean deleteBoard(BoardVO board);
+
 }

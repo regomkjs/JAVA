@@ -11,10 +11,10 @@ import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.service.BoardService;
 import kr.kh.app.service.BoardServiceImp;
 
-@WebServlet("/board/detail")
-public class BoardDetailServlet extends HttpServlet {
+@WebServlet("/board/delete")
+public class BoardDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private BoardService boardService = new BoardServiceImp();
+    private BoardService boardService = new BoardServiceImp();   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int num;
 		try {
@@ -23,17 +23,19 @@ public class BoardDetailServlet extends HttpServlet {
 		catch (Exception e) {
 			num = 0;
 		}
-		if(boardService.updateView(num)) {
-			BoardVO board = boardService.getBoard(num);
-			request.setAttribute("board", board);
-			request.getRequestDispatcher("/WEB-INF/views/board/detail.jsp").forward(request, response);
+		BoardVO board = boardService.getBoard(num);
+		if(boardService.deleteBoard(board)) {
+			request.setAttribute("msg", "게시글 삭제에 성공했습니다");
+			request.setAttribute("url", "board/list");
+			request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
 			return;
 		}
-		request.getRequestDispatcher("/WEB-INF/views/board/detail.jsp").forward(request, response);
+		request.setAttribute("msg", "게시글 삭제에 실패했습니다");
+		request.setAttribute("url", "board/detail?num="+num);
+		request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
