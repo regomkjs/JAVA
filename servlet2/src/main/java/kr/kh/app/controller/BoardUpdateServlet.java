@@ -34,7 +34,7 @@ public class BoardUpdateServlet extends HttpServlet {
 		request.setAttribute("board", board);
 		//작성자가 맞는지 확인
 		MemberVO user = (MemberVO) request.getSession().getAttribute("user");
-		if(user == null || board == null || !board.getBo_me_id().equals(user.getMe_id())) {
+		if(board == null || !board.getBo_me_id().equals(user.getMe_id())) {
 			// 다르면 작성자가 아니라는 메세지와 상세로
 			request.setAttribute("msg", "작성자가 아닙니다.");
 			request.setAttribute("url", "board/detail?num="+num);

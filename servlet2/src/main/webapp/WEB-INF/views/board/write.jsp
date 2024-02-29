@@ -18,7 +18,7 @@
 				<label for="community">게시판:</label>
 				<select id="community" name="community" class="form-control">
 					<c:forEach items="${communityList}" var="community">
-						<option value="${community.co_num}">${community.co_name}</option>
+						<option value="${community.co_num}" <c:if test='${community.co_name == "공지" && user.me_authority != "admin"}'>hidden="hidden"</c:if>>${community.co_name}</option>
 					</c:forEach>
 				</select>
 			</div>

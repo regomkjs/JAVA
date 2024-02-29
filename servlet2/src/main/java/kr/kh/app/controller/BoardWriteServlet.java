@@ -21,17 +21,20 @@ public class BoardWriteServlet extends HttpServlet {
 	private BoardService boardService = new BoardServiceImp();   
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		/*
+		멤버필터 추가로 불필요
 		MemberVO user = (MemberVO) request.getSession().getAttribute("user");
 		if(user == null) {
 			request.setAttribute("msg", "게시글을 작성하기 위해선 로그인 해야합니다.");
 			request.setAttribute("url", "login");
 			request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
+			return;
 		}
-		else {
-			ArrayList<CommunityVO> communityList = boardService.getCommunityList();
-			request.getSession().setAttribute("communityList", communityList);
-			request.getRequestDispatcher("/WEB-INF/views/board/write.jsp").forward(request, response);
-		}
+		*/
+		ArrayList<CommunityVO> communityList = boardService.getCommunityList();
+		request.getSession().setAttribute("communityList", communityList);
+		request.getRequestDispatcher("/WEB-INF/views/board/write.jsp").forward(request, response);
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -39,13 +42,15 @@ public class BoardWriteServlet extends HttpServlet {
 		String content = request.getParameter("content");
 		int co_num = Integer.parseInt(request.getParameter("community"));
 		MemberVO user = (MemberVO) request.getSession().getAttribute("user");
+		/*
+		멤버필터 추가로 불필요
 		if(user == null) {
 			request.setAttribute("msg", "게시글 등록에 실패했습니다.");
 			request.setAttribute("url", "board/list");
 			request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
 		}
+		*/
 		String id = user.getMe_id();
-	
 		BoardVO board = new BoardVO(title,content,co_num,id);
 		boolean res = boardService.insertBoard(board);
 		if(res) {
