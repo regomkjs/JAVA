@@ -20,7 +20,12 @@
 				<label for="community">게시판:</label>
 				<select id="community" name="community" class="form-control">
 					<c:forEach items="${communityList}" var="community">
-						<option value="${community.co_num}" <c:if test='${board.bo_co_num == community.co_num}'>selected</c:if> <c:if test='${community.co_name == "공지" && user.me_authority != "admin"}'>hidden="hidden"</c:if>>${community.co_name}</option>
+						<c:if test='${community.co_name == "공지" && user.me_authority == "admin"}'>
+							<option value="${community.co_num}" <c:if test='${board.bo_co_num == community.co_num}'>selected</c:if>>${community.co_name}</option>
+						</c:if>
+						<c:if test='${community.co_name != "공지"}'>
+							<option value="${community.co_num}" <c:if test='${board.bo_co_num == community.co_num}'>selected</c:if>>${community.co_name}</option>
+						</c:if>
 					</c:forEach>
 				</select>
 			</div>
