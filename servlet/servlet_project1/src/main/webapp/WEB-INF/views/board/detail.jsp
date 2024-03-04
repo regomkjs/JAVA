@@ -36,6 +36,13 @@
 					<label for="content" class="form-label">내용:</label>
 					<textarea rows="10" class="form-control" id="content" name="content" readonly>${board.bo_content}</textarea>
 				</div>
+				<c:if test="${file != null}">
+					<div class="mb-3 mt-3">
+						<label for="view" class="form-label">첨부파일:</label>
+						<a href="<c:url value="/download?filename=${file.fi_name}"/>" class="form-control" download="${file.fi_ori_name}">${file.fi_ori_name}</a>
+					</div>
+				</c:if>
+				
 			</c:when>
 			<c:otherwise>
 				<h1>없는 게시글이거나 삭제된 게시글 입니다.</h1>

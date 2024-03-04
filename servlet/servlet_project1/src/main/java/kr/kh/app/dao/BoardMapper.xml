@@ -18,8 +18,8 @@
 		<collection property="community" ofType="kr.kh.app.model.vo.CommunityVO" 
 			column="bo_co_num" select="selectCommunity"/>
 	</resultMap>
-	
-	<insert id="insertBoard">
+	<!-- useGeneratedKeys, keyProperty는 게시글이 DB에 추가 됐을 때 생성돈 기본키를 가져와서 board 객체에 저장 -->
+	<insert id="insertBoard" useGeneratedKeys="true" keyProperty="board.bo_num">
 		insert into board(bo_co_num,bo_me_id,bo_title,bo_content)
 		values(#{board.bo_co_num}, #{board.bo_me_id},#{board.bo_title},#{board.bo_content})
 	</insert>
@@ -91,4 +91,13 @@
 		where 
 			bo_num = #{board.bo_num}
 	</update>
+	
+	<insert id="insertFile">
+		insert into file(fi_bo_num, fi_name, fi_ori_name)
+		values(#{file.fi_bo_num}, #{file.fi_name}, #{file.fi_ori_name})
+	</insert>
+	
+	<select id="selectFileByBo_num" resultType="kr.kh.app.model.vo.FileVO">
+		select * from file where fi_bo_num = #{bo_num}
+	</select>
 </mapper>
