@@ -81,4 +81,14 @@
 		delete from board where bo_num = #{board.bo_num}
 	</delete>
 	
+	<update id="updateBoard">
+		update 
+			board 
+		set 
+			bo_co_num = #{board.bo_co_num}, 
+			bo_title = #{board.bo_title}, 
+			bo_content = #{board.bo_content} 
+		where 
+			bo_num = #{board.bo_num}
+	</update>
 </mapper>

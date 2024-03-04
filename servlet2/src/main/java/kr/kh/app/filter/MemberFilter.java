@@ -1,6 +1,7 @@
 package kr.kh.app.filter;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -8,13 +9,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 
 import kr.kh.app.model.vo.MemberVO;
 
 @WebFilter({"/board/write","/board/update","/board/delete"})
-public class MemberFilter extends HttpFilter implements Filter {
+public class MemberFilter implements Filter {
        
 	private static final long serialVersionUID = 1L;
 
@@ -28,6 +28,18 @@ public class MemberFilter extends HttpFilter implements Filter {
 			return;
 		}
 		chain.doFilter(request, response);
+	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void init(FilterConfig arg0) throws ServletException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -29,7 +29,7 @@
 					<input type="text" class="form-control" id="writer" name="writer" readonly value="${board.bo_me_id}" >
 				</div>
 				<div class="mb-3 mt-3">
-					<label for="view" class="form-label">작성자:</label>
+					<label for="view" class="form-label">조회수:</label>
 					<input type="text" class="form-control" id="view" name="view" readonly value="${board.bo_view}" >
 				</div>
 				<div class="mb-3 mt-3">
@@ -42,7 +42,7 @@
 			</c:otherwise>
 		</c:choose>
 		<a href="<c:url value="/board/list"/>" class="btn btn-outline-dark">목록으로</a>
-		<a href="" class="btn btn-outline-primary" <c:if test="${user.me_id != board.bo_me_id || user == null}">hidden ="hidden"</c:if>>수정</a>
+		<a href="<c:url value="/board/update?num=${board.bo_num}"/>" class="btn btn-outline-primary" <c:if test="${user.me_id != board.bo_me_id || user == null}">hidden ="hidden"</c:if>>수정</a>
 		<c:url value="/board/delete" var="deleteUrl">
 			<c:param name="num" value="${board.bo_num}"/>
 		</c:url>		

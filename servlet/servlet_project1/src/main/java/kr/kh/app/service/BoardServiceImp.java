@@ -85,4 +85,15 @@ public class BoardServiceImp implements BoardService {
 		}
 		return false;
 	}
+	@Override
+	public boolean updateBoard(BoardVO tmp, MemberVO user) {
+		if(user == null ) {
+			return false;
+		}
+		BoardVO board = boardDAO.selectBoard(tmp.getBo_num());
+		if(board.getBo_me_id().equals(user.getMe_id())) {
+			return boardDAO.updateBoard(tmp);
+		}
+		return false;
+	}
 }
