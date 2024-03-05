@@ -25,9 +25,9 @@ import kr.kh.app.utils.FileUploadUtils;
 
 @WebServlet("/board/insert")
 @MultipartConfig(
-		maxFileSize = 1024 * 1024 * 10, // 10Mb
-		maxRequestSize =  1024 * 1024 * 10 * 3, // 10Mb 최대 3개
-		fileSizeThreshold = 1024 * 1024 // 1Mb : 파일 업로드 시 메모리에 저장되는 임시 파일의 크기
+	maxFileSize = 1024 * 1024 * 10, // 10Mb
+	maxRequestSize =  1024 * 1024 * 10 * 3, // 10Mb 최대 3개
+	fileSizeThreshold = 1024 * 1024 // 1Mb : 파일 업로드 시 메모리에 저장되는 임시 파일의 크기
 )
 public class BoardInsertServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
