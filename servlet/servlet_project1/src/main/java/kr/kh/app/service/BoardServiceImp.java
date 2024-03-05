@@ -1,5 +1,6 @@
 package kr.kh.app.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -92,10 +93,20 @@ public class BoardServiceImp implements BoardService {
 			return false;
 		}
 		if(board.getBo_me_id().equals(user.getMe_id()) || user.getMe_authority().equals("admin")) {
+			//게시글의 첨부파일을 서버 폴더에서 삭제(실제 파일)
+			//게시글에 있는 첨부파일 정보를 가져옴
+			FileVO file = boardDAO.selectFileByBo_num(board.getBo_num());
+			
+			deleteFile(file);
+			
+			//게시글의 첨부파일을 DB에서 삭제(기록 삭제)
+			
+			
 			return boardDAO.deleteBoard(board);
 		}
 		return false;
 	}
+	
 	@Override
 	public boolean updateBoard(BoardVO tmp, MemberVO user) {
 		if(user == null ) {
@@ -107,6 +118,12 @@ public class BoardServiceImp implements BoardService {
 		}
 		return false;
 	}
+	
+	@Override
+	public FileVO getFile(int num) {
+		return boardDAO.selectFileByBo_num(num);
+	}
+	
 	
 	private void uploadFile(Part filePart, int bo_num) {
 		// 업로드할 첨부 파일이 없으면
@@ -121,8 +138,18 @@ public class BoardServiceImp implements BoardService {
 		FileVO file = new FileVO(bo_num, fileName, fileOriName);
 		boardDAO.insertFile(file);
 	}
-	@Override
-	public FileVO getFile(int num) {
-		return boardDAO.selectFileByBo_num(num);
+	
+	private void deleteFile(FileVO fileVO) {
+		if(fileVO== null) {
+			return;
+		}
+		File file = new File(uploadPath + fileVO.getFi_name().replace('/', File.separatorChar));
+		if(file.exists()) {
+			file.delete();
+		}
+		boardDAO.deleteFile(fileVO.getFi_num());
+		
 	}
+	
+	
 }
