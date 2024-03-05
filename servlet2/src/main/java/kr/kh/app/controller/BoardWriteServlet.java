@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVO;
@@ -16,6 +18,12 @@ import kr.kh.app.service.BoardService;
 import kr.kh.app.service.BoardServiceImp;
 
 @WebServlet("/board/write")
+@MultipartConfig(
+	maxFileSize = 1024*1024*10,
+	maxRequestSize = 1024*1024*10*3,
+	fileSizeThreshold = 1024*1024
+)
+
 public class BoardWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BoardService boardService = new BoardServiceImp();   
@@ -50,9 +58,10 @@ public class BoardWriteServlet extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/views/message.jsp").forward(request, response);
 		}
 		*/
+		ArrayList<Part> partList = (ArrayList<Part>) request.getParts();
 		String id = user.getMe_id();
 		BoardVO board = new BoardVO(title,content,co_num,id);
-		boolean res = boardService.insertBoard(board);
+		boolean res = boardService.insertBoard(board, partList);
 		if(res) {
 			request.setAttribute("msg", "게시글이 등록됐습니다.");
 		}

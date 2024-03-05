@@ -13,7 +13,7 @@
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 	<div class="container">
-		<form action="<c:url value="/board/write"/>" method="post">
+		<form action="<c:url value="/board/write"/>" method="post" enctype="multipart/form-data">
 			<div class="mb-3 mt-3">
 				<label for="community">게시판:</label>
 				<select id="community" name="community" class="form-control">
@@ -36,6 +36,12 @@
 		  		<div class="mb-3">
 		  			<textarea rows="10" name="content" id="content" class="form-control"></textarea>
 		  		</div>
+			</div>
+			<div class="mb-3 mt-3">
+				<label class="form-label">첨부파일:</label>
+		  		<input type="file" class="form-control" name="file">
+		  		<input type="file" class="form-control" name="file">
+		  		<input type="file" class="form-control" name="file">
 			</div>
 			<button type="submit" class="btn btn-primary col-12">등록</button>
 		</form>
