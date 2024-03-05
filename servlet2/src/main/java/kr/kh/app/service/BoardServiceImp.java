@@ -168,5 +168,11 @@ public class BoardServiceImp implements BoardService {
 		}
 		return true;
 	}
+
+
+	@Override
+	public ArrayList<FileVO> getFileListByBo_num(int bo_num) {
+		return boardDao.selectFileByBo_num(bo_num);
+	}
 	
 }

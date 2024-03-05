@@ -6,6 +6,7 @@ import javax.servlet.http.Part;
 
 import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVO;
+import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVO;
 import kr.kh.app.pagination.Criteria;
 
@@ -26,5 +27,7 @@ public interface BoardService {
 	boolean deleteBoard(MemberVO user, int num);
 
 	boolean updateBoard(BoardVO board, int num);
+
+	ArrayList<FileVO> getFileListByBo_num(int bo_num);
 
 }
