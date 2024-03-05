@@ -53,6 +53,7 @@
 		<button class="btn btn-outline-warning col-12">수정</button>
 	</form>
 </div>
+
 <script type="text/javascript">
 	let btnDel = document.querySelectorAll(".btn-del");
 	let attachment = document.querySelector("#attachment");
