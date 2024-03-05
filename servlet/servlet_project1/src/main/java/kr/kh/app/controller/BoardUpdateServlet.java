@@ -36,8 +36,8 @@ public class BoardUpdateServlet extends HttpServlet {
 			num = 0;
 		}
 		//게시글의 첨부파일을 가져와서 화면에 전송
-		FileVO file = boardService.getFile(num);
-		request.setAttribute("file", file);
+		ArrayList<FileVO> fileList = boardService.getFile(num);
+		request.setAttribute("fileList", fileList);
 		ArrayList<CommunityVO> list = boardService.getCommunityList();
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
 		BoardVO board = boardService.getBoard(num);
@@ -77,17 +77,24 @@ public class BoardUpdateServlet extends HttpServlet {
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
 		
 		//새로 추가된 첨부파일 정보 가져옴
-		Part file =request.getPart("file");
+		ArrayList<Part> fileList = (ArrayList<Part>)request.getParts();
 		//삭제할 첨부파일 정보 가져옴
-		int fi_num;
-		try {
-			fi_num = Integer.parseInt(request.getParameter("fi_num"));
+		String numsStr [] = request.getParameterValues("fi_num");
+		ArrayList<Integer> nums = new ArrayList<Integer>();
+		if(numsStr != null) {
+			for(String numStr : numsStr) {
+				try {
+					int fi_num = Integer.parseInt(numStr);
+					nums.add(fi_num);
+				}
+				catch (Exception e) {
+					
+				}
+			}
 		}
-		catch (Exception e) {
-			fi_num = 0;
-		}
+		
 		// 서비스에게 회원정보와 게시글을 주면서 수정 요청
-		boolean res = boardService.updateBoard(tmp, user, fi_num, file);
+		boolean res = boardService.updateBoard(tmp, user, nums, fileList);
 		// 수정 되었으면 수정했습니다
 		if(res) {
 			request.setAttribute("msg", "게시글이 수정 되었습니다.");

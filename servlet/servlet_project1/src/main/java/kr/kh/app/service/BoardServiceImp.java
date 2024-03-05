@@ -39,7 +39,7 @@ public class BoardServiceImp implements BoardService {
 		
 	}
 	@Override
-	public boolean insertBoard(BoardVO board,  Part filePart) {
+	public boolean insertBoard(BoardVO board, ArrayList<Part> partList) {
 		if(board == null || 
 				board.getBo_title() == null ||
 				board.getBo_title().length() == 0) {
@@ -56,7 +56,9 @@ public class BoardServiceImp implements BoardService {
 			return false;
 		}
 		//첨부파일 업로드
-		uploadFile(filePart,board.getBo_num());
+		for(Part filePart : partList) {
+			uploadFile(filePart,board.getBo_num());
+		}
 		return res;
 	}
 	@Override
@@ -94,38 +96,40 @@ public class BoardServiceImp implements BoardService {
 		}
 		if(board.getBo_me_id().equals(user.getMe_id()) || user.getMe_authority().equals("admin")) {
 			//게시글의 첨부파일을 서버 폴더에서 삭제(실제 파일)
-			//게시글에 있는 첨부파일 정보를 가져옴
-			FileVO file = boardDAO.selectFileByBo_num(board.getBo_num());
-			
-			deleteFile(file);
-			
-			//게시글의 첨부파일을 DB에서 삭제(기록 삭제)
-			
-			
+			//게시글에 있는 첨부파일리스트 정보를 가져옴
+			ArrayList<FileVO> fileList = boardDAO.selectFileByBo_num(board.getBo_num());
+			for(FileVO file : fileList) {
+				//게시글의 첨부파일을 DB에서 삭제(기록 삭제)
+				deleteFile(file);
+			}
 			return boardDAO.deleteBoard(board);
 		}
 		return false;
 	}
 	
 	@Override
-	public boolean updateBoard(BoardVO tmp, MemberVO user, int fi_num, Part file) {
+	public boolean updateBoard(BoardVO tmp, MemberVO user, ArrayList<Integer> nums, ArrayList<Part> fileList) {
 		if(user == null ) {
 			return false;
 		}
 		BoardVO board = boardDAO.selectBoard(tmp.getBo_num());
 		if(board.getBo_me_id().equals(user.getMe_id())) {
 			//추가된 첨부파일 추가
-			uploadFile(file, tmp.getBo_num());
+			for(Part file : fileList) {
+				uploadFile(file, tmp.getBo_num());
+			}
 			//기존 첨부파일 삭제
-			FileVO fileVO = boardDAO.selectFile(fi_num);
-			deleteFile(fileVO);
+			for(int fi_num : nums) {
+				FileVO fileVO = boardDAO.selectFile(fi_num);
+				deleteFile(fileVO);
+			}
 			return boardDAO.updateBoard(tmp);
 		}
 		return false;
 	}
 	
 	@Override
-	public FileVO getFile(int num) {
+	public ArrayList<FileVO> getFile(int num) {
 		return boardDAO.selectFileByBo_num(num);
 	}
 	

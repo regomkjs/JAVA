@@ -48,7 +48,7 @@
 				  		</a>
 				 	 </td>
 				  	<td>
-				  		<a href="<c:url value="/user/${board.bo_me_id}"/>">
+				  		<a href="<c:url value="/board/list?type=bo_me_id&search=${board.bo_me_id}"/>">
 				  			${board.bo_me_id}
 			  			</a>
 				  	</td>

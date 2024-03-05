@@ -12,7 +12,7 @@ import kr.kh.app.pagination.Criteria;
 
 public interface BoardService {
 
-	boolean insertBoard(BoardVO board, Part filePart);
+	boolean insertBoard(BoardVO board, ArrayList<Part> partList);
 
 	ArrayList<CommunityVO> getCommunityList();
 
@@ -26,8 +26,8 @@ public interface BoardService {
 
 	boolean deleteBoard(BoardVO board, MemberVO user);
 
-	boolean updateBoard(BoardVO tmp, MemberVO user, int fi_num, Part file);
+	boolean updateBoard(BoardVO tmp, MemberVO user, ArrayList<Integer> nums, ArrayList<Part> fileList);
 
-	FileVO getFile(int num);
+	ArrayList<FileVO> getFile(int num);
 
 }

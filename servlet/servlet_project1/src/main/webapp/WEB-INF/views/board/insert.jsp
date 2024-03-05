@@ -42,6 +42,8 @@
 		<div class="mb-3 mt-3">
 			<label for="content" class="form-label">첨부파일:</label>
 			<input type="file" name="file" class="form-control">
+			<input type="file" name="file" class="form-control">
+			<input type="file" name="file" class="form-control">
 		</div>
 		<button class="btn btn-outline-warning col-12">등록</button>
 	</form>
