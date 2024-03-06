@@ -30,10 +30,10 @@ public class BoardDetailServlet extends HttpServlet {
     	}
     	//서비스에게 게시글 번호를 주면서 게시글 조회수를 증가하라고 시킴
     	boardService.updateView(num);
-    	//서비스에게 게시글 번호를 주면서 게시글을 가져오라고 시킴
+    	//서비스에게 게시글 번호를 주면서 게시글과 첨부파일을 가져오라고 시킴
     	BoardVO board = boardService.getBoard(num);
     	ArrayList<FileVO> fileList = boardService.getFileListByBo_num(board.getBo_num());
-    	//화면에 게시글을 전송
+    	//화면에 게시글과 첨부파일을 전송
 		request.setAttribute("board", board);
 		request.setAttribute("fileList", fileList);
     	//화면을 전송
