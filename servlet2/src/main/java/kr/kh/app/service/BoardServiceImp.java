@@ -126,6 +126,13 @@ public class BoardServiceImp implements BoardService {
 		//같거나 관리자면 게시글 삭제 후 삭제 여부를 반환
 		if(board.getBo_me_id().equals(user.getMe_id()) ||
 				user.getMe_authority().equals("admin")) {
+			//파일 삭제
+			ArrayList<FileVO> fileList = boardDao.selectFileByBo_num(num);
+			if(fileList.size() != 0 && fileList != null) {
+				for(FileVO fileVO :  fileList) {
+					deleteFile(fileVO);
+				}
+			}
 			return boardDao.deleteBoard(num);
 		}
 		return false;
@@ -173,6 +180,18 @@ public class BoardServiceImp implements BoardService {
 	@Override
 	public ArrayList<FileVO> getFileListByBo_num(int bo_num) {
 		return boardDao.selectFileByBo_num(bo_num);
+	}
+
+
+	public void deleteFile(FileVO fileVO) {
+		String uploadPath = "C:\\uploads";
+		// 실제 파일을 삭제
+		File file = new File(uploadPath + fileVO.getFi_name().replace('/', File.separatorChar));
+		if(file.exists()) {
+			file.delete();
+		}
+		// 데이터 베이스 기록 삭제
+		boardDao.deleteFile(fileVO);
 	}
 	
 }
