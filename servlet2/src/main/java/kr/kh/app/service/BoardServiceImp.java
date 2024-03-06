@@ -140,7 +140,7 @@ public class BoardServiceImp implements BoardService {
 
 
 	@Override
-	public boolean updateBoard(BoardVO board, int num) {
+	public boolean updateBoard(BoardVO board, int num, String[] fi_nums, ArrayList<Part> partList) {
 		if(board == null ||
 				!checkString(board.getBo_me_id()) ||
 				!checkString(board.getBo_title())||
@@ -151,6 +151,16 @@ public class BoardServiceImp implements BoardService {
 		if(tmp == null || !tmp.getBo_me_id().equals(board.getBo_me_id())) {
 			return false;
 		}
+		if(fi_nums != null && fi_nums.length != 0) {
+			for(String fi_num : fi_nums) {
+				int fiNum = Integer.parseInt(fi_num);
+				boardDao.deleteFile(fiNum);
+			}
+		}
+		for(Part part : partList) {
+			uploadFile(part, num);
+		}
+		
 		return boardDao.updateBoard(board, num);
 	}
 	
@@ -200,7 +210,7 @@ public class BoardServiceImp implements BoardService {
 		}
 		*/
 		// 데이터 베이스 기록 삭제
-		boardDao.deleteFile(fileVO);
+		boardDao.deleteFile(fileVO.getFi_num());
 	}
 	
 }

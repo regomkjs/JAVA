@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVO;
@@ -17,6 +19,11 @@ import kr.kh.app.service.BoardService;
 import kr.kh.app.service.BoardServiceImp;
 
 @WebServlet("/board/update")
+@MultipartConfig(
+	maxFileSize = 1024*1024*10,
+	maxRequestSize = 1024*1024*10*3,
+	fileSizeThreshold = 1024*1024
+)
 public class BoardUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private BoardService boardService = new BoardServiceImp();
@@ -68,8 +75,14 @@ public class BoardUpdateServlet extends HttpServlet {
 		String content = request.getParameter("content");
 		//게시글 객체로 생성
 		BoardVO board = new BoardVO(title,content,community,user.getMe_id());
+		// 삭제할 첨부파일 번호들
+		String [] fi_nums = request.getParameterValues("fi_num");
+		
+		// 추가할 첨부파일들을 가져옴
+		ArrayList<Part> partList = (ArrayList<Part>) request.getParts();
+		
 		//서비스에게 게시글과 회원정보를 주면서 수정 요청
-		boolean res = boardService.updateBoard(board, num);
+		boolean res = boardService.updateBoard(board, num, fi_nums, partList);
 		
 		//성공 실패를 알리고 게시글 상세로 이동
 		if(res) {

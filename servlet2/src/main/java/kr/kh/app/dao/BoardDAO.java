@@ -31,6 +31,6 @@ public interface BoardDAO {
 
 	ArrayList<FileVO> selectFileByBo_num(@Param("bo_num")int bo_num);
 
-	void deleteFile(@Param("file")FileVO fileVO);
+	void deleteFile(@Param("fi_num")int fiNum);
 
 }
