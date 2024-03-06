@@ -8,7 +8,12 @@
 <title>게시글 수정</title>
 <!-- 부트스트랩5 css/js -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="//code.jquery.com/jquery-3.6.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
@@ -39,7 +44,7 @@
 		</div>
 		<div class="mb-3 mt-3">
 			<label for="content" class="form-label">내용:</label>
-			<textarea rows="10" class="form-control" id="content" name="content">${board.bo_content}</textarea>
+			<textarea rows="10" class="form-control" id="content" name="content" placeholder="내용">${board.bo_content}</textarea>
 		</div>
 		<div class="mb-3 mt-3" id="attachment">
 			<label for="file" class="form-label">첨부파일:</label>
@@ -55,6 +60,12 @@
 </div>
 
 <script type="text/javascript">
+	$('[name=content]').summernote({
+	    placeholder: '내용',
+	    tabsize: 2,
+	    height: 400
+	  });
+	
 	let btnDel = document.querySelectorAll(".btn-del");
 	let attachment = document.querySelector("#attachment");
 	
@@ -99,8 +110,12 @@
 		}
 		return element;
 	}
-</script>
+	
 
+</script>
+<script type="text/javascript">
+
+</script>
 
 </body>
 </html>

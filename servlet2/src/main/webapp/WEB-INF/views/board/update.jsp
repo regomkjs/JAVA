@@ -36,7 +36,7 @@
 		<div class="mb-3">
 	  		<label for="content">내용:</label>
 	  		<div class="mb-3">
-	  			<textarea rows="10" name="content" id="content" class="form-control">${board.bo_content}</textarea>
+	  			<textarea rows="10" class="form-control" id="content" name="content" placeholder="내용">${board.bo_content}</textarea>
 	  		</div>
 		</div>
 		<div class="mb-3" id="attachment">

@@ -33,8 +33,15 @@ public class BoardDetailServlet extends HttpServlet {
 			ArrayList<FileVO> fileList = boardService.getFile(num);
 			//첨부파일을 화면에 전송
 			request.setAttribute("fileList", fileList);
-			
-			
+			//추천수를 가져와 화면에 전송
+			int recommendCount; 
+			try {
+				recommendCount = boardService.getTotalRecommendCount(board.getBo_num());
+			}
+			catch (Exception e) {
+				recommendCount = 0;
+			}
+			request.setAttribute("reCount", recommendCount);
 			request.getRequestDispatcher("/WEB-INF/views/board/detail.jsp").forward(request, response);
 			return;
 		}
