@@ -39,8 +39,37 @@
 		  			<textarea rows="10" name="content" id="content" class="form-control">${board.bo_content}</textarea>
 		  		</div>
 			</div>
+			<div class="mb-3" id="attachment">
+		  		<label class="form-label">첨부파일:</label>
+		  		<c:forEach items="${fileList}" var="file">
+		  			<span class="form-control">
+			  			${file.fi_ori_name} 
+			  			<a href="" class="btn-del" data-target="${file.fi_num}">&times;</a> 
+		  			</span>
+		  		</c:forEach>
+		  		<c:forEach begin="1" end="${3 - fileList.size()}">
+		  			<input type="file" class="form-control" name="file">
+		  		</c:forEach>
+			</div>
 			<button type="submit" class="btn btn-primary col-12">수정</button>
 		</form>
 	</div>
+	<script src="//code.jquery.com/jquery-3.6.1.js"></script>
+	<script type="text/javascript">
+		$(".btn-del").click(function(e){
+			e.preventDefault();
+			//x버튼의 data-target값을 가져옴
+			let fi_num = $(this).data("target");
+			// input file을 추가
+			let inputFile = '<input type="file" class="form-control" name="file">';
+			$("#attachment").append(inputFile);
+			// input hidden을 추가
+			let inputHidden = `<input type="hidden" name="fi_num" value="\${fi_num}" >`;
+			$("#attachment").prepend(inputHidden);
+			//클릭한 x버튼을 갖는 첨부파일을 화면에서 삭제
+			$(this).parent().remove();
+		})
+	
+	</script>
 </body>
 </html>

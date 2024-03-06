@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVO;
+import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVO;
 import kr.kh.app.service.BoardService;
 import kr.kh.app.service.BoardServiceImp;
@@ -28,10 +29,12 @@ public class BoardUpdateServlet extends HttpServlet {
 		catch (Exception e) {
 			num = 0;
 		}
-		//서비스에게 게시글 번호를 주면서 게시글을 가져오라고 시킴 : 
+		//서비스에게 게시글 번호를 주면서 게시글과 첨부파일을 가져오라고 시킴 
 		BoardVO board = boardService.getBoard(num);
-		//가져온 게시글을 화면에 전송
+		ArrayList<FileVO> fileList = boardService.getFileListByBo_num(num);
+		//가져온 게시글과 첨부파일을 화면에 전송
 		request.setAttribute("board", board);
+		request.setAttribute("fileList", fileList);
 		//작성자가 맞는지 확인
 		MemberVO user = (MemberVO) request.getSession().getAttribute("user");
 		if(board == null || !board.getBo_me_id().equals(user.getMe_id())) {
@@ -67,6 +70,7 @@ public class BoardUpdateServlet extends HttpServlet {
 		BoardVO board = new BoardVO(title,content,community,user.getMe_id());
 		//서비스에게 게시글과 회원정보를 주면서 수정 요청
 		boolean res = boardService.updateBoard(board, num);
+		
 		//성공 실패를 알리고 게시글 상세로 이동
 		if(res) {
 			request.setAttribute("msg", "게시글을 수정했습니다.");

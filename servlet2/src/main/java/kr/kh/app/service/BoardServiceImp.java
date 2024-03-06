@@ -129,7 +129,7 @@ public class BoardServiceImp implements BoardService {
 			//파일 삭제
 			ArrayList<FileVO> fileList = boardDao.selectFileByBo_num(num);
 			if(fileList.size() != 0 && fileList != null) {
-				for(FileVO fileVO :  fileList) {
+				for(FileVO fileVO : fileList) {
 					deleteFile(fileVO);
 				}
 			}
@@ -154,6 +154,22 @@ public class BoardServiceImp implements BoardService {
 		return boardDao.updateBoard(board, num);
 	}
 	
+	
+	
+	
+
+	@Override
+	public ArrayList<FileVO> getFileListByBo_num(int bo_num) {
+		return boardDao.selectFileByBo_num(bo_num);
+	}
+
+	private boolean checkString(String str) {
+		if(str == null || str.length() == 0) {
+			return false;
+		}
+		return true;
+	}
+
 	private void uploadFile(Part part, int bo_num) {
 		if(part == null || bo_num == 0) {
 			return;
@@ -169,27 +185,20 @@ public class BoardServiceImp implements BoardService {
 		boardDao.insertFile(fileVo);
 	}
 	
-	private boolean checkString(String str) {
-		if(str == null || str.length() == 0) {
-			return false;
-		}
-		return true;
-	}
-
-
-	@Override
-	public ArrayList<FileVO> getFileListByBo_num(int bo_num) {
-		return boardDao.selectFileByBo_num(bo_num);
-	}
-
-
-	public void deleteFile(FileVO fileVO) {
+	private void deleteFile(FileVO fileVO) {
 		String uploadPath = "C:\\uploads";
-		// 실제 파일을 삭제
+		// 실제 파일을 삭제 강사님 코드;  주석은 복습
+		if(fileVO == null){
+			return;
+		}
+		String fileName = uploadPath + fileVO.getFi_name().replace('/', File.separatorChar);
+		FileUploadUtils.deleteFile(fileName);
+		/*
 		File file = new File(uploadPath + fileVO.getFi_name().replace('/', File.separatorChar));
 		if(file.exists()) {
 			file.delete();
 		}
+		*/
 		// 데이터 베이스 기록 삭제
 		boardDao.deleteFile(fileVO);
 	}
