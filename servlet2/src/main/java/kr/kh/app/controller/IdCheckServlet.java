@@ -14,7 +14,8 @@ import kr.kh.app.service.MemberServiceImp;
 public class IdCheckServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private MemberService memberService = new MemberServiceImp();
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String id = request.getParameter("id");
 		boolean res = memberService.checkMember(id);
 		response.getWriter().write(""+res);
