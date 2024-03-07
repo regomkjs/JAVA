@@ -33,6 +33,10 @@
 						<label for="view">조회수:</label>
 				  		<input type="text" class="form-control" id="view" name="view" readonly value="${board.bo_view}">
 					</div>
+					<div class="mb-3 mt-3 d-flex justify-content-around">
+						<button type="button" class="btn btn-outline-primary col-3 btn-up" data-state="1">추천</button>
+						<button type="button" class="btn btn-outline-primary col-3 btn-down" data-state="-1">비추천</button>
+					</div>
 					<div class="mb-3 mt-3">
 				  		<label for="content">내용:</label>
 			  			<textarea rows="10" name="content" id="content" class="form-control" readonly>${board.bo_content}</textarea>
@@ -59,5 +63,69 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
+	
+	<script src="//code.jquery.com/jquery-3.6.1.js"></script>
+	<script type="text/javascript">
+	
+		$(".btn-up,.btn-down").click(function () {
+			
+			if('${user.me_id}' == ''){
+				if(confirm("로그인이 필요한 서비스입니다. 로그인 페이지로 이동하시겠습니까?")){
+					location.href ='<c:url value="/login"/>'
+				}
+				else{
+					return;
+				}
+			}
+			
+			let state = $(this).data('state');
+			let boNum = '${board.bo_num}';
+			$.ajax({
+				url : '<c:url value="/recommend"/>',
+				method : 'get',
+				async : true, // 동기/비동기 선택, true : 비동기, false : 동기
+				data : {
+					"state" : state,
+					"boNum" : boNum
+				},
+				success : function (data) {
+					initBtn(".btn-up", "btn-outline-primary", "btn-primary");
+					initBtn(".btn-down", "btn-outline-primary", "btn-primary");
+					switch (data) {
+					case '1' : 
+						alert("추천 되었습니다");
+						initBtn(".btn-up", "btn-primary", "btn-outline-primary");
+						break;
+					case '-1' : 
+						alert("비추천 되었습니다");
+						initBtn(".btn-down", "btn-primary", "btn-outline-primary");
+						break;
+					case '0' : 
+						alert(`\${state == 1 ? '' : '비'}추천이 취소 되었습니다`);
+						break;
+					}
+				},
+				error : function (a, b, c) {
+					console.error("예외 발생");
+				}
+			});
+			
+		});	
+	
+		function initBtn(selector, addClassName, removeClassName) {
+			$(selector).addClass(addClassName);
+			$(selector).removeClass(removeClassName);
+		}
+		
+		<c:if test="${recommend != null}">
+			<c:if test="${recommend.re_state == 1}">
+				initBtn(".btn-up", "btn-primary", "btn-outline-primary");
+			</c:if>
+			<c:if test="${recommend.re_state == -1}">
+				initBtn(".btn-down", "btn-primary", "btn-outline-primary");
+			</c:if>
+		</c:if>
+	</script>
+	
 </body>
 </html>

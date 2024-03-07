@@ -8,6 +8,7 @@ import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVO;
 import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVO;
+import kr.kh.app.model.vo.RecommendVO;
 import kr.kh.app.pagination.Criteria;
 
 public interface BoardService {
@@ -29,5 +30,9 @@ public interface BoardService {
 	boolean updateBoard(BoardVO board, int num, String[] fi_nums, ArrayList<Part> partList);
 
 	ArrayList<FileVO> getFileListByBo_num(int bo_num);
+
+	int recommend(int boNum, int state, String me_id);
+
+	RecommendVO getRecommend(int num, MemberVO user);
 
 }

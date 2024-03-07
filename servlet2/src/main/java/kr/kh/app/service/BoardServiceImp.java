@@ -17,6 +17,7 @@ import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVO;
 import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVO;
+import kr.kh.app.model.vo.RecommendVO;
 import kr.kh.app.pagination.Criteria;
 import kr.kh.app.utils.FileUploadUtils;
 
@@ -151,11 +152,15 @@ public class BoardServiceImp implements BoardService {
 		if(tmp == null || !tmp.getBo_me_id().equals(board.getBo_me_id())) {
 			return false;
 		}
-		if(fi_nums != null && fi_nums.length != 0) {
-			for(String fi_num : fi_nums) {
+		for(String fi_num : fi_nums) {
+			try {
 				int fiNum = Integer.parseInt(fi_num);
 				boardDao.deleteFile(fiNum);
 			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 		for(Part part : partList) {
 			uploadFile(part, num);
@@ -164,15 +169,52 @@ public class BoardServiceImp implements BoardService {
 		return boardDao.updateBoard(board, num);
 	}
 	
-	
-	
-	
-
 	@Override
 	public ArrayList<FileVO> getFileListByBo_num(int bo_num) {
 		return boardDao.selectFileByBo_num(bo_num);
 	}
 
+	@Override
+	public int recommend(int boNum, int state, String me_id) {
+		switch(state) {
+		case -1, 1: break;
+		default:
+			throw new RuntimeException();
+		}
+		//회원이 게시글에 추천한 내역이 있는지 확인 => 없으면 추가 있으면 수정
+		//회원이 게시글에 추천한 정보를 가져옴
+		RecommendVO recommend = boardDao.selectRecommend(boNum,me_id);
+		if(recommend == null) {
+			//내역이 없으면 추가
+			recommend = new RecommendVO(me_id, boNum, state);
+			boardDao.insertRecommend(recommend);
+			return state;
+		}
+		//있으면 수정
+		if(recommend.getRe_state() == state) {
+			//추천 or 비추천을 취소로 수정
+			recommend.setRe_state(0);
+		}
+		else {
+			//추천 or 비추천으로 수정
+			recommend.setRe_state(state);
+		}
+		boardDao.updateRecommend(recommend);
+		return recommend.getRe_state();
+	
+	}
+	
+	
+	@Override
+	public RecommendVO getRecommend(int num, MemberVO user) {
+		if(user == null || num <=0) {
+			return null;
+		}
+		return boardDao.selectRecommend(num, user.getMe_id());
+	}
+	
+	
+	
 	private boolean checkString(String str) {
 		if(str == null || str.length() == 0) {
 			return false;
@@ -212,5 +254,10 @@ public class BoardServiceImp implements BoardService {
 		// 데이터 베이스 기록 삭제
 		boardDao.deleteFile(fileVO.getFi_num());
 	}
+
+
+	
+
+
 	
 }

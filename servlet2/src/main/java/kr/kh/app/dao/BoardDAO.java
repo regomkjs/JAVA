@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVO;
 import kr.kh.app.model.vo.FileVO;
+import kr.kh.app.model.vo.RecommendVO;
 import kr.kh.app.pagination.Criteria;
 
 public interface BoardDAO {
@@ -32,5 +33,11 @@ public interface BoardDAO {
 	ArrayList<FileVO> selectFileByBo_num(@Param("bo_num")int bo_num);
 
 	void deleteFile(@Param("fi_num")int fiNum);
+
+	RecommendVO selectRecommend(@Param("bo_num")int boNum, @Param("me_id")String me_id);
+
+	void insertRecommend(@Param("re")RecommendVO recommend);
+
+	void updateRecommend(@Param("re")RecommendVO recommend);
 
 }
