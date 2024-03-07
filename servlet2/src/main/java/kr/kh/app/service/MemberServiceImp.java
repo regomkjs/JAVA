@@ -77,6 +77,11 @@ public class MemberServiceImp implements MemberService {
 		}
 	}
 
+	@Override
+	public boolean checkMember(String id) {
+		return (MemberVO)memberDao.checkMember(id) == null;
+	}
+
 	
 	
 	

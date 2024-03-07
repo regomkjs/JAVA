@@ -10,4 +10,8 @@
 	<select id="selectLoginUser" resultType="kr.kh.app.model.vo.MemberVO">
 		select * from member where me_id = #{member.id}
 	</select>
+	
+	<select id="checkMember" resultType="kr.kh.app.model.vo.MemberVO">
+		select * from member where me_id = #{id}
+	</select>
 </mapper>
