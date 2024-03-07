@@ -168,6 +168,15 @@ public class BoardServiceImp implements BoardService {
 		return boardDAO.selectRecommendCount(bo_num);
 	}
 	
+	@Override
+	public RecommendVO getRecommend(MemberVO user, int bo_num) {
+		if(user == null) {
+			return null;
+		}
+		return boardDAO.selectRecommend(user.getMe_id(), bo_num);
+	}
+	
+	
 	
 	
 	private void uploadFile(Part filePart, int bo_num) {
@@ -195,6 +204,7 @@ public class BoardServiceImp implements BoardService {
 		boardDAO.deleteFile(fileVO.getFi_num());
 		
 	}
+	
 	
 	
 }

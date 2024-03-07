@@ -8,6 +8,7 @@ import kr.kh.app.model.vo.BoardVO;
 import kr.kh.app.model.vo.CommunityVO;
 import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVO;
+import kr.kh.app.model.vo.RecommendVO;
 import kr.kh.app.pagination.Criteria;
 
 public interface BoardService {
@@ -33,5 +34,7 @@ public interface BoardService {
 	int recommend(int bo_num, int state, MemberVO user);
 
 	int getTotalRecommendCount(int bo_num);
+
+	RecommendVO getRecommend(MemberVO user, int bo_num);
 
 }
