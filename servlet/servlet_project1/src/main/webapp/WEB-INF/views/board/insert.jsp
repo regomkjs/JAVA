@@ -57,7 +57,7 @@
 $('[name=content]').summernote({
     placeholder: '내용',
     tabsize: 2,
-    height: 400
+    height: 400,
   });
 </script>
 </body>
