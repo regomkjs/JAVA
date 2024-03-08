@@ -125,4 +125,9 @@
 	<select id="selectRecommendCount" resultType="int">
 		select sum(re_state) from recommend where re_bo_num = #{bo_num}
 	</select>
+	
+	<insert id="insertComment">
+		insert into comment (cm_bo_num, cm_me_id, cm_content)
+		values(#{comment.cm_bo_num}, #{comment.cm_me_id}, #{comment.cm_content})
+	</insert>
 </mapper>

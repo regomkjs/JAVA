@@ -39,7 +39,7 @@
 					</div>
 					<div class="mb-3 mt-3">
 				  		<label for="content">내용:</label>
-			  			<textarea rows="10" name="content" id="content" class="form-control" readonly>${board.bo_content}</textarea>
+				  		<div class="form-control" style="min-height: 400px">${board.bo_content}</div>
 					</div>
 					<a href="<c:url value="/board/list"/>" class="btn btn-outline-dark">목록으로</a>
 					<c:if test="${board.bo_me_id == user.me_id}">

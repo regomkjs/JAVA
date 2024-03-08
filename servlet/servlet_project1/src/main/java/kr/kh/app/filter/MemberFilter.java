@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import kr.kh.app.model.vo.MemberVO;
 
-@WebFilter({"/board/insert","/board/update","/board/delete"})
+@WebFilter({"/board/insert","/board/update","/board/delete","/logout",
+	"/recommend","/comment/insert","/comment/update","/comment/delete"})
 public class MemberFilter implements Filter {
 	private static final long serialVersionUID = 1L;
 

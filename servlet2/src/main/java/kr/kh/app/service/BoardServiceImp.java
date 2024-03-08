@@ -152,15 +152,17 @@ public class BoardServiceImp implements BoardService {
 		if(tmp == null || !tmp.getBo_me_id().equals(board.getBo_me_id())) {
 			return false;
 		}
-		for(String fi_num : fi_nums) {
-			try {
-				int fiNum = Integer.parseInt(fi_num);
-				boardDao.deleteFile(fiNum);
+		if(fi_nums != null) {
+			for(String fi_num : fi_nums) {
+				try {
+					int fiNum = Integer.parseInt(fi_num);
+					boardDao.deleteFile(fiNum);
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}
-			catch (Exception e) {
-				e.printStackTrace();
-			}
-			
 		}
 		for(Part part : partList) {
 			uploadFile(part, num);

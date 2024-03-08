@@ -9,64 +9,123 @@
 <!-- 부트스트랩5 css/js -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="//code.jquery.com/jquery-3.6.1.js"></script>
+
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/header.jsp"/>
-	<div class="container">
-		<c:choose>
-			<c:when test="${board !=null}">
-				<h1>게시글 상세</h1>
+<div class="container">
+	<c:choose>
+		<c:when test="${board !=null}">
+			<h1>게시글 상세</h1>
+			<div class="mb-3 mt-3">
+				<label for="community" class="form-label">게시판:</label>
+				<input type="text" class="form-control" id="community" name="community" readonly value="${board.community.co_name}">
+			</div>
+			<div class="mb-3 mt-3">
+				<label for="title" class="form-label">제목:</label>
+				<input type="text" class="form-control" id="title" name="title" readonly value="${board.bo_title}">
+			</div>
+			<div class="mb-3 mt-3">
+				<label for="writer" class="form-label">작성자:</label>
+				<input type="text" class="form-control" id="writer" name="writer" readonly value="${board.bo_me_id}" >
+			</div>
+			<div class="mb-3 mt-3">
+				<label for="view" class="form-label">조회수:</label>
+				<input type="text" class="form-control" id="view" name="view" readonly value="${board.bo_view}" >
+			</div>
+			<div class="mb-3 mt-3">
+				<label for="commentCount" class="form-label">추천수:</label>
+				<input type="text" class="form-control" id="commentCount" name="commentCount" readonly value="${reCount}" >
+			</div>
+			<div class="mb-3 mt-3 clearfix">
+				<button type="button" id="btnUp" data-state="1" class="btn btn-outline-danger col-5 float-start">추천</button>
+				<button type="button" id="btnDown" data-state="-1" class="btn btn-outline-danger col-5 float-end">비추천</button>
+			</div>
+			<div class="mb-3 mt-3">
+				<label for="content" class="form-label">내용:</label>
+				<div class="form-control" style="min-height: 200px;">${board.bo_content}</div>
+			</div>
+			<c:if test="${fileList != null && fileList.size() != 0}">
 				<div class="mb-3 mt-3">
-					<label for="community" class="form-label">게시판:</label>
-					<input type="text" class="form-control" id="community" name="community" readonly value="${board.community.co_name}">
+					<label for="file" class="form-label">첨부파일:</label>
+					<c:forEach items="${fileList}" var="file">
+						<div>
+							<a href="<c:url value="/download?filename=${file.fi_name}"/>" class="form-control" download="${file.fi_ori_name}">${file.fi_ori_name}</a>
+						</div>
+					</c:forEach>
 				</div>
-				<div class="mb-3 mt-3">
-					<label for="title" class="form-label">제목:</label>
-					<input type="text" class="form-control" id="title" name="title" readonly value="${board.bo_title}">
-				</div>
-				<div class="mb-3 mt-3">
-					<label for="writer" class="form-label">작성자:</label>
-					<input type="text" class="form-control" id="writer" name="writer" readonly value="${board.bo_me_id}" >
-				</div>
-				<div class="mb-3 mt-3">
-					<label for="view" class="form-label">조회수:</label>
-					<input type="text" class="form-control" id="view" name="view" readonly value="${board.bo_view}" >
-				</div>
-				<div class="mb-3 mt-3">
-					<label for="commentCount" class="form-label">추천수:</label>
-					<input type="text" class="form-control" id="commentCount" name="commentCount" readonly value="${reCount}" >
-				</div>
-				<div class="mb-3 mt-3 clearfix">
-					<button type="button" id="btnUp" data-state="1" class="btn btn-outline-danger col-5 float-start">추천</button>
-					<button type="button" id="btnDown" data-state="-1" class="btn btn-outline-danger col-5 float-end">비추천</button>
-				</div>
-				<div class="mb-3 mt-3">
-					<label for="content" class="form-label">내용:</label>
-					<div class="form-control" style="min_height: 400px;">${board.bo_content}</div>
-				</div>
-				<c:if test="${fileList != null && fileList.size() != 0}">
-					<div class="mb-3 mt-3">
-						<label for="file" class="form-label">첨부파일:</label>
-						<c:forEach items="${fileList}" var="file">
-							<div>
-								<a href="<c:url value="/download?filename=${file.fi_name}"/>" class="form-control" download="${file.fi_ori_name}">${file.fi_ori_name}</a>
-							</div>
-						</c:forEach>
+			</c:if>
+			<hr>
+			<div class="mt-3 mb-3 comment-box">
+				<h4>댓글</h4>
+				<!-- 댓글 리스트를 보여주는 박스 -->
+				<div class="comment-list"></div>
+				<!-- 댓글 페이지네이션 박스 -->
+				<div class="comment-pagination"></div>
+				<!-- 댓글 입력 박스 -->
+				<div class="comment-input-box">
+					<div class="input-group">
+						<textarea rows="4" class="form-control comment-content"></textarea>
+						<button type="button" class="btn btn-outline-success col-2 btn-comment-insert">등록</button>
 					</div>
-				</c:if>
-				
-			</c:when>
-			<c:otherwise>
-				<h1>없는 게시글이거나 삭제된 게시글 입니다.</h1>
-			</c:otherwise>
-		</c:choose>
-		<a href="<c:url value="/board/list"/>" class="btn btn-outline-dark">목록으로</a>
-		<a href="<c:url value="/board/update?num=${board.bo_num}"/>" class="btn btn-outline-primary" <c:if test="${user.me_id != board.bo_me_id || user == null}">hidden ="hidden"</c:if>>수정</a>
-		<c:url value="/board/delete" var="deleteUrl">
-			<c:param name="num" value="${board.bo_num}"/>
-		</c:url>		
-		<a href="${deleteUrl}" class="btn btn-outline-danger" <c:if test="${ (user.me_id != board.bo_me_id && user.me_authority != 'admin') || user == null}">hidden ="hidden"</c:if>>삭제</a>
-	</div>
+				</div>
+			</div>
+			
+		</c:when>
+		<c:otherwise>
+			<h1>없는 게시글이거나 삭제된 게시글 입니다.</h1>
+		</c:otherwise>
+	</c:choose>
+	<a href="<c:url value="/board/list"/>" class="btn btn-outline-dark">목록으로</a>
+	<a href="<c:url value="/board/update?num=${board.bo_num}"/>" class="btn btn-outline-primary" <c:if test="${user.me_id != board.bo_me_id || user == null}">hidden ="hidden"</c:if>>수정</a>
+	<c:url value="/board/delete" var="deleteUrl">
+		<c:param name="num" value="${board.bo_num}"/>
+	</c:url>		
+	<a href="${deleteUrl}" class="btn btn-outline-danger" <c:if test="${ (user.me_id != board.bo_me_id && user.me_authority != 'admin') || user == null}">hidden ="hidden"</c:if>>삭제</a>
+</div>
+	
+
+<!-- 댓글 작성 스크립트 -->
+<script type="text/javascript">
+	//댓글 등록 버튼 클릭 이벤트를 등록
+	$(".btn-comment-insert").click(function () {
+		if('${user.me_id}' == ''){
+			if(confirm("로그인이 필요한 서비스 입니다. 로그인으로 이동하시겠습니까?")){
+				location.href = "<c:url value='/login'/>"
+			}
+			//취소 누르면 현재 페이지에서 추천/비추천 동작을 안함
+			else{
+				return;
+			}
+		}
+		
+		let content = $(".comment-content").val();
+		let boNum = '${board.bo_num}';
+		
+		$.ajax({
+			url : '<c:url value="/comment/insert"/>',
+			method : "post",
+			data : {
+				"content" : content,
+				"boNum" : boNum
+			},
+			success : function (data) {
+				console.log(data);
+				if(data == "true"){
+					alert("댓글이 등록되었습니다.");
+					$(".comment-content").val() = "";
+				}
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		});		
+	});
+</script>
+
+<!-- 게시글 추천 스크립트 -->
 <script type="text/javascript">
 	let btnUp = document.getElementById("btnUp");
 	let btnDown = document.getElementById("btnDown");

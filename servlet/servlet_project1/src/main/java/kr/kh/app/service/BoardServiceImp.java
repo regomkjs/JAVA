@@ -14,6 +14,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import kr.kh.app.dao.BoardDAO;
 import kr.kh.app.model.vo.BoardVO;
+import kr.kh.app.model.vo.CommentVO;
 import kr.kh.app.model.vo.CommunityVO;
 import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVO;
@@ -176,7 +177,15 @@ public class BoardServiceImp implements BoardService {
 		return boardDAO.selectRecommend(user.getMe_id(), bo_num);
 	}
 	
-	
+	@Override
+	public boolean insertComment(CommentVO comment) {
+		if(comment == null ||
+				comment.getCm_content() == null ||
+				comment.getCm_content().length() == 0) {
+			return false;
+		}
+		return boardDAO.insertComment(comment);
+	}
 	
 	
 	private void uploadFile(Part filePart, int bo_num) {
@@ -204,6 +213,7 @@ public class BoardServiceImp implements BoardService {
 		boardDAO.deleteFile(fileVO.getFi_num());
 		
 	}
+	
 	
 	
 	
