@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import kr.kh.app.model.vo.CommentVO;
 import kr.kh.app.pagination.CommentCriteria;
 import kr.kh.app.pagination.PageMaker;
@@ -42,9 +44,16 @@ public class CommentListServlet extends HttpServlet {
 		PageMaker pm = new PageMaker(5,cri, totalCount);
 		
 		JSONObject jobj = new JSONObject();
-		
+		ObjectMapper om = new ObjectMapper();
+		String pmStr = "";
+		try {
+			pmStr = om.writeValueAsString(pm);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		jobj.put("list", list);
-		jobj.put("pm", pm);
+		jobj.put("pm", pmStr);
 		response.setContentType("application/json; charset=utf-8");
 		response.getWriter().print(jobj);
 	}
