@@ -117,6 +117,7 @@
 						`;
 				}
 				$(".comment-list").html(str);
+				console.log(data.pm);
 			},
 			error : function (a,b,c) {
 				console.error("에러 발생");
@@ -154,10 +155,13 @@
 				"boNum" : boNum
 			},
 			success : function (data) {
-				console.log(data);
 				if(data == "true"){
 					alert("댓글이 등록되었습니다.");
+					cri.page = 1;
+					getCommentList(cri);
 					$(".comment-content").val("");
+				}else{
+					alert("댓글 등록 실패")
 				}
 			},
 			error : function (a,b,c) {

@@ -19,6 +19,7 @@ import kr.kh.app.model.vo.CommunityVO;
 import kr.kh.app.model.vo.FileVO;
 import kr.kh.app.model.vo.MemberVO;
 import kr.kh.app.model.vo.RecommendVO;
+import kr.kh.app.pagination.CommentCriteria;
 import kr.kh.app.pagination.Criteria;
 import kr.kh.app.utils.FileUploadUtils;
 
@@ -195,6 +196,14 @@ public class BoardServiceImp implements BoardService {
 		return boardDAO.selectCommentList(cri);
 	}
 	
+	@Override
+	public int getTotalCountComment(CommentCriteria cri) {
+		if(cri == null) {
+			return 0;
+		}
+		return boardDAO.selectTotalCountComment(cri);
+	}
+	
 	
 	private void uploadFile(Part filePart, int bo_num) {
 		// 업로드할 첨부 파일이 없으면
@@ -221,6 +230,7 @@ public class BoardServiceImp implements BoardService {
 		boardDAO.deleteFile(fileVO.getFi_num());
 		
 	}
+	
 	
 	
 	
