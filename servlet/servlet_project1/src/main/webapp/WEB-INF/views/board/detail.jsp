@@ -61,7 +61,9 @@
 			<div class="mt-3 mb-3 comment-box">
 				<h4>댓글</h4>
 				<!-- 댓글 리스트를 보여주는 박스 -->
-				<div class="comment-list"></div>
+				<div class="comment-list">
+					
+				</div>
 				<!-- 댓글 페이지네이션 박스 -->
 				<div class="comment-pagination"></div>
 				<!-- 댓글 입력 박스 -->
@@ -85,7 +87,47 @@
 	</c:url>		
 	<a href="${deleteUrl}" class="btn btn-outline-danger" <c:if test="${ (user.me_id != board.bo_me_id && user.me_authority != 'admin') || user == null}">hidden ="hidden"</c:if>>삭제</a>
 </div>
+
+
+<!-- 댓글 조회 스크립트 -->	
+<script type="text/javascript">
+	//댓글 리스트를 화면에 출력하는 함수
+	//댓글 현재 페이지 정보
+	let cri = {
+		page : 1,
+		boNum : '${board.bo_num}'
+	}
+	function getCommentList(cri) {
+		$.ajax({
+			url : '<c:url value="/comment/list"/>',
+			method : "get",
+			data : cri,
+			success : function(data){
+				console.log(data.list);
+				let str = '';
+				
+				for(comment of data.list){
+					str +=
+						`
+							<div class="input-group mb-3">
+								<div class="col-3">\${comment.cm_me_id}</div>
+								<div class="col-9">\${comment.cm_content}</div>
+							</div>
+							<hr>
+						`;
+				}
+				$(".comment-list").html(str);
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		});
+	}
 	
+	getCommentList(cri);
+	//댓글 페이지네이션 함수
+	
+</script>
 
 <!-- 댓글 작성 스크립트 -->
 <script type="text/javascript">
@@ -115,7 +157,7 @@
 				console.log(data);
 				if(data == "true"){
 					alert("댓글이 등록되었습니다.");
-					$(".comment-content").val() = "";
+					$(".comment-content").val("");
 				}
 			},
 			error : function (a,b,c) {

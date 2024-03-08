@@ -40,4 +40,6 @@ public interface BoardService {
 
 	boolean insertComment(CommentVO comment);
 
+	ArrayList<CommentVO> getCommentList(Criteria cri);
+
 }

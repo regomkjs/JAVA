@@ -187,6 +187,14 @@ public class BoardServiceImp implements BoardService {
 		return boardDAO.insertComment(comment);
 	}
 	
+	@Override
+	public ArrayList<CommentVO> getCommentList(Criteria cri) {
+		if(cri == null) {
+			cri = new Criteria(1,2);
+		}
+		return boardDAO.selectCommentList(cri);
+	}
+	
 	
 	private void uploadFile(Part filePart, int bo_num) {
 		// 업로드할 첨부 파일이 없으면
@@ -213,6 +221,7 @@ public class BoardServiceImp implements BoardService {
 		boardDAO.deleteFile(fileVO.getFi_num());
 		
 	}
+	
 	
 	
 	
