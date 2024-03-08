@@ -186,6 +186,7 @@
 		if('${user.me_id}' == ''){
 			if(confirm("로그인이 필요한 서비스 입니다. 로그인으로 이동하시겠습니까?")){
 				location.href = "<c:url value='/login'/>"
+				return;
 			}
 			//취소 누르면 현재 페이지에서 추천/비추천 동작을 안함
 			else{
