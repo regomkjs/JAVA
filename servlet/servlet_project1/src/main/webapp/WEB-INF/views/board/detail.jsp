@@ -110,11 +110,23 @@
 				let str = '';
 				
 				for(comment of data.list){
+					let btns = "";
+					if('${user.me_id}' == comment.cm_me_id){
+						btns += 
+						`
+							<button class="btn btn-outline-warning btn-comment-update" data-num="\${comment.cm_num}">수정</button>
+							<button class="btn btn-outline-danger btn-comment-delete" data-num="\${comment.cm_num}">삭제</button>
+						
+						`
+					}
+						
+					
 					str +=
 						`
 							<div class="input-group mb-3">
 								<div class="col-3">\${comment.cm_me_id}</div>
-								<div class="col-9">\${comment.cm_content}</div>
+								<div class="col-6">\${comment.cm_content}</div>
+								\${btns}
 							</div>
 							<hr>
 						`;
@@ -164,7 +176,6 @@
 	})
 	
 	getCommentList(cri);
-	//댓글 페이지네이션 함수
 	
 </script>
 
@@ -207,6 +218,57 @@
 			}
 		});		
 	});
+</script>
+
+<!-- 댓글 수정, 삭제 스크립트 -->
+<script type="text/javascript">
+	$(document).on("click",".btn-comment-delete",function(){
+		let num = $(this).data("num");
+		$.ajax({
+			url : '<c:url value="/comment/delete"/>',
+			method : "post",
+			data : {
+				"num" : num
+			},
+			success : function (data) {
+				if(data == "true"){
+					alert("댓글이 삭제되었습니다.");
+					getCommentList(cri);
+				}
+				else{
+					alert("댓글 삭제에 실패했습니다.");
+				}
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		});
+	});
+	
+	$(document).on("click",".btn-comment-update",function(){
+		let num = $(this).data("num");
+		
+		$.ajax({
+			url : '<c:url value="/comment/update"/>',
+			method : "post",
+			data : {
+				"num" : num
+				
+			},
+			success : function (data) {
+				if(data == "true"){
+					alert("댓글이 수정되었습니다.");
+				}
+				else{
+					alert("댓글 수정에 실패했습니다.");
+				}
+			},
+			error : function (a,b,c) {
+				console.error("에러 발생");
+			}
+		});
+	});
+	
 </script>
 
 <!-- 게시글 추천 스크립트 -->

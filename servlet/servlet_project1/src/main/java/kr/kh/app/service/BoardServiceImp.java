@@ -204,6 +204,19 @@ public class BoardServiceImp implements BoardService {
 		return boardDAO.selectTotalCountComment(cri);
 	}
 	
+	@Override
+	public boolean deleteComment(int num, MemberVO user) {
+		if(user == null) {
+			return false;
+		}
+		CommentVO comment = boardDAO.selectComment(num);
+		if(comment == null
+				||!comment.getCm_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		return boardDAO.deleteComment(num);
+	}
+
 	
 	private void uploadFile(Part filePart, int bo_num) {
 		// 업로드할 첨부 파일이 없으면

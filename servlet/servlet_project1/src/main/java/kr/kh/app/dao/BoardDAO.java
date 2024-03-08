@@ -52,5 +52,9 @@ public interface BoardDAO {
 
 	int selectTotalCountComment(@Param("cri")CommentCriteria cri);
 
+	CommentVO selectComment(@Param("cm_num")int num);
+
+	boolean deleteComment(@Param("cm_num")int num);
+
 
 }
