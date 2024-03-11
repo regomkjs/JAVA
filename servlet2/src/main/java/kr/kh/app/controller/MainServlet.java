@@ -20,7 +20,10 @@ public class MainServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
-	}
 
+		String num = request.getParameter("num");
+		System.out.println("화면에서 보낸 값 : " + num);
+
+		response.getWriter().write("abc");
+	}
 }
