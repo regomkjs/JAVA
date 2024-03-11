@@ -114,18 +114,19 @@
 					if('${user.me_id}' == comment.cm_me_id){
 						btns += 
 						`
+						<div class="btn-comment-group">
 							<button class="btn btn-outline-warning btn-comment-update" data-num="\${comment.cm_num}">수정</button>
 							<button class="btn btn-outline-danger btn-comment-delete" data-num="\${comment.cm_num}">삭제</button>
-						
+						</div>
 						`
 					}
 						
 					
 					str +=
 						`
-							<div class="input-group mb-3">
+							<div class="input-group mb-3 box-comment">
 								<div class="col-3">\${comment.cm_me_id}</div>
-								<div class="col-6">\${comment.cm_content}</div>
+								<div class="col-6 cm_content">\${comment.cm_content}</div>
 								\${btns}
 							</div>
 							<hr>
@@ -221,7 +222,7 @@
 	});
 </script>
 
-<!-- 댓글 수정, 삭제 스크립트 -->
+<!-- 댓글 삭제 스크립트 -->
 <script type="text/javascript">
 	$(document).on("click",".btn-comment-delete",function(){
 		let num = $(this).data("num");
@@ -246,30 +247,68 @@
 		});
 	});
 	
+</script>
+
+<!-- 댓글 수정 스크립트 -->
+<script type="text/javascript">
 	$(document).on("click",".btn-comment-update",function(){
+		initComment()
+		// 현재 댓글 보여주는 창이 textarea태그로 변경
+		// 기존 댓글 창을 감춤
+		$(this).parents(".box-comment").find(".cm_content").hide();
+		let comment = $(this).parents(".box-comment").find(".cm_content").text();
+		let textarea =
+		`
+		<textarea class="form-control com-input">\${comment}</textarea>
+		`
+		$(this).parents(".box-comment").find(".cm_content").after(textarea);
+		// 수정 삭제 버튼 대신 수정 완료 버튼으로 변경
+		$(this).parent().hide();
 		let num = $(this).data("num");
-		
+		let btn = 
+		`
+		<button class="btn btn-outline-success btn-complete" data-num="\${num}" type="button">수정완료</button>
+		`
+		$(this).parent().after(btn);
+	});
+	
+	$(document).on("click",".btn-complete",function(){
+		let num = $(this).data("num");
+		let content = $(".com-input").val();
 		$.ajax({
 			url : '<c:url value="/comment/update"/>',
 			method : "post",
 			data : {
-				"num" : num
-				
+				"num" : num,
+				"content" : content
 			},
 			success : function (data) {
 				if(data == "true"){
-					alert("댓글이 수정되었습니다.");
+					alert("댓글을 수정했습니다.");
+					getCommentList(cri);
 				}
 				else{
 					alert("댓글 수정에 실패했습니다.");
 				}
 			},
-			error : function (a,b,c) {
-				console.error("에러 발생");
+			error : function (a, b, c) {
+				console.error("에러 발생")
 			}
 		});
 	});
 	
+	
+	function initComment() {
+		//감추었던 댓글 내용을 보여줌
+		$(".cm_content").show();
+		//감추었던 수정 삭제 버튼을 보여줌
+		$(".btn-comment-group").show();
+		//textarea 삭제
+		$(".com-input").remove();
+		//수정 버튼 
+		$(".btn-complete").remove();
+	}
+
 </script>
 
 <!-- 게시글 추천 스크립트 -->

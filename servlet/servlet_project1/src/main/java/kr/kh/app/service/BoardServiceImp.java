@@ -217,6 +217,23 @@ public class BoardServiceImp implements BoardService {
 		return boardDAO.deleteComment(num);
 	}
 
+	@Override
+	public boolean updateComment(CommentVO comment) {
+		if(comment == null ||
+				comment.getCm_content() == null || comment.getCm_content().length() ==0 ||
+				comment.getCm_me_id() == null || comment.getCm_me_id().length() == 0 ) {
+			return false;
+		}
+		CommentVO dbComment = boardDAO.selectComment(comment.getCm_num());
+		if(dbComment == null ||
+				!dbComment.getCm_me_id().equals(comment.getCm_me_id())) {
+			return false;
+		}
+		return boardDAO.updateComment(comment);
+	}
+	
+	
+	
 	
 	private void uploadFile(Part filePart, int bo_num) {
 		// 업로드할 첨부 파일이 없으면
