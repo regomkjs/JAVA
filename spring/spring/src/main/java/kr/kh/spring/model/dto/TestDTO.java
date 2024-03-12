@@ -1,4 +1,4 @@
-package kr.kh.spring.modal.dto;
+package kr.kh.spring.model.dto;
 
 public class TestDTO {
 	
