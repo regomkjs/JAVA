@@ -1,11 +1,12 @@
 package kr.kh.spring.service;
 
+import kr.kh.spring.model.dto.LoginDTO;
 import kr.kh.spring.model.vo.MemberVO;
 
 public interface MemberService {
 
-	int testCountMember();
+	boolean insertMember(MemberVO member);
 
-	MemberVO getMember(String string);
+	MemberVO login(LoginDTO loginDto);
 
 }
