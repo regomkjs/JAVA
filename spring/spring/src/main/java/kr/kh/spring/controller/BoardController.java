@@ -2,12 +2,17 @@ package kr.kh.spring.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import kr.kh.spring.model.vo.BoardVO;
+import kr.kh.spring.model.vo.CommunityVO;
+import kr.kh.spring.model.vo.MemberVO;
 import kr.kh.spring.pagination.Criteria;
 import kr.kh.spring.pagination.PageMaker;
 import kr.kh.spring.service.BoardService;
@@ -17,7 +22,7 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
-	
+	//@RequestMapping(value="/board/list", method=RequestMethod.GET)
 	@GetMapping("/board/list")
 	public String boardList(Model model, Criteria cri) {
 		cri.setPerPageNum(5);
@@ -27,5 +32,26 @@ public class BoardController {
 		model.addAttribute("list", list);
 		model.addAttribute("pm",pm);
 		return "/board/list";
+	}
+	
+	@GetMapping("/board/insert")
+	public String boardInsert(Model model) {
+		ArrayList<CommunityVO> list = boardService.getCommunityList();
+		model.addAttribute("list", list);
+		return "/board/insert";
+	}
+	
+	@PostMapping("/board/insert")
+	public String boardInsertPost(Model model, BoardVO board, HttpServletRequest request) {
+		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
+		if(boardService.insertBoard(board,user)) {
+			model.addAttribute("msg", "게시글을 등록했습니다.");
+			model.addAttribute("url", "/board/list");
+		}
+		else {
+			model.addAttribute("msg", "게시글 등록에 실패했습니다.");
+			model.addAttribute("url", "/board/insert");
+		}
+		return "message";
 	}
 }
