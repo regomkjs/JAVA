@@ -3,6 +3,7 @@ package kr.kh.spring.controller;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,7 @@ import kr.kh.spring.service.BoardService;
 
 @Controller
 public class BoardController {
-	
+
 	@Autowired
 	private BoardService boardService;
 	//@RequestMapping(value="/board/list", method=RequestMethod.GET)
@@ -32,27 +33,25 @@ public class BoardController {
 		int totalCount = boardService.getBoardTotalCount(cri);
 		PageMaker pm = new PageMaker(3, cri, totalCount);
 		model.addAttribute("list", list);
-		model.addAttribute("pm",pm);
+		model.addAttribute("pm", pm);
 		return "/board/list";
 	}
-	
 	@GetMapping("/board/insert")
 	public String boardInsert(Model model) {
+		//Ä¿¹Â´ÏÆ¼ ¸®½ºÆ®¸¦ °¡Á®¿Í¼­ È­¸é¿¡ Àü¼Û
 		ArrayList<CommunityVO> list = boardService.getCommunityList();
 		model.addAttribute("list", list);
 		return "/board/insert";
 	}
-	
 	@PostMapping("/board/insert")
 	public String boardInsertPost(Model model, BoardVO board, 
 			HttpServletRequest request, MultipartFile[] file) {
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
 		if(boardService.insertBoard(board,user, file)) {
-			model.addAttribute("msg", "ê²Œì‹œê¸€ì„ ë“±ë¡í–ˆìŠµë‹ˆë‹¤.");
+			model.addAttribute("msg", "°Ô½Ã±ÛÀ» µî·ÏÇß½À´Ï´Ù.");
 			model.addAttribute("url", "/board/list");
-		}
-		else {
-			model.addAttribute("msg", "ê²Œì‹œê¸€ ë“±ë¡ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤.");
+		}else {
+			model.addAttribute("msg", "°Ô½Ã±ÛÀ» µî·ÏÇÏÁö ¸øÇß½À´Ï´Ù.");
 			model.addAttribute("url", "/board/insert");
 		}
 		return "message";
@@ -60,16 +59,69 @@ public class BoardController {
 	
 	@GetMapping("/board/detail")
 	public String boardDetail(Model model, int boNum, Criteria cri) {
-		//ì¡°íšŒìˆ˜ ì¦ê°€
+		//Á¶È¸¼ö Áõ°¡
 		boardService.updateView(boNum);
-		//ê²Œì‹œê¸€ì„ ê°€ì ¸ì˜´
+		//°Ô½Ã±ÛÀ» °¡Á®¿È
 		BoardVO board = boardService.getBoard(boNum);
-		//ì²¨ë¶€íŒŒì¼ì„ ê°€ì ¸ì˜´
+		//Ã·ºÎÆÄÀÏÀ» °¡Á®¿È
 		ArrayList<FileVO> fileList = boardService.getFileList(boNum);
-		//í™”ë©´ì— ê²Œì‹œê¸€, ì²¨ë¶€íŒŒì¼, ê²€ìƒ‰ì •ë³´ë¥¼ ì „ì†¡
-		model.addAttribute("board",board);
-		model.addAttribute("fileList",fileList);
+		//È­¸é¿¡ °Ô½Ã±Û, Ã·ºÎÆÄÀÏ, °Ë»ö Á¤º¸¸¦ Àü¼Û
+		model.addAttribute("board", board);
+		model.addAttribute("fileList", fileList);
 		model.addAttribute("cri", cri);
+		
 		return "/board/detail";
+	}
+	
+	@GetMapping("/board/delete")
+	public String boardDelete(Model model, int boNum, HttpSession session) {
+		//È¸¿ø Á¤º¸¸¦ °¡Á®¿È
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		
+		//¼­ºñ½º¿¡°Ô °Ô½Ã±Û ¹øÈ£¿Í È¸¿ø Á¤º¸¸¦ ÁÖ¸é¼­ »èÁ¦ÇÏ¶ó°í ¿äÃ»
+		boolean res = boardService.deleteBoard(boNum, user);
+		//»èÁ¦ ¼º°ø½Ã ¼º°ø Ã³¸®
+		if(res) {
+			model.addAttribute("url", "/board/list");
+			model.addAttribute("msg", "°Ô½Ã±ÛÀ» »èÁ¦Çß½À´Ï´Ù.");
+		}
+		//»èÁ¦ ½ÇÆĞ½Ã ½ÇÆĞ Ã³¸®
+		else {
+			model.addAttribute("url", "/board/detail?boNum=" + boNum);
+			model.addAttribute("msg", "°Ô½Ã±ÛÀ» »èÁ¦ÇÏÁö ¸øÇß½À´Ï´Ù.");
+		}
+		
+		return "message";
+	}
+	
+	@GetMapping("/board/update")
+	public String boardUpdate(Model model, int boNum) {
+		//Ä¿¹Â´ÏÆ¼ ¸®½ºÆ®¸¦ °¡Á®¿Í¼­ È­¸é¿¡ Àü¼Û
+		ArrayList<CommunityVO> list = boardService.getCommunityList();
+		//°Ô½Ã±ÛÀ» °¡Á®¿È
+		BoardVO board = boardService.getBoard(boNum);
+		//Ã·ºÎÆÄÀÏÀ» °¡Á®¿È
+		ArrayList<FileVO> fileList = boardService.getFileList(boNum);
+		
+		model.addAttribute("fileList", fileList);
+		model.addAttribute("board", board);
+		model.addAttribute("list", list);
+		return "/board/update";
+	}
+	@PostMapping("/board/update")
+	public String boardUpdatePost(Model model, BoardVO board, MultipartFile []file,
+			int [] delNums, HttpSession session) {
+		//È¸¿ø Á¤º¸¸¦ °¡Á®¿È. ¿Ö? ÀÛ¼ºÀÚ¸¸ ¼öÁ¤ÇØ¾ßÇÏ±â ¶§¹®¿¡
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		boolean res = boardService.updateBoard(board, user, file, delNums);
+		if(res) {
+			model.addAttribute("url", "/board/detail?boNum="+board.getBo_num());
+			model.addAttribute("msg", "°Ô½Ã±ÛÀ» ¼öÁ¤Çß½À´Ï´Ù.");
+		}else {
+			model.addAttribute("url", "/board/detail?boNum="+board.getBo_num());
+			model.addAttribute("msg", "°Ô½Ã±ÛÀ» ¼öÁ¤ÇÏÁö ¸øÇß½À´Ï´Ù.");
+		}
+		
+		return "message";
 	}
 }

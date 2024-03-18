@@ -18,10 +18,10 @@ import kr.kh.spring.utils.UploadFileUtils;
 
 @Service
 public class BoardServiceImp implements BoardService {
-	
+
 	@Autowired
 	private BoardDAO boardDao;
-	
+
 	@Resource
 	private String uploadPath;
 	
@@ -33,34 +33,44 @@ public class BoardServiceImp implements BoardService {
 		
 		try {
 			String originalFileName = file.getOriginalFilename();
+			//ÆÄÀÏ¸íÀÌ ¾øÀ¸¸é
 			if(originalFileName.length() == 0) {
 				return;
 			}
-			//ì„œë²„ì— ì—…ë¡œë“œ í›„ ì—…ë¡œë“œí•œ íŒŒì¼ëª…ì„ ê°€ì ¸ì˜´
-			String fileName = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(),file.getBytes());
-			//FileVO ê°œì²´ë¥¼ ìƒì„±
-			FileVO fileVO = new FileVO(bo_num, fileName, originalFileName);
-			boardDao.insertFile(fileVO);
-		}
-		catch (Exception e) {
+			//¼­¹ö¿¡ ¾÷·Îµå ÈÄ ¾÷·ÎµåÇÑ ÆÄÀÏ¸íÀ» °¡Á®¿È
+			String fileName = 
+				UploadFileUtils.uploadFile(uploadPath, originalFileName,file.getBytes());
+			//FileVO °³Ã¼¸¦ »ı¼º
+			FileVO fileVo = new FileVO(bo_num, fileName, originalFileName);
+			//DB¿¡ Ãß°¡
+			boardDao.insertFile(fileVo);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+	}
+	
+	private void deleteFile(FileVO file) {
+		if(file == null) {
+			return;
+		}
+		//¼­¹ö¿¡¼­ »èÁ¦
+		UploadFileUtils.delteFile(uploadPath, file.getFi_name());
+		//DB¿¡¼­ »èÁ¦
+		boardDao.deleteFile(file.getFi_num());
 	}
 	
 	@Override
 	public ArrayList<BoardVO> getBoardList(Criteria cri) {
 		if(cri == null) {
-			cri = new Criteria(1, 5);
+			cri = new Criteria(1,5);
 		}
 		return boardDao.selectBoardList(cri);
-		
 	}
 
 	@Override
 	public int getBoardTotalCount(Criteria cri) {
 		if(cri == null) {
-			cri = new Criteria(1, 5);
+			cri = new Criteria(1,5);
 		}
 		return boardDao.selectBoardTotalCount(cri);
 	}
@@ -71,27 +81,30 @@ public class BoardServiceImp implements BoardService {
 	}
 
 	@Override
-	public boolean insertBoard(BoardVO board, MemberVO user,  MultipartFile[] files) {
+	public boolean insertBoard(BoardVO board, MemberVO user, MultipartFile[] files) {
 		if(user == null || board == null) {
 			return false;
 		}
-		if(!checkString(board.getBo_title()) ||
-				!checkString(board.getBo_content())) {
+		if( !checkString(board.getBo_title()) || 
+			!checkString(board.getBo_content())) {
 			return false;
 		}
 		board.setBo_me_id(user.getMe_id());
 		boolean res = boardDao.insertBoard(board);
+		//°Ô½Ã±Û µî·Ï ½ÇÆĞ => Ã·ºÎÆÄÀÏ ¿Ã¸± ÇÊ¿ä ¾øÀ½
 		if(!res) {
 			return false;
 		}
-		//ì²¨ë¶€íŒŒì¼ ì—…ë¡œë“œ ì‘ì—…
+		//Ã·ºÎÆÄÀÏ ¾÷·Îµå ÀÛ¾÷
+		//Ã·ºÎÆÄÀÏ ¾ø´Â °æ¿ì
 		if(files == null || files.length == 0) {
 			return true;
 		}
 		for(MultipartFile file : files) {
-			//ì²¨ë¶€íŒŒì¼ì„ ì„œë²„ì— ì—…ë¡œë“œí•˜ê³ , DBì— ì¶”ê°€
+			//Ã·ºÎÆÄÀÏÀ» ¼­¹ö¿¡ ¾÷·ÎµåÇÏ°í, DB¿¡ Ãß°¡
 			uploadFile(board.getBo_num(), file);
 		}
+		
 		return true;
 	}
 
@@ -110,9 +123,73 @@ public class BoardServiceImp implements BoardService {
 		return boardDao.selectFileList(boNum);
 	}
 
-	
-	
-	
-	
+	@Override
+	public boolean deleteBoard(int num, MemberVO user) {
+		if(user == null) {
+			return false;
+		}
+		//°Ô½Ã±Û ¹øÈ£¿¡ ¸Â´Â °Ô½Ã±ÛÀ» °¡Á®¿È
+		BoardVO board = boardDao.selectBoard(num);
+		//°Ô½Ã±ÛÀÌ ¾ø°Å³ª ÀÛ¼ºÀÚ°¡ ¾Æ´Ï¸é false¸¦ ¸®ÅÏ
+		if( board == null || 
+			!board.getBo_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		//¸ÂÀ¸¸é »èÁ¦ ÈÄ °á°ú¸¦ ¸®ÅÏ
+		//¼­¹öÀÇ Ã·ºÎÆÄÀÏ »èÁ¦ ¹× DB¿¡¼­ Á¦°Å
+		//°Ô½Ã±Û ¹øÈ£¿¡ ¸Â´Â Ã·ºÎÆÄÀÏ ¸®½ºÆ®¸¦ °¡Á®¿È
+		ArrayList<FileVO> fileList = boardDao.selectFileList(num);
+		//Ã·ºÎÆÄÀÏ ¸®½ºÆ®°¡ ÀÖÀ¸¸é ¹İº¹¹®À¸·Î Ã·ºÎÆÄÀÏÀ» »èÁ¦
+		if(fileList != null) {
+			for(FileVO file : fileList) {
+				deleteFile(file);
+			}
+		}
+		//°Ô½Ã±Û »èÁ¦
+		
+		return boardDao.deleteBoard(num);
+	}
+
+	@Override
+	public boolean updateBoard(BoardVO board, MemberVO user, MultipartFile[] file, int[] delNums) {
+		if( board == null || 
+			!checkString(board.getBo_title()) || 
+			!checkString(board.getBo_content())) {
+			return false;
+		}
+		if(user == null) {
+			return false;
+		}
+		//ÀÛ¼ºÀÚ°¡ ¸Â´ÂÁö
+		BoardVO dbBoard = boardDao.selectBoard(board.getBo_num());
+		if( dbBoard == null || 
+			!dbBoard.getBo_me_id().equals(user.getMe_id())) {
+			return false;
+		}
+		//°Ô½Ã±Û ¼öÁ¤
+		boolean res = boardDao.updateBoard(board);
+		
+		if(!res) {
+			return false;
+		}
+		//Ã·ºÎÆÄÀÏ ¼öÁ¤
+		
+		//»õ Ã·ºÎÆÄÀÏ Ãß°¡
+		if(file != null) {
+			for(MultipartFile tmp : file) {
+				uploadFile(board.getBo_num(), tmp);
+			}
+		}
+		//»èÁ¦ÇÒ Ã·ºÎÆÄÀÏ »èÁ¦
+		if(delNums == null) {
+			return true;
+		}
+		for(int tmp : delNums) {
+			FileVO fileVo = boardDao.selectFile(tmp);
+			deleteFile(fileVo);
+		}
+		return true;
+	}
+
 	
 }

@@ -10,17 +10,17 @@ import org.springframework.util.FileCopyUtils;
 public class UploadFileUtils {
     public static String uploadFile(String uploadPath, String originalName, byte[]
             fileData)throws Exception{
-        //ëœë¤í•œ UUID ìƒì„± : ê°™ì€ íŒŒì¼ëª…ì„ ì²˜ë¦¬í•˜ê¸° ìœ„í•´
-    	UUID uid = UUID.randomUUID();
-    	//íŒŒì¼ëª…ì— UUIDë¥¼ ë¶™ì„
+    	//·£´ıÇÑ UUID »ı¼º : °°Àº ÆÄÀÏ¸íÀ» Ã³¸®ÇÏ±â À§ÇØ
+        UUID uid = UUID.randomUUID();
+        //ÆÄÀÏ¸í¿¡ UUID¸¦ ºÙÀÓ
         String savedName = uid.toString() +"_" + originalName;
-        //íŒŒì¼ì„ ì €ì¥í•  ê²½ë¡œ(ë‚ ì§œ ê²½ë¡œë¡œ ì—…ë¡œë“œí•˜ëŠ” ë‚ ì§œì´ë©°, ë…„/ì›”/ì¼ë¡œ êµ¬ì„±)
+        //ÆÄÀÏÀ» ÀúÀåÇÒ °æ·Î(³¯Â¥ °æ·Î·Î ¾÷·ÎµåÇÏ´Â ³¯Â¥ÀÌ¸ç, ³â/¿ù/ÀÏ·Î ±¸¼º)
         String savedPath = calcPath(uploadPath);
-        //ì„œë²„ì— ì—…ë¡œë“œí•  íŒŒì¼ ê°ì²´ ìƒì„±
+        //¼­¹ö¿¡ ¾÷·ÎµåÇÒ ÆÄÀÏ °´Ã¼ »ı¼º
         File target = new File(uploadPath + savedPath, savedName);
-        //íŒŒì¼ì„ ì„œë²„ì— ì—…ë¡œë“œ
+        //ÆÄÀÏÀ» ¼­¹ö¿¡ ¾÷·Îµå
         FileCopyUtils.copy(fileData, target);
-        //ì—…ë¡œë“œëœ íŒŒì¼ì˜ íŒŒì¼ëª…ì„ ê°€ì ¸ì˜´. \ë¥¼ /ë¡œ ë°”ê¿ˆ
+        //¾÷·ÎµåµÈ ÆÄÀÏÀÇ ÆÄÀÏ¸íÀ» °¡Á®¿È. \¸¦ /·Î ¹Ù²Ş
         String uploadFileName = getFileName(savedPath, savedName);
         return uploadFileName;
     }
@@ -52,4 +52,13 @@ public class UploadFileUtils {
         String iconName = path + File.separator + fileName;
         return iconName.replace(File.separatorChar, '/');
     }
+
+	public static void delteFile(String uploadPath, String fi_name) {
+		fi_name = fi_name.replace('/', File.separatorChar);
+		File file = new File(uploadPath + fi_name);
+		//ÆÄÀÏÀÌ Á¸ÀçÇÏ¸é ÆÄÀÏÀ» »èÁ¦
+		if(file.exists()) {
+			file.delete();
+		}
+	}
 }

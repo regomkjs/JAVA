@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import kr.kh.app.model.vo.CommentVO;
 import kr.kh.app.pagination.CommentCriteria;
 import kr.kh.app.pagination.PageMaker;
