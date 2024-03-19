@@ -4,20 +4,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.kh.spring.model.vo.CommentVO;
+import kr.kh.spring.model.vo.MemberVO;
 import kr.kh.spring.pagination.Criteria;
 import kr.kh.spring.pagination.PageMaker;
 import kr.kh.spring.service.CommentService;
 
-/* CommentController¿¡ ÀÖ´Â ¸ðµç ¸Þ¼­µåµéÀÌ(urlÀ» ÀÌ¿ëÇÏ¿© Á¢±ÙÇÏ´Â ¸Þ¼­µå)
- * ajax·Î Åë½ÅÇÏ´Â °æ¿ì @Controller + @ResponseBody ´ë½Å¿¡
- * @RestController·Î ´ëÃ¼ÇÒ ¼ö ÀÖ´Ù.
- * ±×·¡¼­ @RestController¿¡ ÀÖ´Â ¸Þ¼­µåµéÀº ajax·Î Åë½ÅÇÑ´Ù(ºñµ¿±â Åë½Å)
+/* CommentControllerï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(urlï¿½ï¿½ ï¿½Ì¿ï¿½ï¿½Ï¿ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½)
+ * ajaxï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ @Controller + @ResponseBody ï¿½ï¿½Å¿ï¿½
+ * @RestControllerï¿½ï¿½ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½.
+ * ï¿½×·ï¿½ï¿½ï¿½ @RestControllerï¿½ï¿½ ï¿½Ö´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ajaxï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ñ´ï¿½(ï¿½ñµ¿±ï¿½ ï¿½ï¿½ï¿½)
  * */
 @RestController
 public class CommentController {
@@ -34,6 +37,36 @@ public class CommentController {
 		PageMaker pm = new PageMaker(3, cri, totalCount);
 		map.put("list", commentList);
 		map.put("pm", pm);
+		return map;
+	}
+	
+	@PostMapping("/comment/insert")
+	public Map<String, Object> commentInsert(@RequestBody CommentVO comment, 
+			HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = commentService.insertComment(comment, user);
+		map.put("result", res);
+		return map;
+	}
+	
+	@PostMapping("/comment/delete")
+	public Map<String, Object> commentDelete(@RequestBody CommentVO comment, 
+			HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = commentService.deleteComment(comment,user);
+		map.put("result", res);
+		return map;
+	}
+	
+	@PostMapping("/comment/update")
+	public Map<String, Object> commentUpdate(@RequestBody CommentVO comment, 
+			HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberVO user = (MemberVO)session.getAttribute("user");
+		boolean res = commentService.updateComment(comment,user);
+		map.put("result", res);
 		return map;
 	}
 }

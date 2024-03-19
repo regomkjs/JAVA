@@ -57,7 +57,12 @@
 		<div class="box-pagination">
 			<ul class="pagination justify-content-center"></ul>
 		</div>
-		<div class="box-commnt-insert"></div>
+		<div class="box-comment-insert">
+			<div class="input-group mb-3">
+				<textarea class="form-control textarea-comment"></textarea>
+				<button class="btn btn-outline-success btn-comment-insert">댓글 등록</button>
+			</div>
+		</div>
 		<hr>
 	</div>
 	
@@ -102,7 +107,6 @@ function getCommentList(cri){
 		}
 	});
 }
-
 function displayCommentList(list){
 	let str = '';
 	if(list == null || list.length == 0){
@@ -111,12 +115,22 @@ function displayCommentList(list){
 		return;
 	}
 	for(item of list){
+		let boxBtns = 
+			`<span class="box-btn col-3">
+				<button class="btn btn-outline-success btn-comment-update" data-num="\${item.cm_num}">수정</button>	
+				<button class="btn btn-outline-danger btn-comment-del" data-num="\${item.cm_num}">삭제</button>
+			</span>`;
+		let btns = '${user.me_id}' == item.cm_me_id ? boxBtns : '';  
 		str += 
 		`
 			<div class="box-comment row">
 				<div class="col-3">\${item.cm_me_id}</div>
-				<div class="col-9">\${item.cm_content}</div>
+				<div class="col-9 clearfix input-group">
+					<span class="text-comment col-9">\${item.cm_content}</span>
+					\${btns}
+				</div>
 			</div>
+			<hr>
 		`
 	}
 	$('.box-comment-list').html(str);
@@ -150,6 +164,157 @@ $(document).on('click','.box-pagination .page-link',function(){
 	cri.page = $(this).data('page');
 	getCommentList(cri);
 })
+</script>
+
+<!-- 댓글 등록 -->
+<script type="text/javascript">
+//댓글 등록 버튼의 클릭 이벤트를 등록
+$(".btn-comment-insert").click(function(){
+	//로그인 확인
+	if(!checkLogin()){
+		return;
+	}
+	
+	//서버에 보낼 데이터를 생성 => 댓글 등록을 위한 정보 => 댓글 내용, 게시글 번호
+	let comment = {
+		cm_content : $('.textarea-comment').val(),
+		cm_bo_num : '${board.bo_num}'
+	}
+	
+	//내용이 비어있으면 내용을 입력하라고 알림
+	if(comment.cm_content.length == 0){
+		alert('댓글 내용을 작성하세요.');
+		return;
+	}
+	
+	//서버에 데이터를 전송
+	$.ajax({
+		async : true,
+		url : '<c:url value="/comment/insert"/>', 
+		type : 'post', 
+		data : JSON.stringify(comment), 
+		contentType : "application/json; charset=utf-8",
+		dataType : "json", 
+		success : function (data){
+			if(data.result){
+				alert('댓글을 등록했습니다.');
+				$('.textarea-comment').val('');
+				cri.page = 1;
+				getCommentList(cri);
+			}else{
+				alert('댓글을 등록하지 못했습니다.');
+			}
+		}, 
+		error : function(xhr, textStatus, errorThrown){
+			console.log(xhr);
+			console.log(textStatus);
+		}
+	});
+});
+
+function checkLogin(){
+	//로그인 했을 때
+	if('${user.me_id}' != ''){
+		return true;
+	}
+	//안했을 때
+	if(confirm("로그인이 필요한 기능입니다.\n로그인 페이지로 이동하겠습니까?")){
+		location.href = '<c:url value="/login"/>';
+	}
+	return false;
+}
+
+</script>
+
+<!-- 댓글 삭제 -->
+<script type="text/javascript">
+//댓글 삭제 버튼 클릭시 alert(1)이 실행되도록 작성
+$(document).on('click', '.btn-comment-del', function(){
+	//서버로 보낼 데이터 생성
+	let comment = {
+		cm_num : $(this).data('num')
+	}
+	//서버로 데이터를 전송
+	$.ajax({
+		async : true,
+		url : '<c:url value="/comment/delete"/>', 
+		type : 'post', 
+		data : JSON.stringify(comment), 
+		contentType : "application/json; charset=utf-8",
+		dataType : "json", 
+		success : function (data){
+			if(data.result){
+				alert('댓글을 삭제했습니다.');
+				getCommentList(cri);
+			}else{
+				alert('댓글을 삭제하지 못했습니다.');
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});	
+});
+</script>
+
+<!-- 댓글 수정 -->
+<script type="text/javascript">
+$(document).on('click', '.btn-comment-update', function(){
+	initComment();
+	let contentBox =  $(this).parents('.box-comment').find('.text-comment');
+	//댓글을 수정할수있는 textarea로 변경
+	let content= contentBox.text();
+	let str = `<textarea class="form-control">\${content}</textarea>`;
+	contentBox.after(str);
+	contentBox.hide();
+	//수정/삭제 버튼 감추고
+	$(this).parents('.box-comment').find('.box-btn').hide();
+	//수정 완료버튼 추가
+	let cm_num = $(this).data("num");
+	str = `<button class="btn btn-outline-warning btn-complete" data-num="\${cm_num}">수정 완료</button>`;
+	$(this).parents('.box-comment').find('.box-btn').after(str);
+	
+	
+});
+
+$(document).on('click', '.btn-complete', function(){
+	//전송할 데이터를 생성 => 댓글 수정 => 댓글 번호, 내용
+	let comment = {
+		cm_content : $('.box-comment').find("textarea").val(),
+		cm_num :$(this).data("num")
+	}
+	
+	//서버에 ajax로 데이터를 전송 후 처리
+	$.ajax({
+		async : true, //비동기 : true(비동기), false(동기)
+		url : '<c:url value="/comment/update" />', 
+		type : 'post', 
+		data : JSON.stringify(comment), 
+		contentType : "application/json; charset=utf-8",
+		dataType : "json", 
+		success : function (data){
+			if(data.result){
+				alert("댓글이 수정되었습니다.")
+				getCommentList(cri);
+			}else{
+				alert("댓글 수정에 실패했습니다.")
+			}
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+			
+		}
+	});
+
+
+});
+
+//수정 버튼을 누른 상태에서 다른 수정 버튼을 누르면 기존 댓글을 원상태로 돌려주는 함수
+function initComment() {
+	$('.btn-complete').remove();
+	$('.box-comment').find('textarea').remove();
+	$('.box-btn').show();
+	$('.text-comment').show();
+}
 </script>
 </body>
 </html>
