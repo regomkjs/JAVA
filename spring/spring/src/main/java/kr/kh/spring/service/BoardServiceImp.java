@@ -13,6 +13,7 @@ import kr.kh.spring.model.vo.BoardVO;
 import kr.kh.spring.model.vo.CommunityVO;
 import kr.kh.spring.model.vo.FileVO;
 import kr.kh.spring.model.vo.MemberVO;
+import kr.kh.spring.model.vo.RecommendVO;
 import kr.kh.spring.pagination.Criteria;
 import kr.kh.spring.utils.UploadFileUtils;
 
@@ -33,16 +34,16 @@ public class BoardServiceImp implements BoardService {
 		
 		try {
 			String originalFileName = file.getOriginalFilename();
-			//ÆÄÀÏ¸íÀÌ ¾øÀ¸¸é
+			//ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if(originalFileName.length() == 0) {
 				return;
 			}
-			//¼­¹ö¿¡ ¾÷·Îµå ÈÄ ¾÷·ÎµåÇÑ ÆÄÀÏ¸íÀ» °¡Á®¿È
+			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			String fileName = 
 				UploadFileUtils.uploadFile(uploadPath, originalFileName,file.getBytes());
-			//FileVO °³Ã¼¸¦ »ı¼º
+			//FileVO ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			FileVO fileVo = new FileVO(bo_num, fileName, originalFileName);
-			//DB¿¡ Ãß°¡
+			//DBï¿½ï¿½ ï¿½ß°ï¿½
 			boardDao.insertFile(fileVo);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -53,9 +54,9 @@ public class BoardServiceImp implements BoardService {
 		if(file == null) {
 			return;
 		}
-		//¼­¹ö¿¡¼­ »èÁ¦
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		UploadFileUtils.delteFile(uploadPath, file.getFi_name());
-		//DB¿¡¼­ »èÁ¦
+		//DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		boardDao.deleteFile(file.getFi_num());
 	}
 	
@@ -91,17 +92,17 @@ public class BoardServiceImp implements BoardService {
 		}
 		board.setBo_me_id(user.getMe_id());
 		boolean res = boardDao.insertBoard(board);
-		//°Ô½Ã±Û µî·Ï ½ÇÆĞ => Ã·ºÎÆÄÀÏ ¿Ã¸± ÇÊ¿ä ¾øÀ½
+		//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ => Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½Ê¿ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if(!res) {
 			return false;
 		}
-		//Ã·ºÎÆÄÀÏ ¾÷·Îµå ÀÛ¾÷
-		//Ã·ºÎÆÄÀÏ ¾ø´Â °æ¿ì
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ ï¿½Û¾ï¿½
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 		if(files == null || files.length == 0) {
 			return true;
 		}
 		for(MultipartFile file : files) {
-			//Ã·ºÎÆÄÀÏÀ» ¼­¹ö¿¡ ¾÷·ÎµåÇÏ°í, DB¿¡ Ãß°¡
+			//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Îµï¿½ï¿½Ï°ï¿½, DBï¿½ï¿½ ï¿½ß°ï¿½
 			uploadFile(board.getBo_num(), file);
 		}
 		
@@ -128,24 +129,24 @@ public class BoardServiceImp implements BoardService {
 		if(user == null) {
 			return false;
 		}
-		//°Ô½Ã±Û ¹øÈ£¿¡ ¸Â´Â °Ô½Ã±ÛÀ» °¡Á®¿È
+		//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Â´ï¿½ ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		BoardVO board = boardDao.selectBoard(num);
-		//°Ô½Ã±ÛÀÌ ¾ø°Å³ª ÀÛ¼ºÀÚ°¡ ¾Æ´Ï¸é false¸¦ ¸®ÅÏ
+		//ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Å³ï¿½ ï¿½Û¼ï¿½ï¿½Ú°ï¿½ ï¿½Æ´Ï¸ï¿½ falseï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if( board == null || 
 			!board.getBo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
-		//¸ÂÀ¸¸é »èÁ¦ ÈÄ °á°ú¸¦ ¸®ÅÏ
-		//¼­¹öÀÇ Ã·ºÎÆÄÀÏ »èÁ¦ ¹× DB¿¡¼­ Á¦°Å
-		//°Ô½Ã±Û ¹øÈ£¿¡ ¸Â´Â Ã·ºÎÆÄÀÏ ¸®½ºÆ®¸¦ °¡Á®¿È
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½È£ï¿½ï¿½ ï¿½Â´ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ArrayList<FileVO> fileList = boardDao.selectFileList(num);
-		//Ã·ºÎÆÄÀÏ ¸®½ºÆ®°¡ ÀÖÀ¸¸é ¹İº¹¹®À¸·Î Ã·ºÎÆÄÀÏÀ» »èÁ¦
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½İºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if(fileList != null) {
 			for(FileVO file : fileList) {
 				deleteFile(file);
 			}
 		}
-		//°Ô½Ã±Û »èÁ¦
+		//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
 		return boardDao.deleteBoard(num);
 	}
@@ -160,33 +161,58 @@ public class BoardServiceImp implements BoardService {
 		if(user == null) {
 			return false;
 		}
-		//ÀÛ¼ºÀÚ°¡ ¸Â´ÂÁö
+		//ï¿½Û¼ï¿½ï¿½Ú°ï¿½ ï¿½Â´ï¿½ï¿½ï¿½
 		BoardVO dbBoard = boardDao.selectBoard(board.getBo_num());
 		if( dbBoard == null || 
 			!dbBoard.getBo_me_id().equals(user.getMe_id())) {
 			return false;
 		}
-		//°Ô½Ã±Û ¼öÁ¤
+		//ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½
 		boolean res = boardDao.updateBoard(board);
 		
 		if(!res) {
 			return false;
 		}
-		//Ã·ºÎÆÄÀÏ ¼öÁ¤
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		
-		//»õ Ã·ºÎÆÄÀÏ Ãß°¡
+		//ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
 		if(file != null) {
 			for(MultipartFile tmp : file) {
 				uploadFile(board.getBo_num(), tmp);
 			}
 		}
-		//»èÁ¦ÇÒ Ã·ºÎÆÄÀÏ »èÁ¦
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if(delNums == null) {
 			return true;
 		}
 		for(int tmp : delNums) {
 			FileVO fileVo = boardDao.selectFile(tmp);
 			deleteFile(fileVo);
+		}
+		return true;
+	}
+
+	@Override
+	public boolean recommend(RecommendVO recommend, MemberVO user) {
+		if(recommend == null) {
+			return false;
+		}
+		if(user == null) {
+			return false;
+		}
+		//ê¸°ì¡´ ì¶”ì²œ ì •ë³´ê°€ ìˆëŠ”ì§€ í™•ì¸
+		recommend.setRe_me_id(user.getMe_id());
+		RecommendVO dbRecommend = boardDao.selectRecommend(recommend);
+		//ì—†ìœ¼ë©´ ì¶”ê°€
+		if(dbRecommend == null) {
+			boardDao.insertRecommend(recommend);
+		}
+		//ìˆìœ¼ë©´ ìˆ˜ì •
+		else {
+			if(recommend.getRe_state() == dbRecommend.getRe_state()) {
+				recommend.setRe_state(0);
+			}
+			boardDao.updateRecommend(recommend);
 		}
 		return true;
 	}

@@ -1,6 +1,8 @@
 package kr.kh.spring.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -10,12 +12,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import kr.kh.spring.model.vo.BoardVO;
 import kr.kh.spring.model.vo.CommunityVO;
 import kr.kh.spring.model.vo.FileVO;
 import kr.kh.spring.model.vo.MemberVO;
+import kr.kh.spring.model.vo.RecommendVO;
 import kr.kh.spring.pagination.Criteria;
 import kr.kh.spring.pagination.PageMaker;
 import kr.kh.spring.service.BoardService;
@@ -38,7 +43,7 @@ public class BoardController {
 	}
 	@GetMapping("/board/insert")
 	public String boardInsert(Model model) {
-		//Ä¿¹Â´ÏÆ¼ ¸®½ºÆ®¸¦ °¡Á®¿Í¼­ È­¸é¿¡ Àü¼Û
+		//Ä¿ï¿½Â´ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ È­ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½
 		ArrayList<CommunityVO> list = boardService.getCommunityList();
 		model.addAttribute("list", list);
 		return "/board/insert";
@@ -48,10 +53,10 @@ public class BoardController {
 			HttpServletRequest request, MultipartFile[] file) {
 		MemberVO user = (MemberVO)request.getSession().getAttribute("user");
 		if(boardService.insertBoard(board,user, file)) {
-			model.addAttribute("msg", "°Ô½Ã±ÛÀ» µî·ÏÇß½À´Ï´Ù.");
+			model.addAttribute("msg", "ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 			model.addAttribute("url", "/board/list");
 		}else {
-			model.addAttribute("msg", "°Ô½Ã±ÛÀ» µî·ÏÇÏÁö ¸øÇß½À´Ï´Ù.");
+			model.addAttribute("msg", "ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 			model.addAttribute("url", "/board/insert");
 		}
 		return "message";
@@ -59,13 +64,13 @@ public class BoardController {
 	
 	@GetMapping("/board/detail")
 	public String boardDetail(Model model, int boNum, Criteria cri) {
-		//Á¶È¸¼ö Áõ°¡
+		//ï¿½ï¿½È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		boardService.updateView(boNum);
-		//°Ô½Ã±ÛÀ» °¡Á®¿È
+		//ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		BoardVO board = boardService.getBoard(boNum);
-		//Ã·ºÎÆÄÀÏÀ» °¡Á®¿È
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ArrayList<FileVO> fileList = boardService.getFileList(boNum);
-		//È­¸é¿¡ °Ô½Ã±Û, Ã·ºÎÆÄÀÏ, °Ë»ö Á¤º¸¸¦ Àü¼Û
+		//È­ï¿½é¿¡ ï¿½Ô½Ã±ï¿½, Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ë»ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		model.addAttribute("board", board);
 		model.addAttribute("fileList", fileList);
 		model.addAttribute("cri", cri);
@@ -75,20 +80,20 @@ public class BoardController {
 	
 	@GetMapping("/board/delete")
 	public String boardDelete(Model model, int boNum, HttpSession session) {
-		//È¸¿ø Á¤º¸¸¦ °¡Á®¿È
+		//È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		
-		//¼­ºñ½º¿¡°Ô °Ô½Ã±Û ¹øÈ£¿Í È¸¿ø Á¤º¸¸¦ ÁÖ¸é¼­ »èÁ¦ÇÏ¶ó°í ¿äÃ»
+		//ï¿½ï¿½ï¿½ñ½º¿ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½È£ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö¸é¼­ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½ï¿½ ï¿½ï¿½Ã»
 		boolean res = boardService.deleteBoard(boNum, user);
-		//»èÁ¦ ¼º°ø½Ã ¼º°ø Ã³¸®
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 		if(res) {
 			model.addAttribute("url", "/board/list");
-			model.addAttribute("msg", "°Ô½Ã±ÛÀ» »èÁ¦Çß½À´Ï´Ù.");
+			model.addAttribute("msg", "ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 		}
-		//»èÁ¦ ½ÇÆÐ½Ã ½ÇÆÐ Ã³¸®
+		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ð½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
 		else {
 			model.addAttribute("url", "/board/detail?boNum=" + boNum);
-			model.addAttribute("msg", "°Ô½Ã±ÛÀ» »èÁ¦ÇÏÁö ¸øÇß½À´Ï´Ù.");
+			model.addAttribute("msg", "ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 		}
 		
 		return "message";
@@ -96,11 +101,11 @@ public class BoardController {
 	
 	@GetMapping("/board/update")
 	public String boardUpdate(Model model, int boNum) {
-		//Ä¿¹Â´ÏÆ¼ ¸®½ºÆ®¸¦ °¡Á®¿Í¼­ È­¸é¿¡ Àü¼Û
+		//Ä¿ï¿½Â´ï¿½Æ¼ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Í¼ï¿½ È­ï¿½é¿¡ ï¿½ï¿½ï¿½ï¿½
 		ArrayList<CommunityVO> list = boardService.getCommunityList();
-		//°Ô½Ã±ÛÀ» °¡Á®¿È
+		//ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		BoardVO board = boardService.getBoard(boNum);
-		//Ã·ºÎÆÄÀÏÀ» °¡Á®¿È
+		//Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ArrayList<FileVO> fileList = boardService.getFileList(boNum);
 		
 		model.addAttribute("fileList", fileList);
@@ -111,17 +116,30 @@ public class BoardController {
 	@PostMapping("/board/update")
 	public String boardUpdatePost(Model model, BoardVO board, MultipartFile []file,
 			int [] delNums, HttpSession session) {
-		//È¸¿ø Á¤º¸¸¦ °¡Á®¿È. ¿Ö? ÀÛ¼ºÀÚ¸¸ ¼öÁ¤ÇØ¾ßÇÏ±â ¶§¹®¿¡
+		//È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½. ï¿½ï¿½? ï¿½Û¼ï¿½ï¿½Ú¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ø¾ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		MemberVO user = (MemberVO) session.getAttribute("user");
 		boolean res = boardService.updateBoard(board, user, file, delNums);
 		if(res) {
 			model.addAttribute("url", "/board/detail?boNum="+board.getBo_num());
-			model.addAttribute("msg", "°Ô½Ã±ÛÀ» ¼öÁ¤Çß½À´Ï´Ù.");
+			model.addAttribute("msg", "ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 		}else {
 			model.addAttribute("url", "/board/detail?boNum="+board.getBo_num());
-			model.addAttribute("msg", "°Ô½Ã±ÛÀ» ¼öÁ¤ÇÏÁö ¸øÇß½À´Ï´Ù.");
+			model.addAttribute("msg", "ï¿½Ô½Ã±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.");
 		}
 		
 		return "message";
+	}
+	
+	
+	@ResponseBody
+	@PostMapping("/recommend/check")
+	public Map<String, Object> RecommendCheck(@RequestBody RecommendVO recommend, HttpSession session){
+		Map<String, Object> map = new HashMap <String, Object>();
+		System.out.println(recommend);
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		boolean res = boardService.recommend(recommend, user);
+		map.put("result", res);
+		
+		return map;
 	}
 }

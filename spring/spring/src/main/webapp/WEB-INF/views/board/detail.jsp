@@ -23,8 +23,8 @@
 		<div class="form-control">${board.bo_view}</div>
 	</div>
 	<div class="input-group mb-3 mt-3">
-		<button class="btn btn-outline-success btn-up col-6">추천(${board.bo_up})</button>
-		<button class="btn btn-outline-success btn-down col-6">비추천(${board.bo_down})</button>
+		<button class="btn btn-outline-success btn-up col-6" data-state="1">추천(${board.bo_up})</button>
+		<button class="btn btn-outline-success btn-down col-6" data-state="-1">비추천(${board.bo_down})</button>
 	</div>
 	<div>
 		<label>내용</label>
@@ -77,6 +77,7 @@
 		<a href="<c:url value="/board/update?boNum=${board.bo_num}"/>" class="btn btn-outline-warning">수정</a>
 	</c:if>
 </div>
+
 <!-- 댓글 리스트 조회 -->
 <script type="text/javascript">
 //댓글 페이지 정보를 가지고 있는 객체를 선언
@@ -107,6 +108,7 @@ function getCommentList(cri){
 		}
 	});
 }
+
 function displayCommentList(list){
 	let str = '';
 	if(list == null || list.length == 0){
@@ -135,6 +137,7 @@ function displayCommentList(list){
 	}
 	$('.box-comment-list').html(str);
 }
+
 function displayCommentPagination(pm){
     
 	let str = '';
@@ -316,5 +319,37 @@ function initComment() {
 	$('.text-comment').show();
 }
 </script>
+
+<!-- 추천/비추천 -->
+<script type="text/javascript">
+$(".btn-up,.btn-down").click(function () {
+	//데이터 생성
+	let state = $(this).data("state");
+	let boNum = '${board.bo_num}';
+	let recommend = {
+		re_state : state,
+		re_bo_num : boNum
+	}
+	//서버에 전송 json=>json
+	$.ajax({
+		async : true, 
+		url : '<c:url value="/recommend/check"/>', 
+		type : 'post', 
+		data : JSON.stringify(recommend), 
+		contentType : "application/json; charset=utf-8",
+		dataType : "json", 
+		success : function (data){
+			console.log(data);
+		}, 
+		error : function(jqXHR, textStatus, errorThrown){
+
+		}
+	});
+	
+	
+});
+
+</script>
+
 </body>
 </html>

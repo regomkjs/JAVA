@@ -1,6 +1,7 @@
 package kr.kh.spring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import kr.kh.spring.dao.MemberDAO;
@@ -12,6 +13,9 @@ public class MemberServiceImp implements MemberService {
 
 	@Autowired
 	private MemberDAO memberDao;
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 
 	private boolean checkString(String str) {
 		return str != null && str.length() != 0; 
@@ -25,11 +29,13 @@ public class MemberServiceImp implements MemberService {
 			!checkString(member.getMe_email())) {
 			return false;
 		}
-		//¾ÆÀÌµğ Áßº¹ Ã¼Å©
+		//ì•„ì´ë”” ì¤‘ë³µ ì²´í¬
 		MemberVO user = memberDao.selectMember(member.getMe_id());
 		if(user != null) {
 			return false;
 		}
+		String encPw = passwordEncoder.encode(member.getMe_pw());
+		member.setMe_pw(encPw);
 		return memberDao.insertMember(member);
 	}
 
@@ -40,13 +46,19 @@ public class MemberServiceImp implements MemberService {
 			!checkString(loginDto.getPw())) {
 			return null;
 		}
-		//¾ÆÀÌµğ¿Í ÀÏÄ¡ÇÏ´Â È¸¿ø Á¤º¸ °¡Á®¿È
+		//ì•„ì´ë””ì™€ ì¼ì¹˜í•˜ëŠ” íšŒì› ì •ë³´ë¥¼ ê°€ì ¸ì˜´
 		MemberVO user = memberDao.selectMember(loginDto.getId());
-		//È¸¿ø Á¤º¸°¡ ¾ø°Å³ª ºñ¹øÀÌ ´Ù¸£¸é
-		if(user == null || !user.getMe_pw().equals(loginDto.getPw())) {
+		//íšŒì› ì •ë³´ê°€ ì—†ê±°ë‚˜ ë¹„ë²ˆì´ ë‹¤ë¥´ë©´
+		if(user == null || !passwordEncoder.matches(loginDto.getPw(), user.getMe_pw())) {
 			return null;
 		}
 		return user;
+	}
+
+	@Override
+	public boolean idCheck(String id) {
+		MemberVO member = memberDao.selectMember(id);
+		return member == null;
 	}
 	
 	
