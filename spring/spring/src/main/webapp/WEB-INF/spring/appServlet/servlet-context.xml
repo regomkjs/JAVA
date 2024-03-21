@@ -39,6 +39,9 @@
 	<!-- 클래스들을 읽어 올 수 있게 기본 패키지를 지정 -->
 	<context:component-scan base-package="kr.kh.spring.*" />
 	
+	<!-- AutoLoginInterceptor를 등록 -->
+	<beans:bean id="autoLoginInterceptor" class="kr.kh.spring.interceptor.AutoLoginInterceptor" />
+	
 	<!-- LoginInterceptor를 등록 -->
 	<beans:bean id="loginInterceptor" class="kr.kh.spring.interceptor.LoginInterceptor" />
 	
@@ -49,6 +52,11 @@
 	<beans:bean id="guestInterceptor" class="kr.kh.spring.interceptor.GuestInterceptor" />
 	
 	<interceptors>
+		<!-- AutoLoginInterceptor가 실행된 URL 지정 -->
+		<interceptor>
+			<mapping path="/*"/>
+			<beans:ref bean="autoLoginInterceptor"/>
+		</interceptor>
 		<!-- LoginInterceptor가 실행된 URL 지정 -->
 		<interceptor>
 			<mapping path="/login"/>

@@ -1,18 +1,22 @@
 package kr.kh.spring.interceptor;
 
+import java.util.Date;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.ui.ModelMap;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import kr.kh.spring.model.vo.MemberVO;
+import kr.kh.spring.service.MemberService;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 	
-	//µğ½ºÆĞÃ³¼­ºí¸´¿¡¼­ ÄÁÆ®·Ñ·¯·Î µé¾î°¡±â Àü ÀÛ¾÷ÇÒ ³»¿ë : ÄÁÆ®·Ñ·¯ ½ÇÇà Àü µ¿ÀÛ
-	//¸â¹öÇÊÅÍ, °Ô½ºÆ® ÇÊÅÍ¸¦ ±¸ÇöÇÒ ¼ö ÀÖ´Ù
+	//ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ï¿½ï¿½ ï¿½ï¿½î°¡ï¿½ï¿½ ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½Ô½ï¿½Æ® ï¿½ï¿½ï¿½Í¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ö´ï¿½
 	/*
 	@Override
 	public boolean preHandle(
@@ -24,8 +28,11 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	}
 	*/
 	
-	//ÄÁÆ®·Ñ·¯¿¡¼­ µğ½ºÆĞÃ³¼­ºí¸´À¸·Î °¡±âÀü ÀÛ¾÷ÇÒ ³»¿ë : ÄÁÆ®·Ñ·¯ ½ÇÇà ÈÄ µ¿ÀÛ
-	//·Î±×ÀÎ
+	@Autowired
+	MemberService memberService;
+	
+	//ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Û¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ : ï¿½ï¿½Æ®ï¿½Ñ·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//ï¿½Î±ï¿½ï¿½ï¿½
 	@Override
 	public void postHandle(
 		HttpServletRequest request, 
@@ -33,10 +40,28 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		Object handler, 
 		ModelAndView modelAndView)
 		throws Exception {
-		//ModelAndView °´Ã¼¿¡¼­ model °´Ã¼¿¡ ³Ö¾îÁØ user¸¦ °¡Á®¿À´Â ÄÚµå
+		//ModelAndView ï¿½ï¿½Ã¼ï¿½ï¿½ï¿½ï¿½ model ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½Ö¾ï¿½ï¿½ï¿½ userï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Úµï¿½
 		MemberVO user = (MemberVO)modelAndView.getModel().get("user");
 		if(user != null) {
 			request.getSession().setAttribute("user", user);
+			//ìë™ë¡œê·¸ì¸ì„ ì²´í¬í–ˆìœ¼ë©´
+			if(user.isAutoLogin()) {
+				//ì¿ í‚¤ë¥¼ ìƒì„±
+				String value = request.getSession().getId();
+				Cookie cookie = new Cookie("loginCookie", value);
+				cookie.setPath("/");
+				//1ì£¼ì¼
+				int time = 7 * 24 * 60 * 60;
+				cookie.setMaxAge(time);
+				//í™”ë©´ì— ì „ì†¡
+				response.addCookie(cookie);
+				//DBì— ê´€ë ¨ ì •ë³´ë¥¼ ì¶”ê°€
+				//ì„¸ì…˜ ì•„ì´ë””ì™€ ë§Œë£Œì‹œê°„
+				user.setMe_cookie(value);
+				Date date = new Date(System.currentTimeMillis()+ time*1000);
+				user.setMe_cookie_limit(date);
+				memberService.updateMemberCookie(user);
+			}
 		}
 	}
 	
