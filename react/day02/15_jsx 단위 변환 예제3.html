@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JSX 단위 변환 예제2</title>
+	<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	
+</head>
+<body>
+	
+	<div id="root"></div>
+	
+	<script type="text/babel">
+		
+		const root = ReactDOM.createRoot(document.getElementById("root"));
+		
+		//App 컴포넌트 : 여러 단위를 변환할 수 있는 화면
+		function App(){
+			const [choice, setChoice] = React.useState("");
+
+
+			return (
+				<div>
+					<select onChange={e=>setChoice(e.target.value)}>
+						<option value="">변환기 종류를 선택하세요</option>
+						<option value="time">시간 변환</option>
+						<option value="distance">거리 변환</option>
+					</select>
+					{choice == "" ? <h1>변환기 종류를 선택하세요</h1>: null}
+					{choice == "time" ? <ConverterTime /> : null}
+					{choice == "distance" ? <ConverterDistance /> : null}
+					
+					
+					
+				</div>
+			);
+		};
+
+		//m -> h
+		function ConverterTime(){
+			const [input, setInput] = React.useState("");
+			const [flag, setFlag] = React.useState(false);
+			
+			return (
+				<div>
+					<h1>시간 변환</h1>
+					<input 
+						type="text" 
+						onChange={e=>setInput(e.target.value)} 
+						value={flag? input*60 : input}  
+						disabled={flag} />분
+					<br/>
+					<button onClick={()=>{
+						setFlag(!flag);
+						setInput("");
+					}}>전환</button>
+					<br/>
+					<input 
+						type="text" 
+						onChange={e=>setInput(e.target.value)} 
+						value={!flag? Math.floor(input/60) : input} 
+						disabled={!flag}/>시간
+				</div>
+			);
+		}
+		//m -> km
+		function ConverterDistance(){
+			const [input, setInput] = React.useState("");
+			const [flag, setFlag] = React.useState(false);
+			
+			return (
+				<div>
+					<h1>거리 변환</h1>
+					<input 
+						type="text" 
+						onChange={e=>setInput(e.target.value)} 
+						value={flag? input*1000 : input}  
+						disabled={flag} />m
+					<br/>
+					<button onClick={()=>{
+						setFlag(!flag);
+						setInput("");
+					}}>토글</button>
+					<br/>
+					<input 
+						type="text" 
+						onChange={e=>setInput(e.target.value)} 
+						value={!flag? input/1000 : input} 
+						disabled={!flag}/>km
+				</div>
+			);
+		}
+		
+		root.render(<App />);
+		
+	</script>
+</body>
+</html>

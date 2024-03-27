@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JSX 단위 변환 예제2</title>
+	<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	
+</head>
+<body>
+	
+	<div id="root"></div>
+	
+	<script type="text/babel">
+		
+		const root = ReactDOM.createRoot(document.getElementById("root"));
+		
+		
+		function App(){
+			// 분을 입력하면 시간 단위로 변환하는 코드
+			// Math.floor(값) : 소수점 버림
+			const [input, setInput] = React.useState("");
+			const [flag, setFlag] = React.useState(false);
+			
+			return (
+				<div>
+					<input 
+						type="text" 
+						onChange={e=>setInput(e.target.value)} 
+						value={flag? input*60 : input}  
+						disabled={flag} />분
+					<br/>
+					<button onClick={()=>{
+						setFlag(!flag);
+						setInput("");
+					}}>토글</button>
+					<br/>
+					<input 
+						type="text" 
+						onChange={e=>setInput(e.target.value)} 
+						value={!flag? Math.floor(input/60) : input} 
+						disabled={!flag}/>시간
+				</div>
+			);
+		};
+
+		
+		root.render(<App />);
+		
+	</script>
+</body>
+</html>
