@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JSX state 두개 활용</title>
+	<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	
+</head>
+<body>
+	<div id="root"></div>
+	<script type="text/babel">
+		
+		const root = ReactDOM.createRoot(document.getElementById("root"));
+		
+		
+		function App(){
+			/*
+			좋아하는 과일을 입력한 후, 버튼을 클릭하면 h1태그에 과일이 출력되도록 작성
+			*/
+			const [data, setData] = React.useState("");
+			const [input, setInput] = React.useState("");
+			function onChange(e){
+				//input창에 문자열이 입력될 때마다 input에 저장
+				setInput(e.target.value);
+			}
+
+			function onClick(){
+				//버튼을 클릭하면 저장된 input에 있는 값을 data에 저장
+				setData(input);
+			}
+			return (
+				<div>
+					<h1>좋아하는 과일을 입력하세요.</h1>
+					<input type="text" onChange={onChange} />
+					<button onClick={onClick}>입력</button>
+					<h1>{data}</h1>
+				</div>
+			);
+		};
+
+		
+		root.render(<App />);
+		
+	</script>
+</body>
+</html>

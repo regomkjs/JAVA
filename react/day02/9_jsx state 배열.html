@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JSX state 두개 활용</title>
+	<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	
+</head>
+<body>
+	<div id="root"></div>
+	<script type="text/babel">
+		
+		const root = ReactDOM.createRoot(document.getElementById("root"));
+		
+		
+		function App(){
+			const [arr, setArr] = React.useState(["축구","야구","농구"]);
+			function click(){
+				setArr(prevArr=>[...prevArr, "스키"]);
+			}
+			
+			return (
+				<div>
+					<ul>
+						{arr.map(item=><li>{item}</li>)}	
+					</ul>
+					<button onClick={click}>버튼</button>
+				</div>
+			);
+		};
+
+		
+		root.render(<App />);
+		
+	</script>
+</body>
+</html>
